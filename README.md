@@ -20,7 +20,10 @@ Proven on **studio.strategy.com, Library 11.6.1000** (November 2026). Other Libr
 
 ## How it works
 
-The client runs **inside a signed-in Library page**. It calls the same endpoints the editor uses, with your session:
+The client needs a **Library session**: an `X-MSTR-AuthToken` plus the session cookies issued with it. It calls the same
+endpoints the editor uses, with that session. The tested way to get one is to run the client inside a signed-in Library
+page, which supplies both and works with single sign-on (see [Running outside a browser](#running-outside-a-browser) for
+the alternative). The calls are:
 
 1. `POST /api/dossiers/draft/instances` creates a new, unsaved dashboard with your datasets
    (`POST /api/dossiers/{id}/instances` opens an existing one).
@@ -33,10 +36,12 @@ The client runs **inside a signed-in Library page**. It calls the same endpoints
 ## Requirements
 
 - A Strategy Library account with permission to create dashboards in the project, and a dataset (cube) to build on.
-- A browser tab signed in to Library, and a way to run JavaScript in it:
+- A Library session. The tested setup is a browser tab signed in to Library, and a way to run JavaScript in it:
   - **Claude in Chrome** (`javascript_tool`) in your own Chrome is the tested path.
   - The **Claude desktop app's built-in browser** works the same way once you sign in to Library there.
   - A plain **browser console** works too.
+
+  The quick start below assumes this setup.
 
 ## Quick start
 
@@ -115,6 +120,24 @@ saved.id;                                                                   // t
 Read the saved dashboard back (`c.definition(id)`, then the visualization data endpoints) and compare the numbers with
 your source image. Then open it in Library and look at every page. Do this last: any full page load clears the client,
 the session and the token from the page (see [Troubleshooting](#troubleshooting)).
+
+## Running outside a browser
+
+The client is plain `fetch` against Library's endpoints, so a script (Node, for example) could run it with its own
+session. **This hasn't been tested.** It would take:
+
+1. **A REST login.** `POST /api/auth/login` with a username and password returns the token in the `X-MSTR-AuthToken`
+   response header. That works where standard or LDAP login is allowed. On a server that signs you in through SAML or
+   OIDC single sign-on, ask an administrator for an API or identity token instead. Read credentials from environment
+   variables; never put them in the code.
+2. **A cookie jar.** The token is tied to the session cookies set by the same login. Send them with every later call,
+   including the `/servlet/taskProc` edit calls. Whether `taskProc` accepts a session created this way is the untested
+   part.
+3. **Full URLs.** Set `BASE` to the server's address, e.g. `https://studio.strategy.com/MicroStrategyLibrary`.
+4. **No page-only helpers.** `captureToken()` and `__mstrRouterHistory` exist only in a Library page. Pass the token
+   from the login to `client(token, projectId)` instead.
+
+If you try this, record what worked here and in the client's header.
 
 ## Helper index
 
