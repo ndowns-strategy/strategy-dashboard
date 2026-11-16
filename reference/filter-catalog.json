@@ -1,0 +1,362 @@
+{
+  "source": {
+    "dashboard": "Retail Merchandising > Merchandising Reports (filter panel)",
+    "id": "8CE7405AF94E129887D2098C896A4E45",
+    "dataset": "Retail Weekly Sales and Inventory Model (CEEB9D41D253404AA05EF70F64C4B97C)",
+    "studied": "2026-11-12",
+    "how": "REST definition + instance JSON of a separate read-only instance, nothing saved"
+  },
+  "panel": {
+    "key": "K49",
+    "contentStack": "K33",
+    "background": "#ebebeb",
+    "width": "208px",
+    "order": "ckgi then ckgo"
+  },
+  "filters": [
+    {
+      "title": "Week Start Date",
+      "attribute": "Week",
+      "attrId": "C00265C7B8944A6BB84AA69B87EDE59F",
+      "node": "W126",
+      "control": "W127",
+      "style": 0,
+      "looks": "drop-down",
+      "multi": true,
+      "ckgi": 0,
+      "ckgo": 0,
+      "targets": [
+        "K33"
+      ],
+      "displayForm": "BAAF93F5ABD945D688D82A1932E957EC",
+      "selected": [
+        "h20260718",
+        "h20260725",
+        "h20260801"
+      ],
+      "elementCount": 6
+    },
+    {
+      "title": "Department",
+      "attrId": "EBCE8FFA837F449D9E6AFC9A736ADF6B",
+      "node": "W128",
+      "control": "W129",
+      "style": 0,
+      "looks": "drop-down",
+      "multi": true,
+      "ckgi": 3,
+      "ckgo": 0,
+      "targets": [
+        "K33",
+        "W131"
+      ],
+      "selected": "(All)",
+      "elementCount": 5,
+      "note": "targets the Category selector: cascading"
+    },
+    {
+      "title": "Category",
+      "attrId": "05DCFF120CB74BE3B79F496B0ACFD769",
+      "node": "W130",
+      "control": "W131",
+      "style": 0,
+      "looks": "drop-down",
+      "multi": true,
+      "ckgi": 3,
+      "ckgo": 1,
+      "targets": [
+        "K33"
+      ],
+      "selected": "(All)",
+      "elementCount": 17
+    },
+    {
+      "title": "Vendor",
+      "attrId": "DE52AEEFF9EE4C17A10A5296D86689BB",
+      "node": "W132",
+      "control": "W133",
+      "style": 4,
+      "looks": "checkbox list",
+      "multi": true,
+      "ckgi": 1,
+      "ckgo": 0,
+      "targets": [
+        "K33"
+      ],
+      "selected": "(All)",
+      "elementCount": 9,
+      "extra": {
+        "sos": true,
+        "dsid": "CEEB9D41D253404AA05EF70F64C4B97C",
+        "sfs": [
+          "45C11FA478E745FEA08D781CEA190FE5"
+        ]
+      }
+    },
+    {
+      "title": "Style Description",
+      "attrId": "1E6C06465A384051B91A79596E28A455",
+      "node": "W134",
+      "control": "W135",
+      "style": 4,
+      "looks": "checkbox list",
+      "multi": true,
+      "ckgi": 4,
+      "ckgo": 0,
+      "targets": [
+        "K33"
+      ],
+      "selected": "(All)",
+      "elementCount": 100
+    },
+    {
+      "title": "Season",
+      "attrId": "7A53D76A9DDE43D1A9474217D1EAD196",
+      "node": "W139",
+      "control": "W140",
+      "style": 0,
+      "looks": "drop-down",
+      "multi": true,
+      "ckgi": 2,
+      "ckgo": 0,
+      "targets": [
+        "K33"
+      ],
+      "selected": "(All)",
+      "elementCount": 2
+    }
+  ],
+  "common": {
+    "t": 111,
+    "ct": "1",
+    "include": true,
+    "showall": true,
+    "httl": true,
+    "dfm": 1,
+    "sces": 2,
+    "btot": true,
+    "size": {
+      "dropdown": "208 x 80 px",
+      "checkbox": "208 x 235 px"
+    },
+    "title": "12pt Open Sans, 1pt #cecece top border"
+  },
+  "styles": {
+    "0": "drop-down",
+    "1": "slider",
+    "3": "radio buttons (addCanvasSelector)",
+    "4": "checkbox list",
+    "9": "search box (addChapterFilter default)",
+    "11": "calendar / date qualification (addDateFilter)",
+    "7": "metric slider (metric filter default)",
+    "8": "metric qualification (operator + value box)"
+  },
+  "selectionState": {
+    "elms": "[{v:'u;', n:'(All)', t:14}, {v:'h<id>;<attrId>', n:'<display>'}, ...]",
+    "ces": "current selection; (All) = [{v:'u;'}] with unset:true",
+    "set": "setSelectorElements elemList 'h<id>;<attrId>' items joined by \\u001e (Week Start Date uses the yyyymmdd Key form)"
+  },
+  "selfServiceChapter": [
+    {
+      "title": "Select your Attributes",
+      "control": "W95",
+      "ct": "8",
+      "kind": "object parameter selector",
+      "paraid": "F5126F9BEA4739BBADB3DFB0906EA41D"
+    },
+    {
+      "title": "Select your Metrics",
+      "control": "W97",
+      "ct": "8",
+      "kind": "object parameter selector",
+      "paraid": "9F21980D8A4EA0097CAEEA9F77F716AB"
+    },
+    {
+      "title": "Week Start Date",
+      "control": "W155",
+      "style": 11,
+      "kind": "date qualification",
+      "targets": [
+        "K85"
+      ]
+    }
+  ],
+  "buildFromCode": {
+    "script": "build-filter-panel.js",
+    "verified": "2026-11-12, Filter Panel (built from code) v4: styles, ckgi/ckgo, cascade tks and week selection read back identical to the source",
+    "gotchas": {
+      "order": "FormattingOrder.ZIndex = panel position; all 0 lists newest first",
+      "selection": "elemList items h<id>;<attrId> joined by \\u001e, not commas",
+      "cascade": "addControlTarget tgtKey = child NODE key, excludeCtp false; the control key saves a dashboard that will not open"
+    }
+  },
+  "notYet": "ct 8 object parameter selectors; checkbox list default height; metric filter level other than the targeted visualizations",
+  "dateFilter": {
+    "studied": "2026-11-12, Base Grid (384671ECCD4A4968BB0D6FAB04CDD76A) read-only; options recorded in scratch 'zz date filter study' (5AAB9C642F412A67F3D62984F692206D)",
+    "unit": {
+      "style": 11,
+      "ct": "1",
+      "multi": true,
+      "srct": 12,
+      "srcst": 3072,
+      "sfs": [
+        "<date form id>"
+      ]
+    },
+    "unsetBounds": {
+      "min": 2,
+      "max": 49674,
+      "meaning": "day serials from 12/30/1899: 1/1/1900 - 12/31/2035"
+    },
+    "action": "setSelectorExpression dataType 14, fid <date form>, expFunctionType 1",
+    "functions": {
+      "between": 17,
+      "on": "17 with the same date twice",
+      "before": 9,
+      "after": 8
+    },
+    "clear": "unsetSelector {keyContext, ctlKey, scs:0}",
+    "isDyn": {
+      "format": "isDyn::<type>::<days>::<months>::<month>::<day>::<week>::<weekday>::<resolved M/D/YYYY>::0::0::0",
+      "types": {
+        "3": "day",
+        "4": "week (weekday 0 Sun..6 Sat)",
+        "5": "month (day 1 first, -1 last)",
+        "14": "quarter (months offset)",
+        "6": "year (month/day; months offset)"
+      }
+    },
+    "presets": {
+      "Today": [
+        "isDyn::3::0::0::0::0::0::0",
+        "isDyn::3::0::0::0::0::0::0"
+      ],
+      "Yesterday": [
+        "isDyn::3::-1::0::0::0::0::0",
+        "isDyn::3::-1::0::0::0::0::0"
+      ],
+      "Last 7 days": [
+        "isDyn::3::-7::0::0::0::0::0",
+        "isDyn::3::-1::0::0::0::0::0"
+      ],
+      "Last 7 weeks": [
+        "isDyn::4::-49::0::0::0::0::0",
+        "isDyn::4::-7::0::0::0::0::6"
+      ],
+      "Last 7 months": [
+        "isDyn::5::0::-7::0::1::0::0",
+        "isDyn::5::0::-1::0::-1::0::0"
+      ],
+      "Last 7 quarters": [
+        "isDyn::14::0::-21::0::1::0::0",
+        "isDyn::14::0::-3::0::-1::0::0"
+      ],
+      "Last 7 years": [
+        "isDyn::6::0::-84::1::1::0::0",
+        "isDyn::6::0::-12::12::31::0::0"
+      ],
+      "Next 7 months": [
+        "isDyn::5::0::1::0::1::0::0",
+        "isDyn::5::0::7::0::-1::0::0"
+      ],
+      "MTD": [
+        "isDyn::5::0::0::0::1::0::0",
+        "isDyn::3::0::0::0::0::0::0"
+      ],
+      "QTD": [
+        "isDyn::14::0::0::0::1::0::0",
+        "isDyn::3::0::0::0::0::0::0"
+      ],
+      "YTD": [
+        "isDyn::6::0::0::1::1::0::0",
+        "isDyn::3::0::0::0::0::0::0"
+      ]
+    },
+    "presetNote": "each preset = fn 17 with from\\u001eto; append ::<resolved date>::0::0::0 to each",
+    "displayStyles": {
+      "Calendar": {
+        "Style": 11,
+        "Height": "0.5625"
+      },
+      "Slider": {
+        "Style": 1,
+        "Multiselect": 1,
+        "Orientation": 1,
+        "Height": "1.0417"
+      },
+      "Search Box": {
+        "Style": 9,
+        "Multiselect": 1,
+        "Orientation": 0,
+        "Height": "1.4583"
+      }
+    },
+    "styleChange": "warns about distinct values (5845); keeps the date condition; unit gains isNewDynamicFilter, sos, dsid"
+  },
+  "metricFilter": {
+    "studied": "2026-11-12, scratch 'zz metric filter study' (579BEB09D64A959D04E8C7B02D069151)",
+    "unit": {
+      "t": 111,
+      "ct": "1",
+      "srct": 4,
+      "srcst": 1033,
+      "style": 7,
+      "horiz": true
+    },
+    "range": "selector data min/max/cnt at the level of the targeted visualizations; nov:true (no values) when the visualization fails",
+    "displayStyles": {
+      "Slider": {
+        "Style": 7
+      },
+      "Qualification": {
+        "Style": 8,
+        "Height": "0.8958"
+      }
+    },
+    "value": {
+      "qt": 0,
+      "expFunctionType": 1,
+      "ops": {
+        "=": 6,
+        "<>": 7,
+        ">": 8,
+        "<": 9,
+        ">=": 10,
+        "<=": 11,
+        "between": 17,
+        "not between": 44,
+        "in": 22,
+        "not in": 57,
+        "is null": 54,
+        "is not null": 55
+      }
+    },
+    "rank": {
+      "highest": {
+        "qt": 1,
+        "expFunctionType": 2,
+        "expFunction": 1
+      },
+      "lowest": {
+        "qt": 2,
+        "expFunctionType": 2,
+        "expFunction": 2
+      },
+      "highest%": {
+        "qt": 3,
+        "expFunctionType": 3,
+        "expFunction": 1,
+        "constant": "25%"
+      },
+      "lowest%": {
+        "qt": 4,
+        "expFunctionType": 3,
+        "expFunction": 2
+      }
+    },
+    "action": "setSelectorExpression objType 4, dataType 5, expConstants joined by \\u001e (UI In list typed with ';')",
+    "exclude": "opposite operator + include:false (include:false alone does not invert); Exclude+Highest sent expFunction 4",
+    "helper": "addMetricFilter({metricId, name, style:'slider'|'qualification', condition:{op,value}|{rank,value}, include})",
+    "verified": "2026-11-12 grid rows read back for none, >60, top 2, bottom 1, top 25%, in, exclude between, exclude in"
+  }
+}

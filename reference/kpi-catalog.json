@@ -1,0 +1,349 @@
+{
+  "source": {
+    "dashboard": "Tec Visual Vocabulary > Visual Vocabulary > Performance Indicators",
+    "url": "https://demo.microstrategy.com/MicroStrategyLibrary/app/EC70648611E7A2F962E90080EFD58751/BDD72BE311EAA41CD7700080EFD5E527/W1014--K46",
+    "studied": "2026-11-10",
+    "how": "REST definition + instance JSON (getServerJSONResults) read as a guest; no edits made"
+  },
+  "families": {
+    "kpi": {
+      "visName": "KPICardVisualizationStyle",
+      "definitionType": "kpi",
+      "settingsLocation": "visProp.fmt (also node.vp) — short property codes, JSON-in-string values",
+      "dropZones": {
+        "metric (zoneId 19)": "1 metric (the value)",
+        "Trend (zoneId 20)": "optional attribute -> sparkline + previous-period value + change badge",
+        "Break By (zoneId 5)": "optional attribute -> one card per element"
+      },
+      "settings": {
+        "dm": "display mode: '5' = single card, '1' = cards per Break By element",
+        "gcc": "grid column count / cards per view ('1' single, '3' for the Break By example)",
+        "fstr": "'1' (on in all examples)",
+        "tst": "'1' on single and Break By examples (title/label shown)",
+        "smn": "'true' = show metric name with the element ('Revenue - Technology') on Break By cards",
+        "ks": "'custom' = use the custom card scheme in cks",
+        "cks": "JSON array: [{ id:'custom', name:'Customize', bgColor, bgOpacity, chartColor, chartOpacity }] — card background and sparkline color",
+        "nfts": "JSON: fonts per part — label, primary_value, previous_value, trend_identity: { fc (color), fw (bold), ff (family), us } — keep previous_value to {fc} only: adding fst/fw rendered the previous-period text struck through",
+        "ftFgGrpA": "'1'"
+      },
+      "insert": "s.insertKpiCard({newKey, layout}) — copyUnit + createDefaultDropZones widgetType 9 + Visualization KPICardVisualizationStyle (IPad IPhoneKPICardStyle) + ClassName KPICardApplicationViewer, displayMode 1",
+      "settingsWriter": "s.setKpiCardProps(key, {dm, gcc, tst, smn, ks, cks, nfts}) — objects are JSON-serialized"
+    },
+    "comparison_kpi": {
+      "visName": "ComparisonKPI",
+      "definitionType": "comparison_kpi",
+      "settingsLocation": "node.vp.cvp.properties (JSON string, 79 keys) — same plugin-style blob as Iconic KPI",
+      "dropZones": {
+        "Metric (zoneId 3)": "actual metric",
+        "Compare With (zoneId 4)": "target metric",
+        "Break By (zoneId 5)": "optional attribute -> one card per element",
+        "Trend (zoneId 6)": "optional attribute -> trend chart (bars/area/line)"
+      },
+      "settings": {
+        "layoutType": "0 single, 1 carousel (Break By), 2 grid of cards (Multi-Metric)",
+        "secondaryMetricName": "label shown before the target value ('Revenue Target')",
+        "comparisonIndicatorEnabled": "true -> show the variance vs target",
+        "trendIndicatorEnabled": "true -> show the trend badge/arrow",
+        "trendIndicatorValueType": "'percentValue' | 'numericValue'",
+        "trendIndicatorShape": "'badge' | 'arrow'",
+        "textContentType / textContentTypeComparison": "'all' | 'indicator' | 'primaryValue' | 'secondaryValue' — what text the card shows",
+        "shapeType / shapeTypeComparison": "0 none, 1 chart shape on",
+        "trendShape": "'area' | 'bar' | 'line'",
+        "trendFillColor / trendFillOpacity": "chart color and opacity",
+        "trendIncreaseBackgroundColor / trendDecreaseBackgroundColor / trendConstantBackgroundColor": "badge colors (#83C962 / #DB6657 / #606060)",
+        "areaFillColor / areaFillOpacity": "card background",
+        "axisScale / axisScaleComparison": "'global' | 'synced'",
+        "cardAlignment": "'' (center) | 'left'",
+        "showMetricName": "true on Break By cards",
+        "label/primaryValue/secondaryValue/indicatorFontOptions": "{ fontFamily, fontStyle:[bold,italic,underline,strike], fontSteps, fontSize, fontColor }",
+        "colorThresholdsSection": "{ thresholds: [] }",
+        "selectedReferenceLine": "optional reference line on the trend chart"
+      },
+      "insert": "s.insertComparisonKpi({newKey, layout}) = insertCustomVis visName 'ComparisonKPI' (widgetType 7, CustomVisApplicationViewer)",
+      "settingsWriter": "s.setKpiProperties(key, props) — a partial properties object is enough; omitted keys keep the defaults"
+    },
+    "multi_metric_kpi": {
+      "visName": "MultiMetricKPI",
+      "definitionType": "multi_metric_kpi",
+      "settingsLocation": "node.vp.cvp.properties (same keys as Comparison KPI)",
+      "dropZones": {
+        "Metric (zoneId 3)": "2+ metrics (one column each)",
+        "Trend (zoneId 5)": "period attribute for the sparkline + previous period (the editor labels it Trend; the definition calls it BreakBy)"
+      },
+      "insert": "s.insertMultiMetricKpi({newKey, layout}) = insertCustomVis visName 'MultiMetricKPI'",
+      "settingsWriter": "s.setKpiProperties(key, props)"
+    }
+  },
+  "examples": [
+    {
+      "key": "K163",
+      "title": "KPI",
+      "family": "kpi",
+      "visualCues": "white card, centered metric name, one large value, nothing else",
+      "zones": {
+        "metric": [
+          "Revenue"
+        ]
+      },
+      "settings": {
+        "dm": "5",
+        "gcc": "1",
+        "tst": "1",
+        "fstr": "1",
+        "ks": "custom",
+        "cks": [
+          {
+            "bgColor": "#FFFFFF",
+            "chartColor": "#F1F1F1"
+          }
+        ],
+        "nfts": {
+          "label": {
+            "fc": "#35383A",
+            "fw": false,
+            "ff": "Open Sans"
+          },
+          "primary_value": {
+            "fc": "#35383A",
+            "fw": true,
+            "ff": "Open Sans SemiBold"
+          },
+          "previous_value": {
+            "fc": "#35383A"
+          },
+          "trend_identity": {
+            "fc": "#fff"
+          }
+        }
+      }
+    },
+    {
+      "key": "W1018",
+      "title": "KPI Trend",
+      "family": "kpi",
+      "visualCues": "left-aligned name + value, green/red % change badge, italic 'Previous Quarter: …' line, filled area sparkline along the bottom",
+      "zones": {
+        "metric": [
+          "Revenue"
+        ],
+        "trend": [
+          "Quarter"
+        ]
+      },
+      "settings": {
+        "dm": "5",
+        "gcc": "1",
+        "ks": "custom",
+        "cks": [
+          {
+            "bgColor": "#ffffff",
+            "chartColor": "#FD6F96"
+          }
+        ],
+        "nfts": {
+          "primary_value": {
+            "ff": "Open Sans SemiBold",
+            "fw": true
+          }
+        }
+      }
+    },
+    {
+      "key": "W1024",
+      "title": "KPI Break By",
+      "family": "kpi",
+      "visualCues": "'Metric - Element' title (e.g. 'Revenue - Technology'), large value, pagination dots under the card",
+      "zones": {
+        "metric": [
+          "Revenue"
+        ],
+        "BreakBy": [
+          "Category"
+        ]
+      },
+      "settings": {
+        "dm": "1",
+        "gcc": "3",
+        "tst": "1",
+        "smn": "true",
+        "ks": "custom",
+        "cks": [
+          {
+            "bgColor": "#ffffff",
+            "chartColor": "#C1292F"
+          }
+        ],
+        "nfts": {
+          "primary_value": {
+            "ff": "Open Sans SemiBold",
+            "fw": true
+          }
+        }
+      }
+    },
+    {
+      "key": "W1125",
+      "title": "Comparison",
+      "family": "comparison_kpi",
+      "visualCues": "centered name + large value, italic 'Revenue Target: $x' and a red/green (−0.1%) variance, no chart",
+      "zones": {
+        "XAxis": [
+          "Revenue"
+        ],
+        "YAxis": [
+          "Revenue Target"
+        ]
+      },
+      "settings": {
+        "layoutType": 0,
+        "secondaryMetricName": "Revenue Target",
+        "comparisonIndicatorEnabled": true,
+        "trendIndicatorEnabled": true,
+        "trendIndicatorValueType": "percentValue",
+        "trendIndicatorShape": "badge",
+        "textContentType": "all",
+        "textContentTypeComparison": "indicator",
+        "shapeType": 0,
+        "shapeTypeComparison": 0,
+        "trendShape": "area",
+        "trendFillColor": "#D2D2D2",
+        "trendFillOpacity": "40",
+        "areaFillColor": "#FFFFFF"
+      }
+    },
+    {
+      "key": "W1126",
+      "title": "Comparison Trend",
+      "family": "comparison_kpi",
+      "visualCues": "left-aligned, target + variance line, solid pink bar chart along the bottom",
+      "zones": {
+        "XAxis": [
+          "Revenue"
+        ],
+        "YAxis": [
+          "Revenue Target"
+        ],
+        "SliceBy": [
+          "Quarter"
+        ]
+      },
+      "settingsDiffFromComparison": {
+        "shapeTypeComparison": 1,
+        "textContentTypeComparison": "secondaryValue",
+        "fontSteps": -1,
+        "trendFillColor": "#FD6F96",
+        "trendFillOpacity": 100,
+        "trendShape": "bar",
+        "axisScaleComparison": "synced",
+        "cardAlignment": "left",
+        "selectedReferenceLine": "<metric id>"
+      }
+    },
+    {
+      "key": "W1136",
+      "title": "Comparison Break By",
+      "family": "comparison_kpi",
+      "visualCues": "'Metric - Element' title, target + variance, pagination dots",
+      "zones": {
+        "XAxis": [
+          "Revenue"
+        ],
+        "YAxis": [
+          "Revenue Target"
+        ],
+        "BreakBy": [
+          "Category"
+        ]
+      },
+      "settingsDiffFromComparison": {
+        "layoutType": 1,
+        "showMetricName": true,
+        "textContentTypeComparison": "primaryValue"
+      }
+    },
+    {
+      "key": "W1138",
+      "title": "Multi-Metric",
+      "family": "multi_metric_kpi",
+      "visualCues": "one wide card split into equal columns (one per metric), each: name, value, ↑/↓ numeric change, 'Previous Quarter: …', thin line sparkline",
+      "zones": {
+        "XAxis": [
+          "Revenue",
+          "Cost",
+          "Profit",
+          "Profit Margin"
+        ],
+        "BreakBy": [
+          "Quarter"
+        ]
+      },
+      "settingsDiffFromComparison": {
+        "layoutType": 2,
+        "secondaryMetricName": "Previous Quarter",
+        "trendIndicatorValueType": "numericValue",
+        "shapeType": 1,
+        "textContentType": "primaryValue",
+        "textContentTypeComparison": "all",
+        "trendFillColor": "#FD6F96",
+        "trendFillOpacity": 100,
+        "trendShape": "line",
+        "cardAlignment": "left",
+        "trendIndicatorShape": "arrow"
+      }
+    }
+  ],
+  "commonFonts": {
+    "label": {
+      "fontFamily": "Open Sans",
+      "fontStyle": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "fontColor": "#35383A"
+    },
+    "primaryValue": {
+      "fontFamily": "Open Sans SemiBold",
+      "fontStyle": [
+        true,
+        false,
+        false,
+        false,
+        0
+      ],
+      "fontColor": "#35383A"
+    },
+    "secondaryValue": {
+      "fontFamily": "Open Sans",
+      "fontStyle": [
+        true,
+        true,
+        false,
+        false
+      ],
+      "fontColor": "#35383A"
+    },
+    "indicator": {
+      "fontFamily": "Open Sans",
+      "fontStyle": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "fontColor": "#FFFFFF"
+    }
+  },
+  "pageLayout": {
+    "type": "free-form (absolute positions)",
+    "cards": "494 x 189 px, three per row at left 0 / 515 / 1031; rows at top 100 / 334 / 568; Multi-Metric spans 1526 px",
+    "titleBars": "hidden (title height 0); section headings and descriptions are separate text boxes",
+    "background": "light blue-gray page, white cards, no borders"
+  },
+  "verified": {
+    "date": "2026-11-10",
+    "how": "build-kpi-showcase.js rebuilt all seven variants on Shared Studio › Business Insurance Claims Analytics (Payment Amount = actual, Initial Reserve Amount = target, Payment Date (Quarter) = period, Region = category) in 6.6 s; saved as 'zz KPI Showcase v1' in My Reports. Each card rendered like its demo counterpart and its values matched a reference grid.",
+    "editorDefaults": "The editor writes the full 80-key Comparison/Multi-Metric properties blob when a field is first added (setProperty prs FormattingWidget pri 4). Code only needs the keys it changes."
+  }
+}

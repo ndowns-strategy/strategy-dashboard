@@ -1,0 +1,149 @@
+{
+  "source": {
+    "dashboard": "Tec Visual Vocabulary > Visual Vocabulary > Correlation",
+    "url": "https://demo.microstrategy.com/MicroStrategyLibrary/app/EC70648611E7A2F962E90080EFD58751/BDD72BE311EAA41CD7700080EFD5E527/KA03F3C3711EA9432DCFD0080EFF5BDB3--K46",
+    "studied": "2026-11-10",
+    "how": "REST definition + instance JSON (setCurrentPanel on a guest instance), nothing saved"
+  },
+  "examples": [
+    {
+      "key": "KA03F3D5911EA943217D20080EFF53E7E",
+      "title": "Scatter Plot",
+      "definitionType": "bubble_chart",
+      "visualCues": "one dot per item on two numeric axes, all dots the same size and color, a thin straight trend line through them",
+      "chart": {
+        "Shape": "Circle",
+        "visType": 21
+      },
+      "zones": {
+        "XAxis": [
+          "Cost"
+        ],
+        "YAxis": [
+          "Revenue"
+        ],
+        "BreakBy": [
+          "Subcategory"
+        ]
+      },
+      "settings": {
+        "dotSize": "SizeType Manual, SizeValue 0.15 (fixed size, no Size By)",
+        "transparency": "allShpFmt { shpFillTrans: 80 }",
+        "originLines": "xAxOriLnShw / yAxOriLnShw false",
+        "trendLine": "stored on the X metric in the template: mx[Cost].mdls.mod_c = [{ tp: 257 (trend line), lv: 1, la: -1, incl: 0, cst: { vt: 8, vv: '2' }, fms: { trdRefLnThk: 1, trdRefLnClr: 5066061 (BGR = #4D4D4D), trdRefLnStyle: 0 }, enabl: 1 }]. The server computes a hidden TrendLine_DM_<metric>_1_1 metric (linear, R2 0.97 on the demo)."
+      }
+    },
+    {
+      "key": "W215",
+      "title": "Combo Chart",
+      "definitionType": "combo_chart",
+      "visualCues": "bars for one metric and a line for another, each on its own y-axis (left and right)",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 57,
+        "userVisType": 57
+      },
+      "zones": {
+        "XAxis": [
+          "Quarter"
+        ],
+        "YAxis": [
+          "Revenue - Correlation",
+          "Profit"
+        ],
+        "Rows": [
+          "Metric Names"
+        ],
+        "ColorBy": [
+          "Metric Names"
+        ]
+      },
+      "settings": {
+        "lineSeries": "metricShapes { <Profit id>: 2 } turns that metric into a line (others stay bars)",
+        "dualAxis": "the line metric sits on the right axis (drop-zone ax 1); with Metric Names on Rows and Color By, both share one plot",
+        "metricColors": "dashboard-level: Revenue - Correlation #E8D39B (bars), Profit #457359 (line)",
+        "labels": "xAxLbNestedLabel true (Quarter, Year nested), xAxLbWrapText true",
+        "note": "on the demo the Profit line is flat because Profit isn't split by quarter in that dataset"
+      }
+    },
+    {
+      "key": "KA03F3ED511EA943217D20080EFF53E7E",
+      "title": "Bubble Chart",
+      "definitionType": "bubble_chart",
+      "visualCues": "dots of different sizes and three colors on two numeric axes, semi-transparent, thin borders",
+      "chart": {
+        "Shape": "Circle",
+        "visType": 21
+      },
+      "zones": {
+        "XAxis": [
+          "Profit"
+        ],
+        "YAxis": [
+          "Revenue"
+        ],
+        "BreakBy": [
+          "Category",
+          "Subcategory"
+        ],
+        "ColorBy": [
+          "Category"
+        ],
+        "SizeBy": [
+          "Profit Margin"
+        ]
+      },
+      "settings": {
+        "transparency": "allShpFmt { shpFillTrans: 70, shpBdrCmbStyle: 1, shpBdrThk: 1 }, plus per-element fmtOnComb { shpFillTrans: 80 }",
+        "elementColors": "dashboard-level Category - Correlation: Furniture #E9D39B, Office Supplies #735E2A, Technology #BFAD80",
+        "DataLabel": "Hide"
+      }
+    },
+    {
+      "key": "KA03F3DF911EA943217D20080EFF53E7E",
+      "title": "Matrix Bar Chart",
+      "definitionType": "bar_chart",
+      "visualCues": "a grid of solid colored squares: attribute A across the top, attribute B down the side, three shades from light to dark, no axis numbers",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 71
+      },
+      "zones": {
+        "Columns": [
+          "Category"
+        ],
+        "YAxis": [
+          "Region"
+        ],
+        "ColorBy": [
+          "Revenue"
+        ],
+        "XAxis": []
+      },
+      "settings": {
+        "trick": "no metric on the X axis, so every bar fills its cell; Color By Revenue carries the value",
+        "thresholds": "Revenue percent bands: 0-35% #E9D39B, 35-65% #BFAD80, 65-100% #735E2A (ttp 1/3 = percent basis)",
+        "borders": "allShpFmt shpBdrThk 0 (no bar borders), white gaps between cells",
+        "axes": "xAxTtShw false, yAxTtShw true, colHdrShw true"
+      }
+    }
+  ],
+  "commonFormatting": {
+    "palette": "sand/olive: #E9D39B, #BFAD80, #735E2A, accent green #457359",
+    "page": "free-form, light blue-gray background, CORRELATION heading in sand, title + one-line description above each chart"
+  },
+  "buildFromCode": {
+    "script": "build-correlation-showcase.js",
+    "helpers": {
+      "trendLine(vizKey, metricId, {model, color, thickness})": "Format > Trend Line > Enable: act operateTRFLine { tks, lineType 257 linear | 256 best fit, lineLevel 1, enabled 1, includeBreakby 1, lineConstant 2, lineIndex 1, format '{&quot;trdRefLnThk&quot;:1,...}', metricId (the plotted Y metric) }",
+      "metricThresholds(..., 'percent')": "'Lowest %' basis = thresholdType 1 with 0-100 bands (value basis is 7)",
+      "fillZones ax": "a field with ax: 1 goes on the right axis (editor: right-click metric > Right Axis)",
+      "VIS.scatter / VIS.combo": "{Circle, 21} and {Bar, 57, Stacked}"
+    },
+    "dualAxisCombo": "line metric on YAxis with ax: 1 + Metric Names on Rows AND Color By + metricShapes {'@pLd<lineMetric>':2}. Without the right axis the two metrics draw as two stacked panels.",
+    "verified": "2026-11-10 on Shared Studio › Business Insurance Claims Analytics: 'zz Correlation Showcase v2' (My Reports) built in 4.7 s: Initial Reserve x Payment by State Code with a linear trend line; Payment Amount bars + Claim Count line on a right axis by quarter; bubbles by Customer Segment x Region sized by Claim Count; Customer Segment x Region squares in three percentile shades.",
+    "notYet": "Scatter dot color: the build leaves the default blue; the demo's dots are sand (a metric/palette color)."
+  }
+}

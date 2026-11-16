@@ -1,0 +1,182 @@
+{
+  "source": {
+    "dashboard": "Tec Visual Vocabulary > Visual Vocabulary > Grids",
+    "url": "https://demo.microstrategy.com/MicroStrategyLibrary/app/EC70648611E7A2F962E90080EFD58751/BDD72BE311EAA41CD7700080EFD5E527/W1013--K46",
+    "studied": "2026-11-10",
+    "how": "REST definition + instance JSON (setCurrentPanel W1013 on a guest instance, nothing saved)"
+  },
+  "family": {
+    "name": "Modern Grid with column sets",
+    "definitionType": "microcharts",
+    "structure": "One visualization = a stitched container node (stitchType 1 = column sets; row sets are stitchType 2) holding one template per column set. All sets share the same row attributes; each set has its own columns and metrics.",
+    "containerKeys": {
+      "stitchType": "1 column sets (2 = row sets)",
+      "sdm": "2 (section display mode, same as row sets)",
+      "sortIndex": "key of the set whose sort drives the rows",
+      "gridProps": "{ shwdgdz: false } on the demo (row-set build used shwdgdz true)",
+      "nf / gnf": "number formats per set and metric"
+    },
+    "setKeys": {
+      "rows / cols": "template units; cols can include an attribute (Segment) to pivot a set's metrics under element headers",
+      "vp.chartCfg": "present only on microchart sets: HTML-escaped JSON array [{ type, n, autoName, mid:[metricId], aid:[attrId], format }]",
+      "thresholds": "keyed by metric id; used to color microchart bars per attribute element",
+      "prop.banding_setting": "XML: <EN>0</EN> banding off on the demo",
+      "fmts.rh / ch / va": "row header, column header and value formats"
+    }
+  },
+  "examples": [
+    {
+      "key": "DDA1BA6AC11841F08C90590FD6207138",
+      "title": "Grid with Column Sets",
+      "visualCues": "shared row headers (Category, Subcategory with merged Category cells) then two column groups: a plain metrics group, and a group with element headers (Consumer / Corporate / Home Office) each over the same metrics",
+      "sets": [
+        {
+          "key": "1768B3879CBD48F28210BA1D40DC2551",
+          "rows": [
+            "Category",
+            "Subcategory"
+          ],
+          "cols": [
+            "Metrics"
+          ],
+          "metrics": [
+            "Sales Rank (alias of Revenue Rank)",
+            "Revenue",
+            "Quantity Sold"
+          ]
+        },
+        {
+          "key": "K67",
+          "rows": [
+            "Category",
+            "Subcategory"
+          ],
+          "cols": [
+            "Segment",
+            "Metrics"
+          ],
+          "metrics": [
+            "Revenue",
+            "Profit Margin"
+          ]
+        }
+      ],
+      "numberFormats": {
+        "Revenue Rank": "#,##0;(#,##0)",
+        "Revenue": "\"$\"#,##0;(\"$\"#,##0)",
+        "Quantity Sold": "#,##0;(#,##0)",
+        "Profit Margin": "0.00%;(0.00%)"
+      }
+    },
+    {
+      "key": "5170352E0BA54B8994E71EA7DCF6675F",
+      "title": "Grid with Microcharts",
+      "visualCues": "rows of State; plain metric columns, then a column of small bar charts (one bar per Category) and a column of small line charts with dots (one point per Year)",
+      "sets": [
+        {
+          "key": "W1026",
+          "rows": [
+            "State"
+          ],
+          "cols": [
+            "Metrics"
+          ],
+          "metrics": [
+            "Sales Rank",
+            "Revenue",
+            "Quantity Sold",
+            "Profit Margin"
+          ],
+          "sort": "ascending on Sales Rank"
+        },
+        {
+          "key": "3F56B6CF0DB64A7B80E027B8C87E4678",
+          "rows": [
+            "State"
+          ],
+          "cols": [
+            "Metrics",
+            "Category"
+          ],
+          "metrics": [
+            "Revenue"
+          ],
+          "chartCfg": {
+            "type": "trendBar",
+            "n": "Revenue Comparison by Category",
+            "autoName": true,
+            "format": {
+              "axisScaleScope": 0,
+              "axisScaleFunc": 0,
+              "barColor": "#159B98",
+              "barSpacing": 1,
+              "contentHeight": 24,
+              "valign": 1,
+              "zeroAxis": true
+            }
+          },
+          "barColors": "thresholds on Revenue by Category element override barColor: Furniture #9586BC, Office Supplies #54457A, Technology #BCB1E2"
+        },
+        {
+          "key": "74BFC95B533645E0972907E2C972CA81",
+          "rows": [
+            "State"
+          ],
+          "cols": [
+            "Metrics",
+            "Order Date (Year)"
+          ],
+          "metrics": [
+            "Profit"
+          ],
+          "chartCfg": {
+            "type": "sparkline",
+            "n": "Profit Trend by Year",
+            "autoName": false,
+            "format": {
+              "lineColor": "#54457A",
+              "bc": "TRANSPARENT",
+              "spotRadius": 3,
+              "spotColor": "#3B92ED",
+              "keySpotColor": "#3B92ED",
+              "highlightSpotColor": "#3B92ED",
+              "highlightLineColor": "#35383A",
+              "dataPoints": {
+                "type": 1,
+                "keyPoints": {
+                  "first": false,
+                  "last": false,
+                  "min": false,
+                  "max": false
+                }
+              },
+              "defaultPixelsPerValue": 6,
+              "contentHeight": 24,
+              "valign": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "commonFormatting": {
+    "rowHeaders": "Open Sans 10pt, #35383A, left, white background, #EBEBEB bottom border",
+    "columnHeaders": "Open Sans 10pt bold, wrapped, bottom-aligned, #ABABAB bottom border",
+    "banding": "off",
+    "page": "free-form; light blue-gray background, white grids, section headings and descriptions as text boxes (same as the KPI page)"
+  },
+  "buildFromCode": {
+    "helper": "s.buildColumnSetGrid({ datasetId, idOf, gridKey, rows, sets, title, mergeColumnHeaders = true }) -> { gridKey, stitchedKey, setKeys }",
+    "sets": "[{ title, attrs, metrics } | { title, microchart: { type: 'sparkline'|'trendBar', metric, attr, format } }]",
+    "capturedActions": {
+      "insertModernGrid": "copyUnit K51 + Visualization off + changeGridToStitched (same start as row sets)",
+      "addColumnSet": "copyUnit(unitKey: gridKey, toKey: container) WITHOUT stitchType (row sets use stitchType 2) + format {Title, widget/vis off} + formatGridZone + moveUnit(toKey: container, index)",
+      "setColumns": "addUnit axis 2 on that set's template (attributes first, then metrics)",
+      "microchart": "a column set with addUnit metric (no axis) + attribute (axis 2), then format Visualization {SelectedVisualization/ClassName 'DossierRawValueVisualizationStyle', ViewMode 51} with WidgetProps <chartCfg value=\"...\"> (JSON double-escaped, ids prefixed '@pLd') + setWidgetString skey 'mcname'",
+      "mergeColumnHeaders": "updateTemplate advancedProperties {'Template Formatting': {MergeColumnCells: '-1'}} on every set (Format > Layout > Column headers > Merge repetitive cells)",
+      "containerProps": "setProperty pri 13 {shwdgdz:false, shwdgrdz:true} + setGridPropsRMs"
+    },
+    "verified": "2026-11-10: build-grids-showcase.js built both grids on Shared Studio › Business Insurance Claims Analytics in 7.1 s ('zz Grids Showcase v1' in My Reports): Region/State Code rows with a Totals set and a Customer Segment-pivoted set; State Code rows with a values set, a trendBar by Customer Segment and a sparkline by Payment Date (Quarter), sorted by Payment Amount. MergeColumnCells and set titles were then applied to the saved dashboard with the same actions the helper now sends.",
+    "notYet": "Per-element microchart bar colors (the demo's three thresholds on Revenue by Category element) — the build uses a single barColor."
+  }
+}

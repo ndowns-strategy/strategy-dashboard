@@ -1,0 +1,207 @@
+{
+  "source": {
+    "dashboard": "Tec Visual Vocabulary > Visual Vocabulary > Ranking",
+    "url": "https://demo.microstrategy.com/MicroStrategyLibrary/app/EC70648611E7A2F962E90080EFD58751/BDD72BE311EAA41CD7700080EFD5E527/KAF245F0711EA9432DCFD0080EFE59CB1--K46",
+    "studied": "2026-11-10",
+    "how": "REST definition + instance JSON (setCurrentPanel on a guest instance) + rendered SVG colors, nothing saved"
+  },
+  "examples": [
+    {
+      "title": "Horizontal Bar Chart",
+      "definitionType": "bar_chart",
+      "visualCues": "one solid-color horizontal bar per item, sorted longest at the top",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Automatic",
+        "visType": 71,
+        "userVisType": 71
+      },
+      "zones": {
+        "XAxis": [
+          "Revenue"
+        ],
+        "YAxis": [
+          "Region"
+        ]
+      },
+      "settings": {
+        "sort": "gsi.sorts = [[{ key: '4~<Revenue>~~~~1~4', isAsc: false }], []] (rows by Revenue, descending)",
+        "seriesColor": "modDefFillClr #4E80F4",
+        "labels": "xAxLbWrapText true, xAxLbNestedLabel true"
+      }
+    },
+    {
+      "title": "Vertical Bar Chart",
+      "definitionType": "bar_chart",
+      "visualCues": "one solid-color column per item, sorted tallest on the left",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 70
+      },
+      "zones": {
+        "XAxis": [
+          "Region"
+        ],
+        "YAxis": [
+          "Revenue"
+        ]
+      },
+      "settings": {
+        "sort": "gsi.sorts = [[], [{ key: '4~<Revenue>~~~~2~4', isAsc: false }]] (columns by Revenue, descending)",
+        "seriesColor": "modDefFillClr #4E80F4"
+      }
+    },
+    {
+      "title": "Bubble Chart",
+      "definitionType": "bubble_chart",
+      "visualCues": "dots of different sizes in three blues on two numeric axes, no axis numbers",
+      "chart": {
+        "Shape": "Circle",
+        "visType": 21
+      },
+      "zones": {
+        "XAxis": [
+          "Profit"
+        ],
+        "YAxis": [
+          "Revenue"
+        ],
+        "BreakBy": [
+          "Region",
+          "Category"
+        ],
+        "ColorBy": [
+          "Category"
+        ],
+        "SizeBy": [
+          "Profit Margin"
+        ]
+      },
+      "settings": {
+        "transparency": "allShpFmt { shpFillTrans: 70, shpBdrThk: 0 }, per-element fmtOnComb shpFillTrans 80",
+        "axes": "xAxLbShw false, yAxLbShw false (titles shown, numbers hidden)",
+        "DataLabel": "Hide",
+        "note": "same build as the Correlation page's bubble chart"
+      }
+    },
+    {
+      "title": "Dot Strip Plot",
+      "definitionType": "bubble_chart",
+      "visualCues": "one labeled row per item, each with a few dots along a shared value axis, dots colored by a second attribute",
+      "chart": {
+        "Shape": "Circle",
+        "Subtype": "Absolute",
+        "visType": 21,
+        "userVisType": 21
+      },
+      "zones": {
+        "Rows": [
+          "Region"
+        ],
+        "XAxis": [
+          "This Year's Revenue"
+        ],
+        "BreakBy": [
+          "Category"
+        ],
+        "ColorBy": [
+          "Category"
+        ]
+      },
+      "settings": {
+        "trick": "no Y metric: Rows = Region gives one strip per region",
+        "sort": "gsi.sorts rows: { key: '4~<Revenue>~~~hFurniture~<Category>~1~4', isAsc: false } (by one element's value)",
+        "transparency": "allShpFmt { shpFillTrans: 30, shpBdrThk: 0 }, per-element fmtOnComb shpFillTrans 80",
+        "axes": "yAxTtShw false",
+        "DataLabel": "Hide"
+      }
+    },
+    {
+      "title": "Slope Chart",
+      "definitionType": "line_chart",
+      "visualCues": "straight lines between exactly two x positions, one per item, colored by group",
+      "chart": {
+        "Shape": "Line",
+        "Subtype": "Absolute",
+        "visType": 72
+      },
+      "zones": {
+        "XAxis": [
+          "Year"
+        ],
+        "YAxis": [
+          "Revenue"
+        ],
+        "BreakBy": [
+          "Subcategory",
+          "Category"
+        ],
+        "ColorBy": [
+          "Category"
+        ]
+      },
+      "settings": {
+        "twoPoints": "visualization filter: Order Date (Year) in (2019, 2020)",
+        "legend": "LegendVisibleness Show, LegendPosition 2",
+        "DataLabel": "Hide"
+      }
+    },
+    {
+      "title": "Bump Chart",
+      "definitionType": "line_chart",
+      "visualCues": "lines with dot markers that cross as items swap places; y-axis is small whole numbers with 1 at the top",
+      "chart": {
+        "Shape": "Line",
+        "Subtype": "Automatic",
+        "visType": 72
+      },
+      "zones": {
+        "XAxis": [
+          "Year"
+        ],
+        "YAxis": [
+          "Revenue Rank (Negative)"
+        ],
+        "BreakBy": [
+          "Region"
+        ],
+        "ColorBy": [
+          "Revenue Rank (Negative)"
+        ],
+        "AdditionalMetrics": [
+          "Revenue"
+        ]
+      },
+      "settings": {
+        "rankMetric": "derived: Rank<ASC=False, BreakBy={[Order Date (Year)]}>(Revenue) * -1, aliased 'Revenue Rank' on the chart",
+        "hideMinus": "custom number format (nct 7) '#,##0; #,##0' so -2 shows as 2",
+        "axis": "MinMax Custom, AxisScale 'AllMetrics:0:-4:-1:-4:-1:false:false:false' (min -4, max -1)",
+        "markers": "lnMkShw true, lnMkClr #1A6698",
+        "thresholds": "value basis (ttp 7) on the rank metric: <-3 #A4CBE6, -3..-2 #80ADD9, -2..-1 #558DCC, >=-1 #2E78BB",
+        "DataLabel": "Hide"
+      }
+    }
+  ],
+  "commonFormatting": {
+    "palette": "blues: series #4E80F4; Category #1A6698 / #83B4D4 / #6FBEF2 (dashboard palette, no element overrides); rank bands #A4CBE6 #80ADD9 #558DCC #2E78BB",
+    "page": "free-form, light blue-gray background, RANKING heading in blue, title + one-line description above each chart, 3 x 2 grid"
+  },
+  "findings": {
+    "modDefFillClr": "the chart's single-series fill color (BGR). Likely the setting the Correlation scatter build needs for its sand dots (untested).",
+    "sortKey": "'4~<metricId>~~~~<axis>~4' for a metric sort on rows (1) or columns (2); '4~<metricId>~~~h<element>~<attrId>~<axis>~4' sorts by one element's value",
+    "hideNegativeSign": "custom number format '#,##0; #,##0' displays negatives without a sign. Should also hide the Deviation tornado's left-axis minus signs (untested)."
+  },
+  "buildFromCode": {
+    "script": "build-ranking-showcase.js",
+    "helpers": {
+      "sortByMetric(vizKey, metricId, asc, {axis})": "act sort, sorts [[{key:'4!<metric>!!!!<axis>', metricSortKey:'2', isAsc}]]; axis 1 rows, 2 columns. Sending [[],[sort]] fails (500).",
+      "chartFormat extra seriesColor": "modDefFillClr (BGR)",
+      "chartFormat extra axisRange {metricId:[min,max]}": "AxisScale 'AllMetrics:0:min:max:min:max:false:false:false,<id>:...' + MinMax Custom + axScaleModified 1",
+      "rankMetric": "createDerivedMetric(ds, name, 'Rank<ASC=False, BreakBy={[<time attr>]}>([<metric>]) * -1', '#,##0; #,##0')",
+      "keepOnly": "visualization filter keeping two time values for a slope chart"
+    },
+    "verified": "2026-11-10 on Shared Studio > Business Insurance Claims Analytics: 'zz Ranking Showcase v3' (My Reports) built in 6.3 s from the repo files unmodified. Sorts read back as [[4!<id>!!!!1!4]] and [[],[4!<id>!!!!2!4]] (same shape as the demo); an ascending-sort test put West first on both bars, so the sort is applied.",
+    "notYet": "Element sort (dot strip rows by one group's value) returns 500 on Studio 11.6 even with the demo's exact key; the build sorts rows by the total instead."
+  }
+}

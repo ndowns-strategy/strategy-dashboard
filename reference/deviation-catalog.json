@@ -1,0 +1,178 @@
+{
+  "source": {
+    "dashboard": "Tec Visual Vocabulary > Visual Vocabulary > Deviation",
+    "url": "https://demo.microstrategy.com/MicroStrategyLibrary/app/EC70648611E7A2F962E90080EFD58751/BDD72BE311EAA41CD7700080EFD5E527/K51B48BCB11EA9432DCFD0080EF75BCB2--K46",
+    "studied": "2026-11-10",
+    "how": "REST definition + instance JSON (setCurrentPanel on a guest instance; dashboard-level epm colors from getServerJSONResults), nothing saved"
+  },
+  "family": {
+    "visName": "GraphMatrixVisualizationStyle (all five are standard charts)",
+    "techniques": {
+      "colorBySign": "Put the value metric on ColorBy as well, then add two value thresholds on it: below the breakpoint fill #f8942c (orange), at/above it fill #035397 (blue). Stored per template as thresholds[metricId] = [{fmt:{bc}, ttp:7, flr:-Infinity, ceil:X}, {fmt:{bc}, flr:X, ceil:Infinity}]; visProp.fmt.th = 1.",
+      "customOrigin": "visProp.fmt.axisOrigin = { <metricId>: { axOriAuto:false, axOriValue:0.2 } } moves the zero line to a reference value (bars grow left/right of 20%).",
+      "negatedMetric": "Tornado: a metric that is the negative of last year's value plots to the left; its number format \"$\"#,##0;\"$\"#,##0 hides the minus sign.",
+      "elementColors": "Diverging stacked bar: Response elements colored at dashboard level (epm, emt 1): Very Dissatisfied #f8942c, Dissatisfied #f9b167, Satisfied #3e6d95, Very Satisfied #035397. Negative responses carry negative values so they stack left of 0.",
+      "metricColors": "Tornado: dashboard-level metric colors (epm, emt 2): Last Year's Revenue Negative #f89427, This Year's Revenue #035397."
+    }
+  },
+  "examples": [
+    {
+      "key": "K51B48C4311EA943200000080EF753D7C",
+      "title": "Diverging Bar Chart (Horizontal)",
+      "visualCues": "horizontal bars sorted high to low, blue bars right of a reference line, orange bars left of it; the reference line is not at 0",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 71
+      },
+      "zones": {
+        "XAxis": [
+          "Profit Margin"
+        ],
+        "YAxis": [
+          "Subcategory"
+        ],
+        "ColorBy": [
+          "Profit Margin"
+        ]
+      },
+      "settings": {
+        "axisOrigin": "Profit Margin: axOriAuto false, axOriValue 0.2",
+        "thresholds": "Profit Margin < 0.2 #f8942c, >= 0.2 #035397",
+        "sort": "Profit Margin descending",
+        "numberFormat": "0%;(0%)"
+      }
+    },
+    {
+      "key": "K51B48D1511EA943264C10080EF753D7D",
+      "title": "Diverging Stacked Bar Chart",
+      "visualCues": "one horizontal bar per year split into four segments; two orange shades left of 0, two blue shades right; axis in percent with negatives in parentheses",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 9
+      },
+      "zones": {
+        "XAxis": [
+          "% of Respondents Absolute (negative for dissatisfied responses)"
+        ],
+        "YAxis": [
+          "Year"
+        ],
+        "BreakBy": [
+          "Response"
+        ],
+        "ColorBy": [
+          "Response"
+        ]
+      },
+      "settings": {
+        "elementColors": "Very Dissatisfied #f8942c, Dissatisfied #f9b167, Satisfied #3e6d95, Very Satisfied #035397",
+        "numberFormat": "0%;(0%)"
+      }
+    },
+    {
+      "key": "K51B4950311EA9432BE220080EF75BCB2",
+      "title": "Tornado (Butterfly) Chart",
+      "visualCues": "two bar series back to back from a center line, orange left and blue right, sorted largest to smallest, both axes show positive dollars",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 9
+      },
+      "zones": {
+        "XAxis": [
+          "Last Year's Revenue Negative",
+          "This Year's Revenue"
+        ],
+        "YAxis": [
+          "Subcategory"
+        ],
+        "Columns": [
+          "Metric Names"
+        ],
+        "ColorBy": [
+          "Metric Names"
+        ]
+      },
+      "settings": {
+        "metricColors": "Last Year's Revenue Negative #f89427, This Year's Revenue #035397",
+        "numberFormats": {
+          "Last Year's Revenue Negative": "\"$\"#,##0;\"$\"#,##0",
+          "This Year's Revenue": "\"$\"#,##0;(\"$\"#,##0)"
+        },
+        "sort": "This Year's Revenue descending",
+        "si": "1,2 (one axis per metric)"
+      }
+    },
+    {
+      "key": "K51B4961B11EA943264C10080EF753D7D",
+      "title": "Diverging Bar Chart (Vertical)",
+      "visualCues": "vertical bars over time, blue above 0, orange below",
+      "chart": {
+        "Shape": "Bar",
+        "Subtype": "Stacked",
+        "visType": 70
+      },
+      "zones": {
+        "XAxis": [
+          "Month"
+        ],
+        "YAxis": [
+          "Surplus/Deficit"
+        ],
+        "ColorBy": [
+          "Surplus/Deficit"
+        ]
+      },
+      "settings": {
+        "thresholds": "Surplus/Deficit < 1303 #f8942c, >= 1303 #035397 (effectively the sign)",
+        "numberFormat": "\"$\"#,##0_);(\"$\"#,##0)"
+      }
+    },
+    {
+      "key": "K51B4959911EA943264C10080EF753D7D",
+      "title": "Stacked Area Chart",
+      "visualCues": "a filled area over time, blue above 0 and orange below, with a gradient where it crosses zero",
+      "chart": {
+        "Shape": "Area",
+        "Subtype": "Stacked",
+        "visType": 30
+      },
+      "zones": {
+        "XAxis": [
+          "Month"
+        ],
+        "YAxis": [
+          "Surplus/Deficit"
+        ],
+        "ColorBy": [
+          "Surplus/Deficit"
+        ]
+      },
+      "settings": {
+        "thresholds": "same as the vertical diverging bar",
+        "legend": "visible"
+      }
+    }
+  ],
+  "commonFormatting": {
+    "colors": "orange #f8942c = below target / negative, blue #035397 = above / positive",
+    "legend": "LegendVisibleness Show, small swatches on the right",
+    "page": "free-form, light blue-gray background, heading DEVIATION in orange, a title + one-line description above each chart"
+  },
+  "buildFromCode": {
+    "script": "build-deviation-showcase.js",
+    "helpers": {
+      "metricThresholds(vizKey, metricId, bands)": "Thresholds dialog with 'Value' basis: act threshold, thresholdType 7, objType 4, bands [{fmt:{FormattingPatterns:{FillColor:bgr,FillStyle:0}}, flr, ceil}]. Fills chart marks when the metric is also on Color By.",
+      "elementColors(attrId, {value: hex})": "Shape Fill Color on an element: dashboard-level updateElementsPropertiesMap, epmk ob {did: attrId, tp 12}, chn [{emt 1, ei 'h<value>;<attrId>', at {did, tp 12, ql 0}}], vv {color: bgr}",
+      "metricColors({metricId: hex})": "dashboard-level metric colors (emt 2), used wherever a chart colors by Metric Names",
+      "chartFormat(vizKey, vis, {axisOrigin: {metricId: value}, ...})": "writes Shape/Subtype/visType for a chart inserted in this session; axisOrigin is stored as {'@pLd<id>':{axOriAuto:false, axOriValue:'0.33'}, 'AllMetrics':{...}} and needs xAxOriLnShw/yAxOriLnShw 'true' or viewing ignores it",
+      "VIS.hbarStacked / VIS.areaStacked": "{Bar, 9, Stacked} and {Area, 30, Stacked}"
+    },
+    "signedSegments": "derived metric If(([Claim Status]@ID = \"Denied\") Or ([Claim Status]@ID = \"In Litigation\"), -1, 1) * [Claim Count] gives negative values for the 'bad' elements (verified: Denied (380), In Litigation (210)). ApplySimple was rejected.",
+    "tornado": "Metric Names on BOTH Columns and Color By puts the two metrics in side-by-side panels (back to back). Color By alone stacks them in two row panels.",
+    "verified": "2026-11-10 on Shared Studio › Business Insurance Claims Analytics: 'zz Deviation Showcase v2' (My Reports) built in 6.8 s: Paid to Reserve by Policy Type around 33%, signed Claim Status segments by Region, Reserve (left) vs Payment Amount by Policy Type, and Surplus/Deficit (2,800,000 - Payment Amount) by month as bars and area. The axis-origin flags were then added to the saved dashboard with the same props chartFormat now writes.",
+    "notYet": "Axis labels on the tornado's left panel still show negative numbers ($-70M); the demo hides the sign in the axis too."
+  }
+}
