@@ -4,6 +4,26 @@
 // Auth: write calls need the X-MSTR-AuthToken the Library app uses. Call captureToken(), then let the
 // app make any request (e.g. __mstrRouterHistory.push('/MicroStrategyLibrary/app')) — window.__tok is set.
 //
+// Getting this file into the page (learned 2026-11-16 on studio.strategy.com, built-in browser pane):
+//   - Library's Content Security Policy (nonce + 'strict-dynamic', no 'unsafe-eval') blocks eval(), new Function() and
+//     a <script> tag without the page's nonce. Don't load the file by fetching it and evaluating it, and don't copy the
+//     page's nonce onto your own script tag: that is a way around the page's security policy, and auto mode refuses it.
+//   - What works: put the code itself in the javascript_tool call body (the tool's code isn't subject to the CSP). Paste
+//     the helpers you need, copied verbatim from this file, inside an IIFE that ends with
+//     window.SDC = { client, bgr, VIS, ZONE, ... }; later calls use window.SDC and keep the session on window.__s.
+//     A trimmed copy (utilities + the session methods the build uses) is enough and keeps the call small.
+//   - Token: install captureToken()'s two patches in a javascript_tool call, then make the app send a request. A
+//     __mstrRouterHistory.push to the page you're already on sends none; clicking an item (e.g. opening a dashboard) or
+//     pushing a different in-app route does. Check !!window.__tok before going on. Don't read the token out of storage or
+//     app globals: it isn't in local/sessionStorage, and auto mode refuses that search as credential access.
+//   - Any full page load (navigate, reload, a link that leaves the SPA) wipes window.SDC, window.__s and window.__tok.
+//     Finish and save the build before navigating to view it. To edit again afterwards, re-install the token patches, use
+//     __mstrRouterHistory.push (no reload) to trigger a request, then open the saved dashboard with client(...).open(id).
+//   - Run the build in several javascript_tool calls (helpers; draft + pages; each page; formats; layouts; save) and
+//     check each result. One long call loses everything on the first failure.
+//   - Prefer Claude in Chrome (the user's signed-in Chrome). If it doesn't connect, the app's built-in browser pane works
+//     the same way once the user signs in to Library there.
+//
 // Helper index (all on the session returned by client(...).newDashboard() / .open()); each was captured from the editor
 // and verified by building real dashboards (see reference/*.md for the recipes):
 //   Structure   addChapter, chapterKeys, switchChapter, addPage, renameChapter, renamePage, structure, duplicateChapter,
@@ -68,6 +88,10 @@
 //   - Auto Summary (enableAutoSummary) failed with a 500 when the page had an on-canvas selector on an attribute unrelated to
 //     the page's metrics (Month Name on the campus sessions dataset). Pick selector attributes that relate to the metrics.
 //   - A text box's background: format unitType 106 { FormattingPatterns: { FillColor: Number(bgr(hex)), FillStyle: 0 } }.
+//   - setLink only works on plain Text boxes (addText). On a Rich Text box (addRichText) the link saves but clicking it
+//     in Library just selects the box (verified 2026-11-16 on "Lincoln Enterprise Performance Hub (freeform, built from code)").
+//   - The AutoNarratives instruction (addNarratives) must not contain double quotes: they break the &quot;-escaped
+//     JSON and the edit fails with a 500 (code -2147209160).
 //   - A dataset can have an attribute and a metric with the same name (Sallie Mae: "Annual Income" is both). Look metrics up
 //     in availableObjects.metrics and attributes in .attributes, never a combined list: a metric-only zone (Size By) given
 //     the attribute fails with a 500 ("The dropzone don't accept template units like attribute"), and other zones take it
@@ -834,6 +858,7 @@ function client(token, projectId) {
       // runs: [{ text, bold, italic, underline, strike, color: '#hex', size: 10 (pt), font: 'opensans' }]. A run
       //   { text: '\n', align: 'center'|'right'|'justify', header: 1-6, list: 'bullet'|'ordered', indent: 1-8 } ends a paragraph
       //   and carries its paragraph formats; the last paragraph takes align / header / list / indent from the options.
+  // Not for a box that needs a link: setLink doesn't fire on Rich Text in Library (use addText instead).
       addRichText({ pageKey = 'K53', fieldKey, nodeKey, createNode = true, name = 'Rich Text', runs, align, header, list, indent, layout, transparent = false }) {
         const f = { fieldKey, fieldType: 3, nodeKey, treeType: 1, fieldName: name };
         const kc = '106\u001e' + nodeKey + '\u001e' + fieldKey;
@@ -854,6 +879,9 @@ function client(token, projectId) {
       //                                   target pages that receive the selected filters
       //     null                          Remove Link
       // tooltip: the dialog's Tooltip box. nodeKey / fieldKey: the text box's keys (as passed to addText / addRichText).
+  // Use a plain Text box (addText, or a field with FormattingAppearance.TextFieldType 0), not Rich Text. Verified
+  // 2026-11-16: the link saved on a Rich Text box, but clicking it in Library only selected the box. The same link on
+  // plain text navigated. Style a linked label with FormattingFont (Name, Size, Bold, Color) instead of rich-text runs.
       setLink({ fieldKey, nodeKey, to, tooltip = '' }) {
         const kc = '106\u001e' + nodeKey + '\u001e' + fieldKey;
         const base = { act: 'format', unitKey: fieldKey, unitType: 106, formatType: 1, fieldKey, nodeKey, keyContext: kc };
