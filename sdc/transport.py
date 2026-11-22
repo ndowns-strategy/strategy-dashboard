@@ -1,22 +1,23 @@
 """Connection to Strategy Library: sign-in, /api calls and the editor's taskProc servlet.
 
-Two ways to sign in (SDC_AUTH in .env):
+Sign-in: every command asks which method to use when it has no session yet (`python3 -m sdc login` always asks):
 
-  delegate  (default; works with SSO) Sign in to Library in a browser as usual, then run `python3 -m sdc login`. It
-            prints a one-line snippet to run in that browser tab's developer console: the snippet asks Library for a
-            short-lived identity token (POST /api/auth/identityToken) and copies it to the clipboard. Paste it at the
-            prompt; Python exchanges it (POST /api/auth/delegate, loginMode -1) for its own REST session and caches that
-            session (token + cookies) in ~/.config/sdc/, readable only by you. Later commands reuse it until it expires;
-            then run `sdc login` again. `sdc logout` ends it.
-  password  Standard (1) or LDAP (16) login with SDC_USERNAME / SDC_PASSWORD. Proven by spike/auth_spike.py.
+  sso       Sign in to Library in a browser as usual (SAML, OIDC, anything). The login prints a one-line snippet to run
+            in that tab's developer console: it reads the tab's session token (GET /api/auth/token), asks for a
+            short-lived identity token (POST /api/auth/identityToken) and shows it in a dialog to copy. Paste it at the
+            prompt; Python exchanges it (POST /api/auth/delegate, loginMode -1) for its own REST session.
+  standard  Strategy username and password (loginMode 1). Proven by spike/auth_spike.py.
+  ldap      Directory username and password (loginMode 16).
 
-Either way the REST session's token and cookies (JSESSIONID etc.) are what /servlet/taskProc needs.
+The resulting session (token + cookies) is cached in ~/.config/sdc/, readable only by you, and reused until it expires.
+`sdc logout` ends it. Either way the session's token and cookies (JSESSIONID etc.) are what /servlet/taskProc needs.
 
 Settings come from the environment or a .env file in the repo root (gitignored):
   SDC_BASE_URL     e.g. https://studio.strategy.com/MicroStrategyLibrary
   SDC_PROJECT_ID
-  SDC_AUTH         delegate (default) | password
-  SDC_USERNAME, SDC_PASSWORD, SDC_LOGIN_MODE   password sign-in only
+  SDC_AUTH         sso | standard | ldap: the default answer to the sign-in question
+  SDC_USERNAME, SDC_PASSWORD   optional defaults for standard / ldap. With SDC_AUTH standard or ldap and both set, a
+                   command that is not run in a terminal (a script, CI) signs in with them without asking.
 """
 import json
 import os
@@ -77,7 +78,7 @@ class Connection:
         with Connection.from_env() as conn:
             s = conn.new_dashboard([{'id': ds_id, 'name': ds_name}])
 
-    A password session logs out on exit; a delegated (SSO) session stays cached for the next command.
+    A cached session stays open on exit for the next command; a non-interactive password sign-in logs out.
     """
 
     def __init__(self, base_url, project_id, timeout=120):
@@ -87,27 +88,32 @@ class Connection:
         self.http = requests.Session()
         self.http.headers.update({'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest'})
         self.token = None
-        self.persist = False   # True: keep the session open on exit (cached delegate sessions)
+        self.persist = False   # True: keep the session open on exit (cached sessions)
+        self.method = None     # sso | standard | ldap, once signed in
         self.calls = 0         # taskProc + /api calls made, for timing reports
 
     @classmethod
-    def from_env(cls, env_path=None):
+    def from_env(cls, env_path=None, interactive=None):
+        """Connect with the cached session; if there is none, ask how to sign in (in a terminal), or sign in with
+        SDC_USERNAME / SDC_PASSWORD when SDC_AUTH is standard or ldap and nobody is there to ask."""
+        import sys
+        from .login import LOGIN_MODE, interactive_login, normalize
         env = load_env(env_path)
-        has_session = env.get('SDC_BASE_URL') and (
-            SESSION_DIR / f'session-{urlparse(env["SDC_BASE_URL"].rstrip("/")).netloc}.json').exists()
-        auth = env.get('SDC_AUTH') or ('password' if env.get('SDC_PASSWORD') and not has_session else 'delegate')
-        need = ['SDC_BASE_URL', 'SDC_PROJECT_ID'] + (['SDC_USERNAME', 'SDC_PASSWORD'] if auth == 'password' else [])
-        missing = [k for k in need if not env.get(k)]
+        missing = [k for k in ('SDC_BASE_URL', 'SDC_PROJECT_ID') if not env.get(k)]
         if missing:
             raise SystemExit(f'Missing settings: {", ".join(missing)} (set them in .env; see .env.example)')
         c = cls(env['SDC_BASE_URL'], env['SDC_PROJECT_ID'])
-        if auth == 'password':
-            c.login(env['SDC_USERNAME'], env['SDC_PASSWORD'], int(env.get('SDC_LOGIN_MODE') or 1))
-        elif auth == 'delegate':
-            if not c.resume():
+        if not c.resume():
+            method = normalize(env.get('SDC_AUTH'), env)
+            if interactive is None:
+                interactive = sys.stdin.isatty()
+            if interactive:
+                print('No Library session yet.')
+                interactive_login(c, env)
+            elif method in ('standard', 'ldap') and env.get('SDC_USERNAME') and env.get('SDC_PASSWORD'):
+                c.login(env['SDC_USERNAME'], env['SDC_PASSWORD'], LOGIN_MODE[method])
+            else:
                 raise SystemExit('Not signed in, or the session expired: run  python3 -m sdc login')
-        else:
-            raise SystemExit(f'Unknown SDC_AUTH {auth!r} (use delegate or password)')
         try:
             c.check_project()
         except Exception:
@@ -156,7 +162,7 @@ class Connection:
         SESSION_DIR.mkdir(parents=True, exist_ok=True)
         os.chmod(SESSION_DIR, 0o700)
         f = self._session_file()
-        data = {'base': self.base, 'token': self.token, 'saved': int(time.time()),
+        data = {'base': self.base, 'method': self.method, 'token': self.token, 'saved': int(time.time()),
                 'cookies': [{'name': c.name, 'value': c.value, 'domain': c.domain, 'path': c.path}
                             for c in self.http.cookies]}
         fd = os.open(f, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
@@ -172,6 +178,7 @@ class Connection:
         for c in data.get('cookies', []):
             self.http.cookies.set(c['name'], c['value'], domain=c['domain'], path=c['path'])
         self._use_token(data['token'])
+        self.method = data.get('method') or 'sso'
         self.persist = True
         r = self.http.get(f'{self.base}/api/sessions/userInfo', timeout=self.timeout)
         if r.status_code == 200:
@@ -189,7 +196,7 @@ class Connection:
         self.token = None
 
     def logout(self, force=False):
-        """End the session. A cached delegate session is kept unless force=True (`sdc logout`)."""
+        """End the session. A cached session is kept unless force=True (`sdc logout`)."""
         if not self.token or (self.persist and not force):
             return
         try:

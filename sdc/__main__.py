@@ -1,6 +1,6 @@
 """Command line: python3 -m sdc <command>
 
-  login                                         SSO sign-in: hand over a session from a signed-in browser tab
+  login [--method sso|standard|ldap]            choose how to sign in (asked up front), then sign in
   logout                                        end the cached session
   whoami                                        show who the cached session belongs to and the project check
   profile <dataset name or id> [-o file.json]   list the dataset's attributes and metrics (for writing a spec)
@@ -16,7 +16,7 @@ from pathlib import Path
 
 from .build import Builder, BuildError, resolve_dataset
 from .spec import SpecError, check_structure
-from .transport import Connection, StrategyError, identity_token_snippet, load_env
+from .transport import Connection, StrategyError, load_env
 
 
 def _bare_connection():
@@ -28,23 +28,11 @@ def _bare_connection():
 
 
 def cmd_login(args):
-    import getpass
+    """Always asks which sign-in method to use (Enter keeps SDC_AUTH), unless --method is given."""
+    from .login import interactive_login, normalize
     conn = _bare_connection()
-    print(f'1. In your browser, sign in to {conn.base}/app as usual (SSO is fine).')
-    print('2. In that tab, open the developer console (Cmd+Option+J in Chrome) and run this line:\n')
-    print('   ' + identity_token_snippet(conn.base) + '\n')
-    print('3. A dialog shows a short-lived identity token, already selected: press Cmd+C, then paste it here (input is hidden).')
-    tok = getpass.getpass('Identity token: ')
-    if not tok.strip():
-        raise SystemExit('No token entered.')
-    conn.delegate(tok)
-    u = conn.user()
-    print(f'\nSigned in as {u.get("fullName") or u.get("username")}. Session cached for later commands.')
-    try:
-        conn.check_project()
-        print(f'Project {conn.project_id}: OK')
-    except StrategyError as e:
-        print(f'Warning: {e}')
+    env = load_env()
+    interactive_login(conn, env, method=normalize(args.method, env))
 
 
 def cmd_logout(args):
@@ -61,7 +49,7 @@ def cmd_whoami(args):
     if not conn.resume():
         raise SystemExit('Not signed in, or the session expired: run  python3 -m sdc login')
     u = conn.user()
-    print(f'Signed in as {u.get("fullName") or u.get("username")}')
+    print(f'Signed in as {u.get("fullName") or u.get("username")} ({conn.method})')
     try:
         conn.check_project()
         print(f'Project {conn.project_id}: OK')
@@ -149,7 +137,10 @@ def main():
     ap = argparse.ArgumentParser(prog='python3 -m sdc', description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest='cmd', required=True)
-    for name, fn in (('login', cmd_login), ('logout', cmd_logout), ('whoami', cmd_whoami)):
+    p = sub.add_parser('login', help='choose a sign-in method and sign in')
+    p.add_argument('--method', choices=['sso', 'standard', 'ldap'], help='skip the question')
+    p.set_defaults(fn=cmd_login)
+    for name, fn in (('logout', cmd_logout), ('whoami', cmd_whoami)):
         sub.add_parser(name).set_defaults(fn=fn)
     p = sub.add_parser('profile')
     p.add_argument('dataset')

@@ -26,7 +26,7 @@ Proven on **studio.strategy.com, Library 11.6.1000** (November 2026). Other Libr
 | [`strategy-dashboard-client.js`](strategy-dashboard-client.js) | The client: `client(token, projectId)`, its session helpers, constants (`VIS`, `ZONE`, `KPI_ZONE` …) and a worked example, `buildExample()`. The header comment lists every helper and the known gotchas. |
 | [`sdc/`](sdc/) | The Python package: sign-in ([`transport.py`](sdc/transport.py)), the editor actions ported from the JS client ([`session.py`](sdc/session.py)), the spec checks ([`spec.py`](sdc/spec.py)), the builder ([`build.py`](sdc/build.py)) and the command line ([`__main__.py`](sdc/__main__.py)). |
 | [`examples/`](examples/) | Specs: [`lincoln.json`](examples/lincoln.json) (the two-page Lincoln hub; checked offline only, never built live: its dataset isn't visible to the current account) and [`retail-test.json`](examples/retail-test.json) (the live test build). |
-| [`tests/`](tests/) | Offline tests: parity with the JS client and the builder against a fake server. |
+| [`tests/`](tests/) | Offline tests: parity with the JS client, the builder against a fake server, and the sign-in question. |
 | [`spike/auth_spike.py`](spike/auth_spike.py) | The first proof that a Python REST session can drive the editor. |
 | [`reference/`](reference/) | One catalog per visualization or feature, plus JSON files of exact settings read from demo dashboards. See [reference/README.md](reference/README.md). |
 
@@ -35,7 +35,7 @@ Proven on **studio.strategy.com, Library 11.6.1000** (November 2026). Other Libr
 ### What it does
 
 ```bash
-python3 -m sdc login                          # SSO sign-in, once per session (see below)
+python3 -m sdc login                          # asks how you sign in (SSO, standard, LDAP), then signs in
 python3 -m sdc profile "<dataset name or id>" -o work/ds.json   # the dataset's attributes and metrics
 python3 -m sdc check examples/lincoln.json    # validate a spec; builds nothing
 python3 -m sdc build examples/lincoln.json    # build, save, re-open and check every item
@@ -57,15 +57,32 @@ Requirements: Python 3.10+ and `requests` (listed in [`pyproject.toml`](pyprojec
 Copy [`.env.example`](.env.example) to `.env` (gitignored) and set `SDC_BASE_URL` and `SDC_PROJECT_ID`. Any setting can
 also come from the environment, e.g. `SDC_PROJECT_ID=... python3 -m sdc build spec.json` for a one-off project.
 
-- **SSO (`SDC_AUTH=delegate`, the default).** Sign in to Library in your browser as usual, then run `python3 -m sdc login`
-  in a real terminal (not a `!` command in the chat; it needs hidden input). It prints one line to run in that tab's
-  developer console. The line reads the tab's session token (`GET /api/auth/token`), asks for a short-lived identity token
-  (`POST /api/auth/identityToken`) and shows it in a dialog, selected: press Cmd+C and paste it at the prompt. Python
-  exchanges it (`POST /api/auth/delegate`, `loginMode -1`) for its own Library session and caches the token and cookies in
-  `~/.config/sdc/`, readable only by you. Later commands reuse it; run `login` again when it expires, `logout` to end it,
-  `whoami` to check it. A cached session wins over a password in `.env` unless `SDC_AUTH=password`.
-- **Password (`SDC_AUTH=password`).** Standard (`SDC_LOGIN_MODE=1`) or LDAP (`16`) login with `SDC_USERNAME` and
-  `SDC_PASSWORD`. Only where the server allows it.
+**Sign-in is asked up front.** `python3 -m sdc login` always starts with:
+
+```
+How do you sign in to Strategy Library?
+  1. SSO: sign in through your browser (SAML, OIDC or any other Library sign-in page)
+  2. Standard: a Strategy username and password
+  3. LDAP: your directory username and password
+Choose 1-3:
+```
+
+Any other command that finds no session asks the same question before it starts. Run these in a real terminal, not as a
+`!` command in the chat, because they read hidden input. `SDC_AUTH=sso|standard|ldap` in `.env` makes that answer the
+default (press Enter), and `login --method sso` skips the question.
+
+- **SSO.** Sign in to Library in your browser as usual. The login prints one line to run in that tab's developer console
+  (type `allow pasting` first if Chrome asks). The line reads the tab's session token (`GET /api/auth/token`), asks for a
+  short-lived identity token (`POST /api/auth/identityToken`) and shows it in a dialog, selected: press Cmd+C and paste it
+  at the prompt. Python exchanges it (`POST /api/auth/delegate`, `loginMode -1`) for its own Library session.
+- **Standard / LDAP.** Asks for the username and password (hidden). `SDC_USERNAME` and `SDC_PASSWORD` in `.env` become
+  the defaults (press Enter). Uses `loginMode` 1 or 16, where the server allows it.
+
+Whichever you pick, the session (token and cookies, never the password) is cached in `~/.config/sdc/`, readable only by
+you, and reused by later commands until it expires. `whoami` shows who and which method; `logout` ends it.
+
+For scripts with no terminal: set `SDC_AUTH=standard` (or `ldap`) with `SDC_USERNAME` and `SDC_PASSWORD`, and a command
+with no cached session signs in with them without asking. Without those it stops and says to run `sdc login`.
 
 Every command checks first that the session can see `SDC_PROJECT_ID` and lists the projects it can see if not.
 
