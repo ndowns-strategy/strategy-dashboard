@@ -1,0 +1,11 @@
+{"bs":"BS0","defn":{"root":{"k":"K3"},"layouts":[{"k":"K1","title":"Chapter 1","units":{
+"K44":{"t":8,"n":"VisualizationsPanelStack"},
+"K53":{"t":9,"pnk":"K44","n":"VisualizationPanel","ttl":"Home","chdidx":0,"fmts":{"width":"1594px","height":"894px"},
+  "layoutXML":{"t":"b","o":"h","children":[{"t":"c","k":"K52","l":50,"f":false},{"t":"c","k":"W62","l":50,"f":false}]}},
+"W300":{"t":9,"pnk":"K44","ttl":"Detail","chdidx":1},
+"K52":{"t":521,"pnk":"K53"},
+"W62":{"t":522,"pnk":"K53"},
+"W91":{"t":106,"pnk":"K53"},
+"W70":{"t":102,"pnk":"K53"},
+"W301":{"t":521,"pnk":"W300"},
+"K49":{"t":8,"n":"FiltersPanel"}}}]},"note":"synthetic: only the fields the helpers read; W95 is a text node key"}

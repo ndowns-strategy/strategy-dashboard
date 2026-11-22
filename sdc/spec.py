@@ -1,0 +1,225 @@
+"""The dashboard spec (JSON) and the checks that run before anything is built.
+
+A spec describes the whole dashboard: one dataset, pages, and on each page a list of items drawn back to front. Claude
+writes it from an image; `python3 -m sdc check spec.json` validates it and `python3 -m sdc build spec.json` builds it.
+See examples/lincoln.json and the README for every field.
+
+check_structure() needs no server. check_data() resolves every attribute and metric name against the dataset's own
+lists, attributes and metrics looked up separately (a dataset can have both with the same name).
+"""
+from .constants import VIS, ZONE
+
+VIZ_TYPES = {'kpi_card', 'chart', 'line', 'donut', 'narrative'}
+FIELD_TYPES = {'text', 'rich_text', 'image', 'shape'}
+REUSABLE = {'kpi_card', 'chart', 'line'}       # can become a page's default visualization in place
+METRIC_ONLY_ZONES = {'angle', 'sizeBy'}
+ATTRIBUTE_DEFAULT_ZONES = {'sliceBy', 'colorBy', 'breakBy', 'rows'}
+SHAPES = {'Line', 'Rectangle', 'Ellipse', 'Triangle', 'Polygon'}
+
+
+class SpecError(ValueError):
+    def __init__(self, problems):
+        super().__init__('\n'.join(problems))
+        self.problems = problems
+
+
+def _as_list(v):
+    return [] if v is None else v if isinstance(v, list) else [v]
+
+
+def items(spec):
+    for page in spec.get('pages', []):
+        for it in page.get('items', []):
+            yield page, it
+
+
+def check_structure(spec):
+    """Problems that need no server. Returns a list of strings (empty = fine)."""
+    p = []
+    if not spec.get('name'):
+        p.append('spec: "name" is required')
+    ds = spec.get('dataset')
+    if not ds or not (isinstance(ds, str) or ds.get('id') or ds.get('name')):
+        p.append('spec: "dataset" needs a name or {"id", "name"}')
+    pages = spec.get('pages') or []
+    if not pages:
+        p.append('spec: at least one page is required')
+    page_ids = [pg.get('id') for pg in pages]
+    ids = {}
+    for pg in pages:
+        where = f'page {pg.get("id")!r}'
+        if not pg.get('id'):
+            p.append('page: "id" is required')
+        if pg.get('layout', 'freeform') != 'freeform':
+            p.append(f'{where}: only layout "freeform" is supported so far')
+        its = pg.get('items') or []
+        if not any(it.get('type') in REUSABLE for it in its):
+            p.append(f'{where}: needs at least one kpi_card, chart or line item (the page\'s default visualization '
+                     f'becomes the first one)')
+        for it in its:
+            iid, typ = it.get('id'), it.get('type')
+            w = f'{where} item {iid!r}'
+            if not iid:
+                p.append(f'{where}: every item needs an "id"')
+            elif iid in ids:
+                p.append(f'{w}: duplicate id')
+            ids[iid] = it
+            if typ not in VIZ_TYPES | FIELD_TYPES:
+                p.append(f'{w}: unknown type {typ!r}')
+                continue
+            box = it.get('box')
+            if not (isinstance(box, list) and len(box) == 4 and all(isinstance(v, (int, float)) for v in box)):
+                p.append(f'{w}: "box" must be [x, y, w, h] in percent of the page')
+            else:
+                x, y, bw, bh = box
+                if min(x, y) < 0 or bw <= 0 or bh <= 0 or x + bw > 100.5 or y + bh > 100.5:
+                    p.append(f'{w}: box {box} falls outside the page')
+            if typ == 'chart':
+                if it.get('vis') not in VIS:
+                    p.append(f'{w}: vis must be one of {sorted(VIS)}')
+                for z in (it.get('zones') or {}):
+                    if z not in ZONE:
+                        p.append(f'{w}: unknown zone {z!r} (zones: {sorted(ZONE)})')
+                if not it.get('zones'):
+                    p.append(f'{w}: "zones" is required')
+            if typ == 'kpi_card' and not it.get('metric'):
+                p.append(f'{w}: "metric" is required')
+            if typ == 'line' and not (it.get('x') and (it.get('metrics') or it.get('metric'))):
+                p.append(f'{w}: "x" and "metrics" are required')
+            if typ == 'donut' and not (it.get('metric') and it.get('slice')):
+                p.append(f'{w}: "metric" and "slice" are required')
+            if typ == 'narrative':
+                ins = it.get('instruction') or ''
+                if not ins:
+                    p.append(f'{w}: "instruction" is required')
+                if '"' in ins:
+                    p.append(f'{w}: instruction must not contain double quotes (the edit fails with a 500)')
+                if not it.get('sources'):
+                    p.append(f'{w}: "sources" (item ids) is required')
+            if typ == 'text' and 'text' not in it:
+                p.append(f'{w}: "text" is required')
+            if typ == 'rich_text':
+                if not it.get('runs'):
+                    p.append(f'{w}: "runs" is required')
+                if it.get('link'):
+                    p.append(f'{w}: links only work on plain text; use type "text" with "font" instead of rich_text')
+            if typ == 'image' and not it.get('url'):
+                p.append(f'{w}: "url" is required')
+            if typ == 'shape' and it.get('shape', 'Rectangle') not in SHAPES:
+                p.append(f'{w}: shape must be one of {sorted(SHAPES)}')
+            link = it.get('link')
+            if link and typ == 'text':
+                if not (link.get('url') or link.get('page') or link.get('dashboard')):
+                    p.append(f'{w}: link needs "page", "url" or "dashboard"')
+                if link.get('page') and not link.get('dashboard') and link['page'] not in page_ids:
+                    p.append(f'{w}: link page {link["page"]!r} is not a page id in this spec')
+    for _pg, it in items(spec):
+        if it.get('type') == 'narrative':
+            for src in it.get('sources') or []:
+                if src not in ids:
+                    p.append(f'item {it.get("id")!r}: source {src!r} is not an item id')
+                elif ids[src].get('type') not in VIZ_TYPES - {'narrative'}:
+                    p.append(f'item {it.get("id")!r}: source {src!r} is a {ids[src].get("type")}, not a visualization')
+    return p
+
+
+class Names:
+    """Attribute and metric ids by name, kept apart. resolve() takes 'metric:Name' / 'attribute:Name' to force a kind."""
+
+    def __init__(self, available):
+        self.attributes = {o['name']: o for o in available.get('attributes', [])}
+        self.metrics = {o['name']: o for o in available.get('metrics', [])}
+
+    def resolve(self, name, kind=None):
+        """Returns (id, unitType 12|4). kind: 'attribute', 'metric' or None (whichever exists; error if both)."""
+        if ':' in name and name.split(':', 1)[0] in ('metric', 'attribute'):
+            kind, name = name.split(':', 1)
+        in_a, in_m = name in self.attributes, name in self.metrics
+        if kind == 'metric' or (kind is None and in_m and not in_a):
+            if not in_m:
+                raise KeyError(f'no metric named {name!r}{self._near(name, self.metrics)}')
+            return self.metrics[name]['id'], 4
+        if kind == 'attribute' or (kind is None and in_a and not in_m):
+            if not in_a:
+                raise KeyError(f'no attribute named {name!r}{self._near(name, self.attributes)}')
+            return self.attributes[name]['id'], 12
+        if in_a and in_m:
+            raise KeyError(f'{name!r} is both an attribute and a metric: write "attribute:{name}" or "metric:{name}"')
+        raise KeyError(f'no attribute or metric named {name!r}{self._near(name, {**self.attributes, **self.metrics})}')
+
+    def metric(self, name):
+        return self.resolve(name, 'metric')[0]
+
+    def attribute(self, name):
+        return self.resolve(name, 'attribute')[0]
+
+    @staticmethod
+    def _near(name, pool):
+        import difflib
+        close = difflib.get_close_matches(name, list(pool), n=3, cutoff=0.6)
+        return f' (did you mean {", ".join(repr(c) for c in close)}?)' if close else ''
+
+
+def zone_kind(zone):
+    if zone in METRIC_ONLY_ZONES:
+        return 'metric'
+    if zone in ATTRIBUTE_DEFAULT_ZONES:
+        return 'attribute'
+    return None
+
+
+def check_data(spec, names):
+    """Resolve every name in the spec. Returns a list of problems."""
+    p = []
+
+    def need(where, name, kind=None):
+        try:
+            names.resolve(name, kind)
+        except KeyError as e:
+            p.append(f'{where}: {e.args[0]}')
+
+    for _pg, it in items(spec):
+        w, typ = f'item {it.get("id")!r}', it.get('type')
+        if typ == 'kpi_card':
+            need(w, it['metric'], 'metric')
+            for k in ('trend', 'break_by'):
+                if it.get(k):
+                    need(w, it[k], 'attribute')
+        elif typ == 'chart':
+            for z, vals in (it.get('zones') or {}).items():
+                for v in _as_list(vals):
+                    need(f'{w} zone {z}', v, zone_kind(z))
+            if it.get('sort'):
+                need(f'{w} sort', it['sort']['metric'], 'metric')
+            for m in (it.get('metric_colors') or {}):
+                need(f'{w} metric_colors', m, 'metric')
+        elif typ == 'line':
+            for v in _as_list(it.get('x')):
+                need(w, v, 'attribute')
+            for v in _as_list(it.get('metrics') or it.get('metric')):
+                need(w, v, 'metric')
+            if it.get('break_by'):
+                need(w, it['break_by'], 'attribute')
+            for m in (it.get('metric_colors') or {}):
+                need(f'{w} metric_colors', m, 'metric')
+        elif typ == 'donut':
+            need(w, it['metric'], 'metric')
+            need(w, it['slice'], 'attribute')
+            for k, kind in (('color_by', 'attribute'), ('target', 'metric'), ('break_by', 'attribute')):
+                if it.get(k):
+                    need(w, it[k], kind)
+    for nf in number_formats(spec):
+        for m in nf['metrics']:
+            need('number_formats', m, 'metric')
+    return p
+
+
+def number_formats(spec):
+    """Normalizes "number_formats": either {"<metric>": "<format>"} or [{"metrics": [...], "format": "..."}]."""
+    nf = spec.get('number_formats') or []
+    if isinstance(nf, dict):
+        groups = {}
+        for m, f in nf.items():
+            groups.setdefault(f, []).append(m)
+        return [{'metrics': ms, 'format': f} for f, ms in groups.items()]
+    return nf

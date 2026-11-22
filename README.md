@@ -1,8 +1,16 @@
 # Strategy dashboard authoring from code
 
-Build Strategy (MicroStrategy) Library dashboards with JavaScript instead of clicking through the editor. You give it a
-picture of a dashboard and a dataset; it creates the chapters, pages, visualizations, text, images, filters and formatting,
-then saves a real dashboard you can open in Library.
+Build Strategy (MicroStrategy) Library dashboards from code instead of clicking through the editor. You give it a picture
+of a dashboard and a dataset; it creates the chapters, pages, visualizations, text, images, filters and formatting, then
+saves a real dashboard you can open in Library.
+
+There are two ways to run it:
+
+- **The Python builder** ([`sdc/`](sdc/), recommended). Claude turns the image into one JSON spec; one command checks it and
+  builds the whole dashboard over REST, with no browser. See [Python builder](#python-builder).
+- **The JavaScript client** ([`strategy-dashboard-client.js`](strategy-dashboard-client.js)), run inside a signed-in
+  Library page. It has every helper, including the ones not yet ported to Python (Modern Grids, filters, selectors, heat
+  map, Sankey, bubble, stacked bar, time attributes). It is also how new visualization types get studied.
 
 [`strategy-dashboard-client.js`](strategy-dashboard-client.js) holds the client. Every helper in it was captured by
 recording what the dashboard editor sends, then checked by building real dashboards and reading them back. The
@@ -16,14 +24,113 @@ Proven on **studio.strategy.com, Library 11.6.1000** (November 2026). Other Libr
 | Path | What it is |
 |---|---|
 | [`strategy-dashboard-client.js`](strategy-dashboard-client.js) | The client: `client(token, projectId)`, its session helpers, constants (`VIS`, `ZONE`, `KPI_ZONE` …) and a worked example, `buildExample()`. The header comment lists every helper and the known gotchas. |
+| [`sdc/`](sdc/) | The Python package: sign-in ([`transport.py`](sdc/transport.py)), the editor actions ported from the JS client ([`session.py`](sdc/session.py)), the spec checks ([`spec.py`](sdc/spec.py)), the builder ([`build.py`](sdc/build.py)) and the command line ([`__main__.py`](sdc/__main__.py)). |
+| [`examples/`](examples/) | Specs: [`lincoln.json`](examples/lincoln.json) (the two-page Lincoln hub; checked offline only, never built live: its dataset isn't visible to the current account) and [`retail-test.json`](examples/retail-test.json) (the live test build). |
+| [`tests/`](tests/) | Offline tests: parity with the JS client and the builder against a fake server. |
+| [`spike/auth_spike.py`](spike/auth_spike.py) | The first proof that a Python REST session can drive the editor. |
 | [`reference/`](reference/) | One catalog per visualization or feature, plus JSON files of exact settings read from demo dashboards. See [reference/README.md](reference/README.md). |
 
-## How it works
+## Python builder
+
+### What it does
+
+```bash
+python3 -m sdc login                          # SSO sign-in, once per session (see below)
+python3 -m sdc profile "<dataset name or id>" -o work/ds.json   # the dataset's attributes and metrics
+python3 -m sdc check examples/lincoln.json    # validate a spec; builds nothing
+python3 -m sdc build examples/lincoln.json    # build, save, re-open and check every item
+```
+
+`build` creates a draft on the dataset, adds the pages, builds every item in the order listed (back to front), applies
+the free-form layout and number formats, saves with Save As (Auto Summary on), then re-opens the saved dashboard and prints
+`[OK]` or `[MISS]` for each item, plus whether each page got its Auto Summary window, with timings. A failure before Save As
+leaves nothing behind (the draft is never saved). A `[MISS]` in the check comes after the save: the dashboard exists and
+needs fixing or deleting. Narratives return no data, so their check only confirms the visualization answers.
+
+First live run (2026-11-22, Strategy Showcase, "Retail Orders Sales Performance Model (global)"): two pages, 17 items,
+**14 seconds**, 62 edit calls, 17 of 17 items OK, Auto Summary on both pages, both page links working in Library.
+
+Requirements: Python 3.10+ and `requests` (listed in [`pyproject.toml`](pyproject.toml)). The tests also need Node.
+
+### Settings and sign-in
+
+Copy [`.env.example`](.env.example) to `.env` (gitignored) and set `SDC_BASE_URL` and `SDC_PROJECT_ID`. Any setting can
+also come from the environment, e.g. `SDC_PROJECT_ID=... python3 -m sdc build spec.json` for a one-off project.
+
+- **SSO (`SDC_AUTH=delegate`, the default).** Sign in to Library in your browser as usual, then run `python3 -m sdc login`
+  in a real terminal (not a `!` command in the chat; it needs hidden input). It prints one line to run in that tab's
+  developer console. The line reads the tab's session token (`GET /api/auth/token`), asks for a short-lived identity token
+  (`POST /api/auth/identityToken`) and shows it in a dialog, selected: press Cmd+C and paste it at the prompt. Python
+  exchanges it (`POST /api/auth/delegate`, `loginMode -1`) for its own Library session and caches the token and cookies in
+  `~/.config/sdc/`, readable only by you. Later commands reuse it; run `login` again when it expires, `logout` to end it,
+  `whoami` to check it. A cached session wins over a password in `.env` unless `SDC_AUTH=password`.
+- **Password (`SDC_AUTH=password`).** Standard (`SDC_LOGIN_MODE=1`) or LDAP (`16`) login with `SDC_USERNAME` and
+  `SDC_PASSWORD`. Only where the server allows it.
+
+Every command checks first that the session can see `SDC_PROJECT_ID` and lists the projects it can see if not.
+
+Learned on the way (2026-11-22): a cookie-only call to `/api/auth/identityToken` fails ("Access token not provided"), so
+the console line reads the token first. DevTools' `copy()` doesn't work after an `await`, hence the dialog. A dataset
+must be **published** (cube status bit 32) or creating the draft fails with "Intelligent Cube ... is not published".
+
+### The spec
+
+One JSON file per dashboard. Top level:
+
+| Field | Meaning |
+|---|---|
+| `name` | Dashboard name. `overwrite: true` replaces one of the same name in the folder. |
+| `dataset` | `{"id", "name"}`, or just a name (searched; give the id if the search can't find it). |
+| `project_id` | Optional; overrides `SDC_PROJECT_ID` for this spec. |
+| `folder` / `folder_id` | Where to save; default My Reports. |
+| `auto_summary` | Default `true` (house rule). |
+| `number_formats` | `{"<metric>": "<format>"}` or `[{"metrics": [...], "format": "..."}]`. |
+| `pages` | `[{"id", "title", "layout": "freeform", "items": [...]}]`. Only free-form layout so far. |
+
+Every item has an `id`, a `type` and a `box`: `[x, y, w, h]` in percent of the page. Items are drawn in list order, back to
+front. Text boxes get 2% added to their height (`exact_height: true` to opt out). Visualizations also take `title` (shows
+the title bar with that text), `title_bar: false`, `border: {"color", "radius"}` and `fill: {"container", "title"}`.
+
+| Type | Fields |
+|---|---|
+| `kpi_card` | `metric`, optional `trend` (attribute: sparkline and % badge), `break_by`, `props` (setKpiCardProps settings) |
+| `chart` | `vis` (`bar`, `hbar`, `line`, `area`, `pie`, `ring`, `pctHbar`, `stackedBar`, `scatter`, `combo`, ...), `zones` (`{"xAxis": "Region", "yAxis": "Revenue", ...}`, a name or a list), `series_color`, `colors` (element colors on Color By), `metric_colors`, `legend: false`, `sort: {"metric", "ascending", "axis"}`, `props` (GraphMatrix props) |
+| `line` | `x`, `metrics`, `break_by`, `style` (`curved` default at 0.3, or `straight`), `smoothness`, `color`, `markers`, `data_labels`, `metric_colors`, `props` |
+| `donut` | `metric`, `slice`, `color_by`, `target`, `break_by`, `colors`, `props` |
+| `narrative` | `sources` (item ids on the same page), `instruction` (no double quotes) |
+| `text` | `text`, `font: {"name", "size", "bold", "italic", "color"}`, `align`, `fill` (default none), `link: {"page": "<page id>"}` or `{"url", "new_tab"}`, `tooltip` |
+| `rich_text` | `runs` (as `addRichText`), `align`, `header`, `list`, `indent`, `transparent` (default true). No links: use `text`. |
+| `image` | `url`, `size_mode` (`fill` default, or `fit`) |
+| `shape` | `shape` (`Rectangle`, `Ellipse`, `Line`, `Triangle`, `Polygon`), `fill`, `stroke`, `stroke_width`, `settings`, `opacity`, `dash` |
+
+Names are looked up in the dataset's attributes and metrics separately. When a name is both, write `metric:Name` or
+`attribute:Name`. Each page needs at least one `kpi_card`, `chart` or `line`: the first becomes the page's default
+visualization in place.
+
+`check` catches before anything is built: unknown names (with "did you mean"), ambiguous names, unknown types and zones,
+boxes off the page, quotes in narrative instructions, links on rich text, links to missing pages, and narrative sources
+that are missing, not visualizations, or on another page.
+
+### How the port stays faithful
+
+Each method in [`sdc/session.py`](sdc/session.py) is the same-named JS helper in snake_case and sends the same actions in the
+same edit calls. [`tests/harness.js`](tests/harness.js) runs the JS client in Node with the network stubbed and records
+what every case in [`tests/cases.json`](tests/cases.json) sends into `tests/golden.json`; [`tests/test_parity.py`](tests/test_parity.py)
+runs the same cases through Python and compares call by call. After changing a JS helper or adding a case:
+
+```bash
+node tests/harness.js && python3 -m unittest discover tests
+```
+
+To port another helper: add its cases to `cases.json`, regenerate the golden file, write the Python method until the tests
+pass, then add a spec type for it in `spec.py` and `build.py`.
+
+## How it works (JavaScript client)
 
 The client needs a **Library session**: an `X-MSTR-AuthToken` plus the session cookies issued with it. It calls the same
 endpoints the editor uses, with that session. The tested way to get one is to run the client inside a signed-in Library
-page, which supplies both and works with single sign-on (see [Running outside a browser](#running-outside-a-browser) for
-the alternative). The calls are:
+page, which supplies both and works with single sign-on (the [Python builder](#python-builder) is the
+alternative). The calls are:
 
 1. `POST /api/dossiers/draft/instances` creates a new, unsaved dashboard with your datasets
    (`POST /api/dossiers/{id}/instances` opens an existing one).
@@ -123,21 +230,8 @@ the session and the token from the page (see [Troubleshooting](#troubleshooting)
 
 ## Running outside a browser
 
-The client is plain `fetch` against Library's endpoints, so a script (Node, for example) could run it with its own
-session. **This hasn't been tested.** It would take:
-
-1. **A REST login.** `POST /api/auth/login` with a username and password returns the token in the `X-MSTR-AuthToken`
-   response header. That works where standard or LDAP login is allowed. On a server that signs you in through SAML or
-   OIDC single sign-on, ask an administrator for an API or identity token instead. Read credentials from environment
-   variables; never put them in the code.
-2. **A cookie jar.** The token is tied to the session cookies set by the same login. Send them with every later call,
-   including the `/servlet/taskProc` edit calls. Whether `taskProc` accepts a session created this way is the untested
-   part.
-3. **Full URLs.** Set `BASE` to the server's address, e.g. `https://studio.strategy.com/MicroStrategyLibrary`.
-4. **No page-only helpers.** `captureToken()` and `__mstrRouterHistory` exist only in a Library page. Pass the token
-   from the login to `client(token, projectId)` instead.
-
-If you try this, record what worked here and in the client's header.
+Done: that is the [Python builder](#python-builder). A REST session from `/api/auth/login` or `/api/auth/delegate` (token
+plus cookies) is accepted by `/servlet/taskProc`, verified 2026-11-22.
 
 ## Helper index
 

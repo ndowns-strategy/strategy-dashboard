@@ -1,0 +1,71 @@
+{
+  "name": "Lincoln Enterprise Performance Hub (Python build)",
+  "folder": "My Reports",
+  "dataset": {"id": "CA4AF5F0ADF149B2A3B542B1E544D796", "name": "Lincoln Enterprise Performance Hub"},
+  "auto_summary": true,
+  "number_formats": [
+    {"metrics": ["Premium Amount", "Face Amount", "Gross Deposits", "Net Flows", "Earned Premium", "Withdrawals And Surrenders"],
+     "format": "[>=1000000000]$#,##0.0#,,,\"B\";[>=1000000]$#,##0.0,,\"M\";[>=1000]$#,##0.0,\"K\";$#,##0"}
+  ],
+  "pages": [
+    {
+      "id": "home", "title": "Home", "layout": "freeform",
+      "items": [
+        {"id": "hero_panel", "type": "shape", "shape": "Rectangle", "fill": "#970A2F", "box": [0, 0, 56.2, 44]},
+        {"id": "hero_image", "type": "image", "url": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=80", "size_mode": "fill", "box": [56.2, 0, 43.8, 44]},
+        {"id": "brand", "type": "rich_text", "runs": [{"text": "Lincoln Financial", "bold": true, "size": 22, "color": "#FFFFFF", "font": "timesnewroman"}], "box": [3.7, 5, 30, 5]},
+        {"id": "eyebrow", "type": "rich_text", "runs": [{"text": "ENTERPRISE PERFORMANCE HUB", "size": 8, "color": "#FFFFFF"}], "box": [3.7, 11.6, 30, 2.6]},
+        {"id": "headline", "type": "rich_text", "runs": [{"text": "Clarity for every decision, from policy to plan.", "bold": true, "size": 30, "color": "#FFFFFF", "font": "timesnewroman"}], "box": [3.7, 15.4, 42, 12.5]},
+        {"id": "subhead", "type": "rich_text", "runs": [{"text": "One governed view of Individual Markets, Workplace Solutions and Customer Experience, served live from Strategy Mosaic.", "size": 11, "color": "#FFFFFF"}], "box": [3.7, 29.4, 44, 5]},
+
+        {"id": "kpi_premium", "type": "kpi_card", "metric": "Premium Amount", "title_bar": false, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#F1F1F1", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [3.7, 38.2, 17.4, 14.6]},
+        {"id": "kpi_face", "type": "kpi_card", "metric": "Face Amount", "title_bar": false, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#F1F1F1", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [22.6, 38.2, 17.4, 14.6]},
+        {"id": "kpi_deposits", "type": "kpi_card", "metric": "Gross Deposits", "trend": "Year Month", "title_bar": false, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#E2E2E2", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [41.6, 38.2, 17.4, 14.6]},
+        {"id": "kpi_flows", "type": "kpi_card", "metric": "Net Flows", "trend": "Year Month", "title_bar": false, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#E2E2E2", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [60.5, 38.2, 17.4, 14.6]},
+        {"id": "kpi_earned", "type": "kpi_card", "metric": "Earned Premium", "trend": "Year Month", "title_bar": false, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#E2E2E2", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [79.5, 38.2, 17.4, 14.6]},
+
+        {"id": "explore", "type": "rich_text", "runs": [{"text": "Explore the hub", "bold": true, "size": 17, "color": "#222222", "font": "timesnewroman"}], "box": [3.7, 57, 30, 4]},
+
+        {"id": "card1", "type": "shape", "fill": "#FFFFFF", "stroke": "#D9D9D9", "stroke_width": 1, "box": [3.7, 64.4, 21.3, 24]},
+        {"id": "card2", "type": "shape", "fill": "#FFFFFF", "stroke": "#D9D9D9", "stroke_width": 1, "box": [27.6, 64.4, 21.3, 24]},
+        {"id": "card3", "type": "shape", "fill": "#FFFFFF", "stroke": "#D9D9D9", "stroke_width": 1, "box": [51.6, 64.4, 21.3, 24]},
+        {"id": "card4", "type": "shape", "fill": "#FFFFFF", "stroke": "#D9D9D9", "stroke_width": 1, "box": [75.5, 64.4, 21.3, 24]},
+        {"id": "card1_bar", "type": "shape", "fill": "#970A2F", "box": [3.7, 63.8, 21.3, 0.7]},
+        {"id": "card2_bar", "type": "shape", "fill": "#970A2F", "box": [27.6, 63.8, 21.3, 0.7]},
+        {"id": "card3_bar", "type": "shape", "fill": "#970A2F", "box": [51.6, 63.8, 21.3, 0.7]},
+        {"id": "card4_bar", "type": "shape", "fill": "#970A2F", "box": [75.5, 63.8, 21.3, 0.7]},
+        {"id": "card1_title", "type": "text", "text": "Individual Markets", "font": {"name": "Times New Roman", "size": 14, "bold": true, "color": "#970A2F"}, "link": {"page": "markets"}, "tooltip": "Open Individual Markets", "box": [5.6, 67, 19, 3.6]},
+        {"id": "card2_title", "type": "rich_text", "runs": [{"text": "Workplace Solutions", "bold": true, "size": 14, "color": "#970A2F", "font": "timesnewroman"}], "box": [29.5, 67, 19, 3.6]},
+        {"id": "card3_title", "type": "rich_text", "runs": [{"text": "Customer Experience", "bold": true, "size": 14, "color": "#970A2F", "font": "timesnewroman"}], "box": [53.5, 67, 19, 3.6]},
+        {"id": "card4_title", "type": "rich_text", "runs": [{"text": "Distribution & Advisors", "bold": true, "size": 14, "color": "#970A2F", "font": "timesnewroman"}], "box": [77.4, 67, 19, 3.6]},
+        {"id": "card1_text", "type": "rich_text", "runs": [{"text": "Life and annuity sales: premium, face amount and contracts in force by product line, channel and state.", "size": 9, "color": "#35383A"}], "box": [5.6, 72.2, 18, 7]},
+        {"id": "card2_text", "type": "rich_text", "runs": [{"text": "Retirement plan assets, participation and contributions, plus group benefits earned premium by employer.", "size": 9, "color": "#35383A"}], "box": [29.5, 72.2, 18, 7]},
+        {"id": "card3_text", "type": "rich_text", "runs": [{"text": "Interactions, handle time, first contact resolution and claim decisions across every service channel.", "size": 9, "color": "#35383A"}], "box": [53.5, 72.2, 18, 7]},
+        {"id": "card4_text", "type": "rich_text", "runs": [{"text": "Firm, advisor and partner-tier production across wholesaler, IMO, broker-dealer and bank channels.", "size": 9, "color": "#35383A"}], "box": [77.4, 72.2, 18, 7]}
+      ]
+    },
+    {
+      "id": "markets", "title": "Individual Markets", "layout": "freeform",
+      "items": [
+        {"id": "bg", "type": "shape", "fill": "#F5F1EC", "box": [0, 0, 100, 100]},
+        {"id": "banner", "type": "shape", "fill": "#970A2F", "box": [1, 1, 98, 9.8]},
+        {"id": "page_title", "type": "rich_text", "runs": [{"text": "Individual Markets", "bold": true, "size": 22, "color": "#FFFFFF", "font": "timesnewroman"}], "box": [4.2, 2.8, 30, 5]},
+        {"id": "back", "type": "text", "text": "‹ Back to Home", "font": {"name": "Open Sans", "size": 10, "color": "#FFFFFF"}, "align": "right", "link": {"page": "home"}, "tooltip": "Back to Home", "box": [80, 4.2, 15.5, 2.6]},
+
+        {"id": "m_premium", "type": "kpi_card", "metric": "Premium Amount", "title_bar": false, "border": {"color": "#FFFFFF", "radius": 8}, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#F1F1F1", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [3, 13.3, 22.1, 12]},
+        {"id": "m_face", "type": "kpi_card", "metric": "Face Amount", "title_bar": false, "border": {"color": "#FFFFFF", "radius": 8}, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#F1F1F1", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [27, 13.3, 22.1, 12]},
+        {"id": "m_deposits", "type": "kpi_card", "metric": "Gross Deposits", "title_bar": false, "border": {"color": "#FFFFFF", "radius": 8}, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#F1F1F1", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [51.1, 13.3, 22.1, 12]},
+        {"id": "m_flows", "type": "kpi_card", "metric": "Net Flows", "title_bar": false, "border": {"color": "#FFFFFF", "radius": 8}, "props": {"gcc": "1", "tst": "1", "ks": "custom", "cks": [{"id": "custom", "name": "Customize", "bgColor": "#FFFFFF", "bgOpacity": 100, "chartColor": "#F1F1F1", "chartOpacity": 100}], "nfts": {"label": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "primary_value": {"fc": "#35383A", "fw": false, "ff": "Open Sans"}, "previous_value": {"fc": "#35383A"}, "trend_identity": {"fc": "#fff"}}}, "box": [75.1, 13.3, 22.1, 12]},
+
+        {"id": "brief", "type": "narrative", "title": "Individual Markets Brief", "border": {"color": "#FFFFFF", "radius": 8},
+         "sources": ["m_premium", "m_face", "m_deposits", "m_flows", "by_line", "deposit_mix", "by_state", "flows"],
+         "instruction": "Write an Individual Markets Brief with four short sections: Summary (one sentence with premium, face amount, gross deposits and net flows); Key Findings (3 bullets on net flows, deposit mix by product type and premium skew by product line); Product and Market Highlights (3 bullets on the lead product, top states by premium and large under-penetrated states); Recommended Actions (2 to 3 bullets for wholesaler coverage and retention). Start each bullet with a two-word bold label and cite dollar values.",
+         "box": [3, 27.8, 26.5, 70.4]},
+        {"id": "by_line", "type": "chart", "vis": "hbar", "title": "Premium by product line", "zones": {"xAxis": "Premium Amount", "yAxis": "Product Line"}, "series_color": "#970A2F", "legend": false, "border": {"color": "#FFFFFF", "radius": 8}, "box": [31, 27.8, 21, 34.2]},
+        {"id": "deposit_mix", "type": "chart", "vis": "ring", "title": "Annuity deposit mix by product", "zones": {"colorBy": "Product Type", "sliceBy": "Product Type", "angle": "Gross Deposits"}, "colors": {"RILA": "#970A2F", "VA": "#222222", "FIA": "#C24B63", "MYGA": "#8C7B70"}, "props": {"LegendVisibleness": "Hide", "DataLabel": "Show both text percent"}, "border": {"color": "#FFFFFF", "radius": 8}, "box": [53.1, 27.8, 21, 34.2]},
+        {"id": "by_state", "type": "chart", "vis": "bar", "title": "Premium by state", "zones": {"xAxis": "State Code", "yAxis": "Premium Amount"}, "series_color": "#970A2F", "legend": false, "border": {"color": "#FFFFFF", "radius": 8}, "box": [75.1, 27.8, 22.1, 34.2]},
+        {"id": "flows", "type": "line", "title": "Monthly annuity flows: deposits, withdrawals and net flows", "x": "Year Month", "metrics": ["Gross Deposits", "Withdrawals And Surrenders", "Net Flows"], "style": "curved", "metric_colors": {"Gross Deposits": "#970A2F", "Withdrawals And Surrenders": "#8C7B70", "Net Flows": "#222222"}, "props": {"LegendVisibleness": "Show", "LegendPosition": "13", "LegendTitleHide": "true"}, "border": {"color": "#FFFFFF", "radius": 8}, "box": [31, 63.6, 66.2, 34.6]}
+      ]
+    }
+  ]
+}

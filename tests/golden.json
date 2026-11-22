@@ -1,0 +1,5537 @@
+{
+ "set_layout": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "v",
+          "children": [
+           {
+            "t": "c",
+            "k": "K52",
+            "l": 50
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_freeform_layout": {
+  "calls": [
+   {
+    "task": "getServerJSONResults",
+    "excludeData": "true"
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "K1",
+       "unitType": 1,
+       "formatType": 1,
+       "format": {
+        "FormattingPage": {
+         "UsePageWidthAsLayoutWidth": 1,
+         "MarginLeft": "0",
+         "MarginRight": "0"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "v",
+          "m": "m",
+          "children": [],
+          "ifwChildren": [],
+          "canvasSize": null,
+          "floatChildren": {
+           "t": "g",
+           "k": "000102030405060708090A0B0C0D0E0F",
+           "zIndex": "6",
+           "left": "0|0px",
+           "top": "0|0px",
+           "width": "100|1594px",
+           "height": "100|894px",
+           "children": [
+            {
+             "fixed": "0",
+             "k": "W70",
+             "rk": "K53",
+             "t": "flc",
+             "zIndex": "2",
+             "top": "0|0px",
+             "left": "0|0px",
+             "width": "56.2|895.828px",
+             "height": "44|393.36px",
+             "l": 56.2,
+             "hidden": 0
+            },
+            {
+             "fixed": "0",
+             "k": "W91",
+             "rk": "K53",
+             "t": "flc",
+             "zIndex": "3",
+             "top": "5|44.7px",
+             "left": "3.7|58.978px",
+             "width": "30|478.2px",
+             "height": "7|62.58px",
+             "l": 30,
+             "hidden": 0
+            },
+            {
+             "fixed": "0",
+             "k": "W91",
+             "rk": "K53",
+             "t": "flc",
+             "zIndex": "4",
+             "top": "11.6|103.704px",
+             "left": "3.7|58.978px",
+             "width": "30|478.2px",
+             "height": "2.6|23.244px",
+             "l": 30,
+             "hidden": 0
+            },
+            {
+             "fixed": "0",
+             "k": "K52",
+             "rk": "K53",
+             "t": "flc",
+             "zIndex": "5",
+             "top": "38.2|341.50800000000004px",
+             "left": "22.6|360.244px",
+             "width": "17.4|277.356px",
+             "height": "14.6|130.524px",
+             "l": 17.4,
+             "hidden": 0
+            },
+            {
+             "fixed": "0",
+             "k": "W62",
+             "rk": "K53",
+             "t": "flc",
+             "zIndex": "6",
+             "top": "0.2|1.788px",
+             "left": "0.1|1.594px",
+             "width": "33.333|531.3280199999999px",
+             "height": "0.7|6.257999999999999px",
+             "l": 33.333,
+             "hidden": 0
+            }
+           ]
+          }
+         }
+        }
+       },
+       "isJson": true
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_chart_ring": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W62",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "W62",
+            "l": 100
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W62",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W62",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Ring\" ></Shape><Subtype value=\"Automatic\" ></Subtype><visType value=\"62\" ></visType><userVisType value=\"62\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W62",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_chart_stacked": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W63",
+       "toKey": "W300"
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W63",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W63",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W63",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Bar\" ></Shape><Subtype value=\"Stacked\" ></Subtype><visType value=\"6\" ></visType><userVisType value=\"6\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W63",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W63",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "W63"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "change_type": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "K52",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "K52",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Bar\" ></Shape><Subtype value=\"Automatic\" ></Subtype><visType value=\"70\" ></visType><userVisType value=\"70\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "K52",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "fill_zones": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W62",
+       "actions": [
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 0
+        },
+        {
+         "ax": 1,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 2
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "W62",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "W62",
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_to_grid": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "K52",
+       "actions": [
+        {
+         "act": "addUnit",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 0,
+         "dsId": "DS1",
+         "isFirst": true,
+         "axis": 1
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "K52",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_to_grid_pos": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "K52",
+       "actions": [
+        {
+         "act": "addUnit",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 3,
+         "dsId": "DS1",
+         "isFirst": false,
+         "axis": 2
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "K52",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_title": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Net flows"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "title_bar": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "ShowTitleBar": -1,
+         "ShowWidgetTitleBar": -1,
+         "Title": "Brief"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "title_bar_hide": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_widget_props": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "X.Class",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><a value=\"1\"></a><b value=\"2.5\"></b><c value=\"true\"></c><e value=\"&lt;&quot;&amp;&gt;\"></e></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_widget_props_cvp": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "X.Class",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "chart_format_plain": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Bar\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"70\"></visType><userVisType value=\"70\"></userVisType><LegendVisibleness value=\"Hide\"></LegendVisibleness></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "chart_format_axes": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Bar\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"71\"></visType><userVisType value=\"71\"></userVisType><axisOrigin value=\"{'@pLdM1':{'axOriAuto':false,'axOriValue':'100'},'AllMetrics':{'axOriAuto':false,'axOriValue':'100'}}\"></axisOrigin><DataLabel value=\"Hide\"></DataLabel><xAxOriLnShw value=\"true\"></xAxOriLnShw><yAxOriLnShw value=\"true\"></yAxOriLnShw><AxisScale value=\"AllMetrics:0:0:2.5:0:2.5:false:false:false,M1:0:0:2.5:0:2.5:false:false:false\"></AxisScale><MinMax value=\"Custom\"></MinMax><axScaleModified value=\"1\"></axScaleModified><AxisScaleSyncMode value=\"false\"></AxisScaleSyncMode><modDefFillClr value=\"3082903\"></modDefFillClr></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_line_curved": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W64",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W64",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W64",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Line\" ></Shape><Subtype value=\"Automatic\" ></Subtype><visType value=\"72\" ></visType><userVisType value=\"72\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W64",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "W64"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W64",
+       "actions": [
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 1
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 1
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "W64",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "W64",
+      "K46"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Line\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"72\"></visType><userVisType value=\"72\"></userVisType><allShpFmt value=\"{'shpSmooth':1, 'shpSmooth_tmsp':1763800000000, 'shpSmoothStrength':0.3, 'shpSmoothStrength_tmsp':1763800000000}\"></allShpFmt><lnMkShw value=\"false\"></lnMkShw><modDefFillClr value=\"5649426\"></modDefFillClr></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W64"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_line_multi": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W64",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W64",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W64",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Line\" ></Shape><Subtype value=\"Automatic\" ></Subtype><visType value=\"72\" ></visType><userVisType value=\"72\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W64",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "W64"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W64",
+       "actions": [
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 1
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "A2",
+         "unitType": 12,
+         "unitPos": 2
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 1
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "M2",
+         "unitType": 4,
+         "unitPos": 2
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 7,
+         "datasetId": "DS1",
+         "unitId": "00000000000000000000000000000000",
+         "unitType": 4,
+         "unitPos": 0
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "W64",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "W64",
+      "K46"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Line\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"72\"></visType><userVisType value=\"72\"></userVisType><allShpFmt value=\"{'shpSmooth':0, 'shpSmooth_tmsp':1763800000000}\"></allShpFmt><lnMkShw value=\"true\"></lnMkShw><DataLabel value=\"Show only values\"></DataLabel><LegendVisibleness value=\"Show\"></LegendVisibleness></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W64"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_line_breakby": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W64",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W64",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W64",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Line\" ></Shape><Subtype value=\"Automatic\" ></Subtype><visType value=\"72\" ></visType><userVisType value=\"72\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W64",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "W64"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W64",
+       "actions": [
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 1
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 1
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 5,
+         "datasetId": "DS1",
+         "unitId": "A3",
+         "unitType": 12,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 7,
+         "datasetId": "DS1",
+         "unitId": "A3",
+         "unitType": 12,
+         "unitPos": 0
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "W64",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "W64",
+      "K46"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W64",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Line\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"72\"></visType><userVisType value=\"72\"></userVisType><allShpFmt value=\"{'shpSmooth':1, 'shpSmooth_tmsp':1763800000000, 'shpSmoothStrength':0.6, 'shpSmoothStrength_tmsp':1763800000000}\"></allShpFmt><lnMkShw value=\"false\"></lnMkShw></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W64"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "element_colors": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateElementsPropertiesMap",
+       "epm": [
+        {
+         "epmk": [
+          {
+           "ob": {
+            "did": "A1",
+            "tp": 12
+           }
+          }
+         ],
+         "epmv": [
+          {
+           "v": {
+            "vv": "{\"color\":3082903}"
+           },
+           "k": {
+            "chn": [
+             {
+              "emt": 1,
+              "ei": "hRILA;A1",
+              "at": {
+               "did": "A1",
+               "tp": 12,
+               "ql": 0
+              }
+             }
+            ]
+           }
+          },
+          {
+           "v": {
+            "vv": "{\"color\":2236962}"
+           },
+           "k": {
+            "chn": [
+             {
+              "emt": 1,
+              "ei": "hVA;A1",
+              "at": {
+               "did": "A1",
+               "tp": 12,
+               "ql": 0
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "metric_colors": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateElementsPropertiesMap",
+       "epm": [
+        {
+         "epmk": [
+          {
+           "ob": {
+            "did": ""
+           }
+          }
+         ],
+         "epmv": [
+          {
+           "v": {
+            "vv": "{\"color\":65280}"
+           },
+           "k": {
+            "chn": [
+             {
+              "emt": 2,
+              "mt": {
+               "did": "M1",
+               "tp": 4,
+               "ql": 0
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "sort_by_metric": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W62",
+       "actions": [
+        {
+         "act": "sort",
+         "sorts": [
+          [
+           {
+            "key": "4!M1!!!hWest;A1!2",
+            "metricSortKey": "2",
+            "isAsc": true
+           }
+          ]
+         ],
+         "nodeKey": "W62",
+         "subTotalsPos": [
+          0
+         ],
+         "stt": -1,
+         "rp": null
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "sort_by_metric_default": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W62",
+       "actions": [
+        {
+         "act": "sort",
+         "sorts": [
+          [
+           {
+            "key": "4!M1!!!!1",
+            "metricSortKey": "2",
+            "isAsc": false
+           }
+          ]
+         ],
+         "nodeKey": "W62",
+         "subTotalsPos": [
+          0
+         ],
+         "stt": -1,
+         "rp": null
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "number_format": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "numberFormat",
+       "unitId": "M1",
+       "unitType": 4,
+       "c": 7,
+       "f": "$#,##0.0,,,\"B\""
+      },
+      {
+       "act": "numberFormat",
+       "unitId": "M2",
+       "unitType": 4,
+       "c": 7,
+       "f": "$#,##0.0,,,\"B\""
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "card_border": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 5,
+         "RightStyle": 5,
+         "BottomStyle": 5,
+         "LeftStyle": 5,
+         "TopColor": "16777215",
+         "RightColor": "16777215",
+         "BottomColor": "16777215",
+         "LeftColor": "16777215"
+        },
+        "FormattingView": {
+         "Radius": 8
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_fill_viz": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingPatterns": {
+         "FillStyle": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 2,
+       "format": {
+        "FormattingPatterns": {
+         "FillColor": 3082903,
+         "FillStyle": 0
+        },
+        "FormattingFont": {
+         "Color": "16777215"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_fill_selector": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W80",
+       "unitType": 111,
+       "keyContext": "1\u001eW79\u001eW80",
+       "formatType": 1,
+       "format": {
+        "FormattingPatterns": {
+         "FillColor": 16777215,
+         "FillStyle": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_custom_vis": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W66",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W66",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W66",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W66",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "ImageEnhancedKPI",
+         "VisualizationList": "ImageEnhancedKPI",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W66",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W66"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_donut": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W67",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W67",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W67",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W67",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "DonutChart",
+         "VisualizationList": "DonutChart",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W67",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W67"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W67",
+       "actions": [
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 5,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 0
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "W67",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "W67",
+      "K46"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W67",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><unifiedProperty value=\"{&quot;showLegend&quot;:true,&quot;showLegendTitle&quot;:false,&quot;innerRatio&quot;:70,&quot;padding&quot;:1.5,&quot;showDataLabel&quot;:true,&quot;dataLabelType&quot;:6,&quot;legendValueType&quot;:2,&quot;shapeRadius&quot;:&quot;6%&quot;,&quot;legendContentType&quot;:&quot;all&quot;,&quot;textContentType&quot;:&quot;all&quot;}\"></unifiedProperty></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W67"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateElementsPropertiesMap",
+       "epm": [
+        {
+         "epmk": [
+          {
+           "ob": {
+            "did": "A1",
+            "tp": 12
+           }
+          }
+         ],
+         "epmv": [
+          {
+           "v": {
+            "vv": "{\"color\":3082903}"
+           },
+           "k": {
+            "chn": [
+             {
+              "emt": 1,
+              "ei": "hRILA;A1",
+              "at": {
+               "did": "A1",
+               "tp": 12,
+               "ql": 0
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W67"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_donut_full": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W67",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W67",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W67",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W67",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "DonutChart",
+         "VisualizationList": "DonutChart",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W67",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W67"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W67",
+       "actions": [
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 3,
+         "datasetId": "DS1",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 4,
+         "datasetId": "DS1",
+         "unitId": "A2",
+         "unitType": 12,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 5,
+         "datasetId": "DS1",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 6,
+         "datasetId": "DS1",
+         "unitId": "M2",
+         "unitType": 4,
+         "unitPos": 0
+        },
+        {
+         "ax": 0,
+         "act": "addDropZoneUnit",
+         "zoneId": 7,
+         "datasetId": "DS1",
+         "unitId": "A3",
+         "unitType": 12,
+         "unitPos": 0
+        }
+       ]
+      },
+      {
+       "act": "editNode",
+       "nodeKey": "W67",
+       "datasetId": "DS1"
+      }
+     ],
+     "nodes": [
+      "W67",
+      "K46"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W67",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><unifiedProperty value=\"{&quot;showLegend&quot;:true,&quot;showLegendTitle&quot;:false,&quot;innerRatio&quot;:80,&quot;padding&quot;:2,&quot;showDataLabel&quot;:true,&quot;dataLabelType&quot;:6,&quot;legendValueType&quot;:2,&quot;shapeRadius&quot;:&quot;6%&quot;,&quot;legendContentType&quot;:&quot;all&quot;,&quot;textContentType&quot;:&quot;all&quot;}\"></unifiedProperty></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W67"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_kpi_card": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W310",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W310",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W310",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 9
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W310",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "KPICardVisualizationStyle",
+         "VisualizationList": "KPICardVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPhoneKPICardStyle",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.KPICardApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><dm value=\"5\"></dm><fstr value=\"1\"></fstr></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "Title": "Face Amount"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W310",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W310",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W310"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_kpi_card_untitled": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W310",
+       "toKey": "W300"
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W310",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W310",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 9
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W310",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "KPICardVisualizationStyle",
+         "VisualizationList": "KPICardVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPhoneKPICardStyle",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.KPICardApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><dm value=\"5\"></dm><fstr value=\"1\"></fstr></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W310",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W310",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W310"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "to_kpi_card": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "K52",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "K52",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 9
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "KPICardVisualizationStyle",
+         "VisualizationList": "KPICardVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPhoneKPICardStyle",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.KPICardApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><dm value=\"5\"></dm><fstr value=\"1\"></fstr></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "K52",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_kpi_card_props": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W310",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.KPICardApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><dm value=\"5\"></dm><fstr value=\"1\"></fstr><gcc value=\"1\"></gcc><tst value=\"1\"></tst><ks value=\"custom\"></ks><cks value=\"[{&quot;id&quot;:&quot;custom&quot;,&quot;bgColor&quot;:&quot;#FFFFFF&quot;,&quot;bgOpacity&quot;:100}]\"></cks><nfts value=\"{&quot;label&quot;:{&quot;fc&quot;:&quot;#35383A&quot;,&quot;fw&quot;:false,&quot;ff&quot;:&quot;Open Sans&quot;},&quot;trend_identity&quot;:{&quot;fc&quot;:&quot;#fff&quot;}}\"></nfts></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W310"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_narratives": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W414",
+       "toKey": "W300"
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W414",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W414",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W414",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W414",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W414"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setProperty",
+       "nodeKey": "W414",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Write a brief. Cite $ values & trends.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-W301&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}},{&quot;vizId&quot;:&quot;nk-re-W402&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}"
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W414",
+       "rfMaps": [
+        {
+         "key": "nk-re-W301",
+         "value": "W301"
+        },
+        {
+         "key": "nk-re-W402",
+         "value": "W402"
+        }
+       ]
+      },
+      {
+       "act": "clearNLGSources",
+       "nodeKey": "W414",
+       "associatedNodes": []
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W414",
+       "associatedNodes": [
+        "W301",
+        "W402"
+       ]
+      }
+     ],
+     "nodes": [
+      "W414"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_text": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": true,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W91",
+       "fieldType": 3,
+       "nodeKey": "W95",
+       "treeType": 1,
+       "fieldName": "W91"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "Back to Home",
+       "fieldKey": "W91",
+       "fieldType": 3,
+       "nodeKey": "W95",
+       "treeType": 1,
+       "fieldName": "W91"
+      },
+      {
+       "act": "format",
+       "unitKey": "W91",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W91",
+       "nodeKey": "W95",
+       "keyContext": "106\u001eW95\u001eW91",
+       "format": {
+        "FormattingFont": {
+         "Bold": -1,
+         "Size": "14",
+         "Color": "16777215",
+         "Name": "Times New Roman"
+        },
+        "FormattingSize": {
+         "TextOverflow": 1,
+         "HeightMode": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_text_plain": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": true,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W91",
+       "fieldType": 3,
+       "nodeKey": "W95",
+       "treeType": 1,
+       "fieldName": "W91"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "Hi",
+       "fieldKey": "W91",
+       "fieldType": 3,
+       "nodeKey": "W95",
+       "treeType": 1,
+       "fieldName": "W91"
+      },
+      {
+       "act": "format",
+       "unitKey": "W91",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W91",
+       "nodeKey": "W95",
+       "keyContext": "106\u001eW95\u001eW91",
+       "format": {
+        "FormattingFont": {},
+        "FormattingSize": {
+         "TextOverflow": 1,
+         "HeightMode": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_rich_text": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": true,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W322",
+       "fieldType": 3,
+       "nodeKey": "W342",
+       "treeType": 1,
+       "fieldName": "Brand"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "Lincoln Financial⑆\n⑆Clarity – for every “decision”, 100% ✓⑆\n⑆⑀JTVCJTdCJTIyaW5zZXJ0JTIyJTNBJTIyTGluY29sbiUyMEZpbmFuY2lhbCUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlMjJjb2xvciUyMiUzQSUyMiUyM0ZGRkZGRiUyMiUyQyUyMnNpemUlMjIlM0ElMjJzaXplMjIlMjIlMkMlMjJmb250JTIyJTNBJTIydGltZXNuZXdyb21hbiUyMiUyQyUyMmJvbGQlMjIlM0F0cnVlJTdEJTdEJTJDJTdCJTIyaW5zZXJ0JTIyJTNBJTIyJTVDbiUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlMjJhbGlnbiUyMiUzQSUyMmNlbnRlciUyMiUyQyUyMmhlYWRlciUyMiUzQTIlN0QlN0QlMkMlN0IlMjJpbnNlcnQlMjIlM0ElMjJDbGFyaXR5JTIwJUUyJTgwJTkzJTIwZm9yJTIwZXZlcnklMjAlRTIlODAlOUNkZWNpc2lvbiVFMiU4MCU5RCUyQyUyMDEwMCUyNSUyMCVFMiU5QyU5MyUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlMjJjb2xvciUyMiUzQSUyMiUyMzM1MzgzYSUyMiUyQyUyMnNpemUlMjIlM0ElMjJzaXplMTAlMjIlMkMlMjJmb250JTIyJTNBJTIyb3BlbnNhbnMlMjIlMkMlMjJpdGFsaWMlMjIlM0F0cnVlJTJDJTIydW5kZXJsaW5lJTIyJTNBdHJ1ZSUyQyUyMnN0cmlrZSUyMiUzQXRydWUlN0QlN0QlMkMlN0IlMjJpbnNlcnQlMjIlM0ElMjIlNUNuJTIyJTJDJTIyYXR0cmlidXRlcyUyMiUzQSU3QiUyMmFsaWduJTIyJTNBJTIycmlnaHQlMjIlMkMlMjJsaXN0JTIyJTNBJTIyYnVsbGV0JTIyJTJDJTIyaW5kZW50JTIyJTNBMSU3RCU3RCU1RA==",
+       "fieldKey": "W322",
+       "fieldType": 3,
+       "nodeKey": "W342",
+       "treeType": 1,
+       "fieldName": "Brand",
+       "altText": ""
+      },
+      {
+       "act": "format",
+       "unitKey": "W322",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W322",
+       "nodeKey": "W342",
+       "keyContext": "106\u001eW342\u001eW322",
+       "format": {
+        "FormattingSize": {
+         "TextOverflow": 1,
+         "HeightMode": 0
+        },
+        "FormattingAppearance": {
+         "TextFieldType": 1
+        },
+        "FormattingPatterns": {
+         "FillStyle": 1
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_rich_text_layout": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": false,
+       "nodeKeyParent": "W300",
+       "fieldKey": "W322",
+       "fieldType": 3,
+       "nodeKey": "W342",
+       "treeType": 1,
+       "fieldName": "Rich Text"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "x⑆\n⑆⑀JTVCJTdCJTIyaW5zZXJ0JTIyJTNBJTIyeCUyMiUyQyUyMmF0dHJpYnV0ZXMlMjIlM0ElN0IlMjJjb2xvciUyMiUzQSUyMiUyMzM1MzgzYSUyMiUyQyUyMnNpemUlMjIlM0ElMjJzaXplMTAlMjIlMkMlMjJmb250JTIyJTNBJTIyb3BlbnNhbnMlMjIlN0QlN0QlMkMlN0IlMjJpbnNlcnQlMjIlM0ElMjIlNUNuJTIyJTdEJTVE",
+       "fieldKey": "W322",
+       "fieldType": 3,
+       "nodeKey": "W342",
+       "treeType": 1,
+       "fieldName": "Rich Text",
+       "altText": ""
+      },
+      {
+       "act": "format",
+       "unitKey": "W322",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W322",
+       "nodeKey": "W342",
+       "keyContext": "106\u001eW342\u001eW322",
+       "format": {
+        "FormattingSize": {
+         "TextOverflow": 1,
+         "HeightMode": 0
+        },
+        "FormattingAppearance": {
+         "TextFieldType": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_link_page": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W423",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W423",
+       "nodeKey": "W443",
+       "keyContext": "106\u001eW443\u001eW423",
+       "isHtmlEncoded": true,
+       "format": {
+        "FormattingNavigation": {
+         "Hyperlinks": "&lt;hls&gt;&lt;hl idf=&#34;1&#34; aopam=&#34;2&#34; dtxt=&#34;Back to Home&#34; lt=&#34;3&#34; np=&#34;K53&#34; so=&#34;0&#34;/&gt;&lt;/hls&gt;",
+         "ResolvedHyperlinks": ""
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W443"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_link_url": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W423",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W423",
+       "nodeKey": "W443",
+       "keyContext": "106\u001eW443\u001eW423",
+       "isHtmlEncoded": true,
+       "format": {
+        "FormattingNavigation": {
+         "Hyperlinks": "&lt;hls onw=&#34;1&#34;&gt;&lt;hl idf=&#34;1&#34; aopam=&#34;2&#34; dtxt=&#34;&#34; url=&#34;https://example.com/a?b=1&amp;amp;c=&amp;quot;2&amp;quot;&#34; lt=&#34;0&#34; so=&#34;0&#34;/&gt;&lt;/hls&gt;",
+         "ResolvedHyperlinks": "<hls><hl index=\"0\" url=\"https://example.com/a?b=1&amp;c=&quot;2&quot;\"/></hls>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W443"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_link_url_same_tab": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W423",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W423",
+       "nodeKey": "W443",
+       "keyContext": "106\u001eW443\u001eW423",
+       "isHtmlEncoded": true,
+       "format": {
+        "FormattingNavigation": {
+         "Hyperlinks": "&lt;hls&gt;&lt;hl idf=&#34;1&#34; aopam=&#34;2&#34; dtxt=&#34;&#34; url=&#34;https://example.com&#34; lt=&#34;0&#34; so=&#34;0&#34;/&gt;&lt;/hls&gt;",
+         "ResolvedHyperlinks": "<hls><hl index=\"0\" url=\"https://example.com\"/></hls>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W443"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_link_dashboard": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W423",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W423",
+       "nodeKey": "W443",
+       "keyContext": "106\u001eW443\u001eW423",
+       "isHtmlEncoded": true,
+       "format": {
+        "FormattingNavigation": {
+         "Hyperlinks": "&lt;hls onw=&#34;1&#34;&gt;&lt;hl idf=&#34;1&#34; so=&#34;2&#34; lt=&#34;1&#34; tid=&#34;D1&#34; ttp=&#34;55&#34; navpage=&#34;K53&#34; np=&#34;K53&#34; psf=&#34;1&#34; pics=&#34;0&#34; aopam=&#34;2&#34; dtxt=&#34;&#34; ftgs=&#34;K53&#34;/&gt;&lt;/hls&gt;",
+         "ResolvedHyperlinks": ""
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W443"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_link_remove": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W423",
+       "unitType": 106,
+       "formatType": 1,
+       "fieldKey": "W423",
+       "nodeKey": "W443",
+       "keyContext": "106\u001eW443\u001eW423",
+       "format": {
+        "FormattingNavigation": {
+         "Hyperlinks": ""
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W443"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_image": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": true,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W321",
+       "fieldType": 2,
+       "nodeKey": "W341",
+       "treeType": 1,
+       "fieldName": "Hero image"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "https://images.unsplash.com/photo-1?w=1600&q=80",
+       "fieldKey": "W321",
+       "fieldType": 2,
+       "nodeKey": "W341",
+       "treeType": 1,
+       "fieldName": "Hero image"
+      },
+      {
+       "act": "format",
+       "unitKey": "W321",
+       "unitType": 102,
+       "formatType": 1,
+       "fieldKey": "W321",
+       "nodeKey": "W341",
+       "keyContext": "102\u001eW341\u001eW321",
+       "format": {
+        "FormattingSize": {
+         "ImageSizeMode": 3
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_image_layout": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": false,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W321",
+       "fieldType": 2,
+       "nodeKey": "W341",
+       "treeType": 1,
+       "fieldName": "Image"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "u",
+       "fieldKey": "W321",
+       "fieldType": 2,
+       "nodeKey": "W341",
+       "treeType": 1,
+       "fieldName": "Image"
+      },
+      {
+       "act": "format",
+       "unitKey": "W321",
+       "unitType": 102,
+       "formatType": 1,
+       "fieldKey": "W321",
+       "nodeKey": "W341",
+       "keyContext": "102\u001eW341\u001eW321",
+       "format": {
+        "FormattingSize": {
+         "ImageSizeMode": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_shape_rect": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": true,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W320",
+       "fieldType": 1,
+       "nodeKey": "W340",
+       "treeType": 1,
+       "fieldName": "Rectangle"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "{\"t\":\"Rectangle\",\"s\":{\"p\":0,\"radius\":15},\"e\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\"><defs/><rect style=\\\"fill: #970A2F; stroke: #970A2F; stroke-width: 0px;\\\"/></svg>\",\"n\":\"Rectangle\"}",
+       "fieldKey": "W320",
+       "fieldType": 1,
+       "nodeKey": "W340",
+       "treeType": 1,
+       "fieldName": "Rectangle"
+      },
+      {
+       "act": "format",
+       "unitKey": "W320",
+       "unitType": 101,
+       "formatType": 1,
+       "fieldKey": "W320",
+       "nodeKey": "W340",
+       "keyContext": "101\u001eW340\u001eW320",
+       "format": {
+        "FormattingPatterns": {
+         "FillStyle": 1
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_shape_line": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": true,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W320",
+       "fieldType": 1,
+       "nodeKey": "W340",
+       "treeType": 1,
+       "fieldName": "Line"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "{\"t\":\"Line\",\"s\":{\"arrowStartType\":\"LINE_ARROW\",\"arrowEndType\":\"LINE_ARROW\",\"direction\":0},\"e\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\"><defs/><line style=\\\"fill: none; stroke: #35383A; stroke-width: 1.5px; fill-opacity: 0.5; stroke-dasharray: 6, 2;\\\"/></svg>\",\"n\":\"Line\"}",
+       "fieldKey": "W320",
+       "fieldType": 1,
+       "nodeKey": "W340",
+       "treeType": 1,
+       "fieldName": "Line"
+      },
+      {
+       "act": "format",
+       "unitKey": "W320",
+       "unitType": 101,
+       "formatType": 1,
+       "fieldKey": "W320",
+       "nodeKey": "W340",
+       "keyContext": "101\u001eW340\u001eW320",
+       "format": {
+        "FormattingPatterns": {
+         "FillStyle": 1
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_shape_triangle": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addField",
+       "createNode": false,
+       "nodeKeyParent": "K53",
+       "fieldKey": "W320",
+       "fieldType": 1,
+       "nodeKey": "W340",
+       "treeType": 1,
+       "fieldName": "Triangle"
+      },
+      {
+       "act": "editField",
+       "fieldValue": "{\"t\":\"Polygon\",\"s\":{\"p\":0,\"pos\":0,\"count\":5,\"toggled\":false,\"direction\":0},\"e\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\"><defs/><polygon style=\\\"fill: #8AC3FF; stroke: #35383A; stroke-width: 1px; stroke-dasharray: 4, 4;\\\"/></svg>\",\"n\":\"Triangle\"}",
+       "fieldKey": "W320",
+       "fieldType": 1,
+       "nodeKey": "W340",
+       "treeType": 1,
+       "fieldName": "Triangle"
+      },
+      {
+       "act": "format",
+       "unitKey": "W320",
+       "unitType": 101,
+       "formatType": 1,
+       "fieldKey": "W320",
+       "nodeKey": "W340",
+       "keyContext": "101\u001eW340\u001eW320",
+       "format": {
+        "FormattingPatterns": {
+         "FillStyle": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "add_page": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addPanel",
+       "nodeKey": "W300",
+       "titlePattern": 1,
+       "parentKey": "K44",
+       "index": 2
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W301",
+       "toKey": "W300"
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W301"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "setCurrentPanel",
+       "unitKey": "W300"
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Individual Markets"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "rename_chapter": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "K1",
+       "unitType": 1,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Overview"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K1"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "rename_page": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Home"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "enable_auto_summary": {
+  "calls": [
+   {
+    "task": "getServerJSONResults",
+    "excludeData": "true"
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "K53",
+       "nodeKey": "W302",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "K52",
+            "l": 50,
+            "f": false
+           },
+           {
+            "t": "c",
+            "k": "W62",
+            "l": 50,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W302",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W303",
+       "titlePattern": 0,
+       "parentKey": "W302",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W304",
+       "toKey": "W303"
+      },
+      {
+       "act": "format",
+       "unitKey": "W303",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W304"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W304",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W304",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W304",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W304",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Analyze and summarize the overall content of the page. If metrics are available on the page, analyze and summarize the overall content. Sort the data to identify top and bottom performers based on key metrics. Highlight trends, patterns, and anomalies, and generate actionable insights. If no metrics are found, skip calculation and summarize the content.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-K52&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}},{&quot;vizId&quot;:&quot;nk-re-W62&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W304",
+       "rfMaps": [
+        {
+         "key": "nk-re-K52",
+         "value": "K52"
+        },
+        {
+         "key": "nk-re-W62",
+         "value": "W62"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W304",
+       "associatedNodes": [
+        "K52",
+        "W62"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "W300",
+       "nodeKey": "W305",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "W301",
+            "l": 100,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W305",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W306",
+       "titlePattern": 0,
+       "parentKey": "W305",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W307",
+       "toKey": "W306"
+      },
+      {
+       "act": "format",
+       "unitKey": "W306",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W307"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W307",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W307",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W307",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W307",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Analyze and summarize the overall content of the page. If metrics are available on the page, analyze and summarize the overall content. Sort the data to identify top and bottom performers based on key metrics. Highlight trends, patterns, and anomalies, and generate actionable insights. If no metrics are found, skip calculation and summarize the content.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-W301&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W307",
+       "rfMaps": [
+        {
+         "key": "nk-re-W301",
+         "value": "W301"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W307",
+       "associatedNodes": [
+        "W301"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": [
+   {
+    "pageKey": "K53",
+    "stack": "W302",
+    "viz": "W304",
+    "sources": [
+     "K52",
+     "W62"
+    ]
+   },
+   {
+    "pageKey": "W300",
+    "stack": "W305",
+    "viz": "W307",
+    "sources": [
+     "W301"
+    ]
+   }
+  ]
+ },
+ "enable_auto_summary_custom": {
+  "calls": [
+   {
+    "task": "getServerJSONResults",
+    "excludeData": "true"
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "K53",
+       "nodeKey": "W900",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "K52",
+            "l": 50,
+            "f": false
+           },
+           {
+            "t": "c",
+            "k": "W62",
+            "l": 50,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W900",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W901",
+       "titlePattern": 0,
+       "parentKey": "W900",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W902",
+       "toKey": "W901"
+      },
+      {
+       "act": "format",
+       "unitKey": "W901",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W902"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W902",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W902",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W902",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W902",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W902",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W902",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Summarize.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-K52&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}},{&quot;vizId&quot;:&quot;nk-re-W62&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W902",
+       "rfMaps": [
+        {
+         "key": "nk-re-K52",
+         "value": "K52"
+        },
+        {
+         "key": "nk-re-W62",
+         "value": "W62"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W902",
+       "associatedNodes": [
+        "K52",
+        "W62"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W902",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W900",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "W300",
+       "nodeKey": "W903",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "W301",
+            "l": 100,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W903",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W904",
+       "titlePattern": 0,
+       "parentKey": "W903",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W905",
+       "toKey": "W904"
+      },
+      {
+       "act": "format",
+       "unitKey": "W904",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W905"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W905",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W905",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W905",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W905",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W905",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W905",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Summarize.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-W301&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W905",
+       "rfMaps": [
+        {
+         "key": "nk-re-W301",
+         "value": "W301"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W905",
+       "associatedNodes": [
+        "W301"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W905",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W903",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": [
+   {
+    "pageKey": "K53",
+    "stack": "W900",
+    "viz": "W902",
+    "sources": [
+     "K52",
+     "W62"
+    ]
+   },
+   {
+    "pageKey": "W300",
+    "stack": "W903",
+    "viz": "W905",
+    "sources": [
+     "W301"
+    ]
+   }
+  ]
+ },
+ "save_as": {
+  "calls": [
+   {
+    "task": "getServerJSONResults",
+    "excludeData": "true"
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "K53",
+       "nodeKey": "W302",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "K52",
+            "l": 50,
+            "f": false
+           },
+           {
+            "t": "c",
+            "k": "W62",
+            "l": 50,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W302",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W303",
+       "titlePattern": 0,
+       "parentKey": "W302",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W304",
+       "toKey": "W303"
+      },
+      {
+       "act": "format",
+       "unitKey": "W303",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W304"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W304",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W304",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W304",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W304",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Analyze and summarize the overall content of the page. If metrics are available on the page, analyze and summarize the overall content. Sort the data to identify top and bottom performers based on key metrics. Highlight trends, patterns, and anomalies, and generate actionable insights. If no metrics are found, skip calculation and summarize the content.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-K52&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}},{&quot;vizId&quot;:&quot;nk-re-W62&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W304",
+       "rfMaps": [
+        {
+         "key": "nk-re-K52",
+         "value": "K52"
+        },
+        {
+         "key": "nk-re-W62",
+         "value": "W62"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W304",
+       "associatedNodes": [
+        "K52",
+        "W62"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "W300",
+       "nodeKey": "W305",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "W301",
+            "l": 100,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W305",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W306",
+       "titlePattern": 0,
+       "parentKey": "W305",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W307",
+       "toKey": "W306"
+      },
+      {
+       "act": "format",
+       "unitKey": "W306",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W307"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W307",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W307",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W307",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W307",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Analyze and summarize the overall content of the page. If metrics are available on the page, analyze and summarize the overall content. Sort the data to identify top and bottom performers based on key metrics. Highlight trends, patterns, and anomalies, and generate actionable insights. If no metrics are found, skip calculation and summarize the content.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-W301&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W307",
+       "rfMaps": [
+        {
+         "key": "nk-re-W301",
+         "value": "W301"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W307",
+       "associatedNodes": [
+        "W301"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "api": "POST",
+    "path": "/documents/DASH/instances/MID/saveAs",
+    "body": {
+     "name": "My dash",
+     "folderId": "F1",
+     "saveAsTemplate": false
+    }
+   }
+  ],
+  "result": {
+   "id": "NEW",
+   "mid": "MID"
+  }
+ },
+ "save_as_overwrite_no_summary": {
+  "calls": [
+   {
+    "api": "POST",
+    "path": "/documents/DASH/instances/MID/saveAs",
+    "body": {
+     "name": "My dash",
+     "folderId": "F1",
+     "saveAsTemplate": false,
+     "overwrite": true
+    }
+   }
+  ],
+  "result": {
+   "id": "NEW",
+   "mid": "MID"
+  }
+ },
+ "save": {
+  "calls": [
+   {
+    "task": "getServerJSONResults",
+    "excludeData": "true"
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "K53",
+       "nodeKey": "W302",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "K52",
+            "l": 50,
+            "f": false
+           },
+           {
+            "t": "c",
+            "k": "W62",
+            "l": 50,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W302",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W303",
+       "titlePattern": 0,
+       "parentKey": "W302",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W304",
+       "toKey": "W303"
+      },
+      {
+       "act": "format",
+       "unitKey": "W303",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W304"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W304",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W304",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W304",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W304",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Analyze and summarize the overall content of the page. If metrics are available on the page, analyze and summarize the overall content. Sort the data to identify top and bottom performers based on key metrics. Highlight trends, patterns, and anomalies, and generate actionable insights. If no metrics are found, skip calculation and summarize the content.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-K52&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}},{&quot;vizId&quot;:&quot;nk-re-W62&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W304",
+       "rfMaps": [
+        {
+         "key": "nk-re-K52",
+         "value": "K52"
+        },
+        {
+         "key": "nk-re-W62",
+         "value": "W62"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W304",
+       "associatedNodes": [
+        "K52",
+        "W62"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W304",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W302",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K53"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addNewPanelStack",
+       "parentPanelKey": "W300",
+       "nodeKey": "W305",
+       "isSelectorPanel": false,
+       "isFormPanel": false,
+       "isInfoWindow": true
+      },
+      {
+       "act": "format",
+       "unitKey": "W300",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "W301",
+            "l": 100,
+            "f": false
+           }
+          ],
+          "ifwChildren": [
+           {
+            "fixed": "0",
+            "k": "W305",
+            "t": "flc",
+            "hidden": 0,
+            "width": "50|174px",
+            "height": "50|322px",
+            "left": "25|87px",
+            "top": "25|161px"
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "addPanel",
+       "nodeKey": "W306",
+       "titlePattern": 0,
+       "parentKey": "W305",
+       "index": 0,
+       "isNavigationPanel": false
+      },
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W307",
+       "toKey": "W306"
+      },
+      {
+       "act": "format",
+       "unitKey": "W306",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "f": false,
+            "l": 100,
+            "k": "W307"
+           }
+          ],
+          "floatChildren": [],
+          "ifwChildren": [],
+          "canvasSize": {
+           "sizeType": 1,
+           "containerLocked": true,
+           "sizeSetting": null
+          }
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W307",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W307",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "AutoNarratives",
+         "VisualizationList": "AutoNarratives",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><autoNarrativeAutoRefresh value=\"true\" /><isPredefinedNLG value=\"true\"/><preDefinedNLGShowInConsumption value=\"true\"/></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W307",
+       "displayMode": 1
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W307",
+       "prs": "Visualization",
+       "pri": 17,
+       "v": "{&quot;instruction&quot;:&quot;Analyze and summarize the overall content of the page. If metrics are available on the page, analyze and summarize the overall content. Sort the data to identify top and bottom performers based on key metrics. Highlight trends, patterns, and anomalies, and generate actionable insights. If no metrics are found, skip calculation and summarize the content.&quot;,&quot;hasFormatInstruction&quot;:false,&quot;preDefinedNLGInInfoWindow&quot;:true,&quot;recommendations&quot;:[{&quot;vizId&quot;:&quot;nk-re-W301&quot;,&quot;skipCalculation&quot;:true,&quot;removeDataLimit&quot;:true,&quot;algorithms&quot;:{}}]}",
+       "isInsertingPredefinedNLG": true
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "W307",
+       "rfMaps": [
+        {
+         "key": "nk-re-W301",
+         "value": "W301"
+        }
+       ]
+      },
+      {
+       "act": "setNLGSources",
+       "nodeKey": "W307",
+       "associatedNodes": [
+        "W301"
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W307",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingOrder": {
+         "ZIndex": 2
+        },
+        "FormattingView": {
+         "WindowState": 2
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingBorder": {
+         "TopStyle": 0,
+         "RightStyle": 0,
+         "BottomStyle": 0,
+         "LeftStyle": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "StyleForSwitchingPanel": 6
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitleBarDisplay": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "UseAsInformationWindow": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TabCloseToDismissInfoWindow": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingSelector": {
+         "IndependentNodeSelector": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W305",
+       "unitType": 8,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Information Window 999999 (NLG one click)"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W300"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "api": "POST",
+    "path": "/documents/DASH/instances/MID/save",
+    "body": {}
+   }
+  ],
+  "result": {
+   "id": "NEW",
+   "mid": "MID"
+  }
+ }
+}

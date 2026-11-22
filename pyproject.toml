@@ -1,0 +1,12 @@
+[project]
+name = "sdc"
+version = "0.1.0"
+description = "Build Strategy Library dashboards from a JSON spec, from Python, over REST"
+requires-python = ">=3.10"
+dependencies = ["requests>=2.28"]
+
+[project.scripts]
+sdc = "sdc.__main__:main"
+
+[tool.setuptools]
+packages = ["sdc"]
