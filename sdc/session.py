@@ -210,6 +210,71 @@ class Session:
         return self.edit([{'act': 'format', 'unitKey': viz_key, 'unitType': 521, 'formatType': 1,
                            'format': {'FormattingView': view}}], [viz_key])
 
+    def title_format(self, viz_key, lines=None, subtitle=None, align=None, subtitle_align=None, wrap=None,
+                     subtitle_wrap=None, font=None, subtitle_font=None, unit_type=521):
+        """Title bar format: 1 or 2 lines, the second line's text, each line's font, alignment and wrap.
+
+        Works on every visualization type EXCEPT the Iconic KPI (ImageEnhancedKPI), which has no title bar.
+        align: 'left' | 'center' | 'right' (Horizontal 0 / 2 / 1). wrap: True wraps (TextWrap -1), False keeps one line.
+        Format type 2 is the title line, 3 the second line. See titleFormat in the JS client and
+        reference/bar-catalog.md "Title bar"."""
+        H = {'left': 0, 'right': 1, 'center': 2}
+
+        def f(formatType, fmt):
+            return {'act': 'format', 'unitKey': viz_key, 'unitType': unit_type, 'formatType': formatType, 'format': fmt}
+
+        def align2(a, w):
+            x = {}
+            if a is not None:
+                x['Horizontal'] = H[a]
+            if w is not None:
+                x['TextWrap'] = -1 if w else 0
+            return x
+
+        two = lines == 2 or (lines is None and subtitle is not None)
+        acts = []
+        if lines is not None or subtitle is not None:
+            acts.append(f(1, {'FormattingView': {'TitlesLines': 2 if two else 1}}))
+        if subtitle is not None:
+            acts += [{'act': 'setSubtitle', 'nodeKey': viz_key, 'unitType': 521, 'subtitle': subtitle},
+                     f(3, {'FormattingFont': {'Bold': 0, 'Italic': 0, 'Underline': 0, 'Strikeout': 0, 'Size': 9,
+                                              'Color': 3815477, 'Name': 'Open Sans'}})]
+        if font:
+            acts.append(f(2, {'FormattingFont': font}))
+        if subtitle_font:
+            acts.append(f(3, {'FormattingFont': subtitle_font}))
+        a1 = align2(align, wrap)
+        a2 = align2(subtitle_align if subtitle_align is not None else align,
+                    subtitle_wrap if subtitle_wrap is not None else wrap)
+        if a1:
+            acts.append(f(2, {'FormattingAlignment': a1}))
+        if a2 and (two or subtitle_align is not None or subtitle_wrap is not None):
+            acts.append(f(3, {'FormattingAlignment': a2}))
+        return self.edit(acts, [viz_key])
+
+    REF_TYPES = {'maximum': 1, 'minimum': 2, 'average': 3, 'median': 4, 'first': 5, 'last': 6, 'constant': 7}
+
+    def reference_line(self, viz_key, metric_id, type='average', value=None, label=('type', 'value'), index=1,  # noqa: A002
+                       color='#4D4D4D', style='dashed', thickness=1, font=None):
+        """Reference line (maximum ... constant) on a chart's metric: operateTRFLine. label: any of 'type', 'metric',
+        'value' (bitmask 1/2/4), or the number. index: 1-based position in the metric's line list. See referenceLine in
+        the JS client and reference/bar-catalog.md "Reference lines"."""
+        font = font or {'family': 'Open Sans', 'size': '9pt', 'color': '#35383A'}
+        line_type = self.REF_TYPES.get(type)
+        if not line_type:
+            raise ValueError('Unknown reference line type ' + str(type))
+        if type == 'constant' and (value is None or value == ''):
+            raise ValueError('A constant reference line needs a value')
+        bits = {'type': 1, 'metric': 2, 'value': 4}
+        line_label = label if isinstance(label, int) else sum(bits.get(k, 0) for k in set(label))
+        fmt = {'trdRefLnThk': thickness, 'trdRefLnClr': int(bgr(color)), 'trdRefLnStyle': 0 if style == 'solid' else 1,
+               'rfLnFntFml': font['family'], 'rfLnFntSz': font['size'], 'rfLnFntStyle': 0,
+               'rfLnFntClr': int(bgr(font['color'])), 'trdRefLnCmbStyle': 3}
+        return self.edit([{'act': 'operateTRFLine', 'tks': viz_key, 'lineType': line_type, 'lineLevel': 1,
+                           'lineLabel': line_label, 'enabled': 1, 'includeBreakby': 0,
+                           'lineConstant': js_str(value) if type == 'constant' else '', 'lineIndex': index,
+                           'format': jdump(fmt).replace('"', '&quot;'), 'metricId': metric_id}], [viz_key])
+
     def set_widget_props(self, viz_key, class_name, props, wrapper='fmt'):
         inner = ''.join(f'<{k} value="{esc_attr(v)}"></{k}>' for k, v in props.items()
                         if v is not None and not isinstance(v, (dict, list)))

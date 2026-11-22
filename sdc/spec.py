@@ -15,6 +15,44 @@ REUSABLE = {'kpi_card', 'chart', 'line'}       # can become a page's default vis
 METRIC_ONLY_ZONES = {'angle', 'sizeBy'}
 ATTRIBUTE_DEFAULT_ZONES = {'sliceBy', 'colorBy', 'breakBy', 'rows'}
 SHAPES = {'Line', 'Rectangle', 'Ellipse', 'Triangle', 'Polygon'}
+ALIGNS = {'left', 'center', 'right'}
+REF_TYPES = {'maximum', 'minimum', 'average', 'median', 'first', 'last', 'constant'}
+REF_LABELS = {'type', 'metric', 'value'}
+
+
+def check_title_format(w, tf):
+    """title_format works on every visualization type except the Iconic KPI (not a spec type)."""
+    p = []
+    if not isinstance(tf, dict):
+        return [f'{w}: title_format must be an object']
+    unknown = set(tf) - {'lines', 'subtitle', 'align', 'subtitle_align', 'wrap', 'subtitle_wrap', 'font', 'subtitle_font'}
+    if unknown:
+        p.append(f'{w}: unknown title_format field(s) {sorted(unknown)}')
+    if tf.get('lines') not in (None, 1, 2):
+        p.append(f'{w}: title_format.lines must be 1 or 2')
+    if tf.get('lines') == 1 and tf.get('subtitle'):
+        p.append(f'{w}: title_format has a subtitle but lines 1 (the second line would be hidden)')
+    for k in ('align', 'subtitle_align'):
+        if tf.get(k) is not None and tf[k] not in ALIGNS:
+            p.append(f'{w}: title_format.{k} must be left, center or right')
+    for k in ('wrap', 'subtitle_wrap'):
+        if tf.get(k) is not None and not isinstance(tf[k], bool):
+            p.append(f'{w}: title_format.{k} must be true or false')
+    return p
+
+
+def check_reference_lines(w, lines):
+    p = []
+    for i, rl in enumerate(lines or []):
+        ww = f'{w} reference_lines[{i}]'
+        if rl.get('type') not in REF_TYPES:
+            p.append(f'{ww}: type must be one of {sorted(REF_TYPES)}')
+        if rl.get('type') == 'constant' and not isinstance(rl.get('value'), (int, float)):
+            p.append(f'{ww}: a constant line needs a numeric "value" (a metric or attribute is not allowed)')
+        lab = rl.get('label', ['type', 'value'])
+        if not isinstance(lab, int) and not set(lab) <= REF_LABELS:
+            p.append(f'{ww}: label items must be from {sorted(REF_LABELS)}')
+    return p
 
 
 class SpecError(ValueError):
@@ -82,6 +120,12 @@ def check_structure(spec):
                         p.append(f'{w}: unknown zone {z!r} (zones: {sorted(ZONE)})')
                 if not it.get('zones'):
                     p.append(f'{w}: "zones" is required')
+            if typ in VIZ_TYPES and it.get('title_format') is not None:
+                p += check_title_format(w, it['title_format'])
+            if it.get('reference_lines'):
+                if typ not in ('chart', 'line'):
+                    p.append(f'{w}: reference_lines only work on chart and line items')
+                p += check_reference_lines(w, it['reference_lines'])
             if typ == 'kpi_card' and not it.get('metric'):
                 p.append(f'{w}: "metric" is required')
             if typ == 'line' and not (it.get('x') and (it.get('metrics') or it.get('metric'))):
@@ -193,7 +237,11 @@ def check_data(spec, names):
                 need(f'{w} sort', it['sort']['metric'], 'metric')
             for m in (it.get('metric_colors') or {}):
                 need(f'{w} metric_colors', m, 'metric')
-        elif typ == 'line':
+        if typ in ('chart', 'line'):
+            for rl in it.get('reference_lines') or []:
+                if rl.get('metric'):
+                    need(f'{w} reference_lines', rl['metric'], 'metric')
+        if typ == 'line':
             for v in _as_list(it.get('x')):
                 need(w, v, 'attribute')
             for v in _as_list(it.get('metrics') or it.get('metric')):

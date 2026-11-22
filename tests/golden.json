@@ -5533,5 +5533,448 @@
    "id": "NEW",
    "mid": "MID"
   }
+ },
+ "title_format_two_lines": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitlesLines": 2
+        }
+       }
+      },
+      {
+       "act": "setSubtitle",
+       "nodeKey": "W62",
+       "unitType": 521,
+       "subtitle": "uses 2 lines for Title"
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 3,
+       "format": {
+        "FormattingFont": {
+         "Bold": 0,
+         "Italic": 0,
+         "Underline": 0,
+         "Strikeout": 0,
+         "Size": 9,
+         "Color": 3815477,
+         "Name": "Open Sans"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 2,
+       "format": {
+        "FormattingAlignment": {
+         "Horizontal": 2,
+         "TextWrap": -1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 3,
+       "format": {
+        "FormattingAlignment": {
+         "Horizontal": 2,
+         "TextWrap": -1
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "title_format_fonts": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitlesLines": 2
+        }
+       }
+      },
+      {
+       "act": "setSubtitle",
+       "nodeKey": "W62",
+       "unitType": 521,
+       "subtitle": "different fonts"
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 3,
+       "format": {
+        "FormattingFont": {
+         "Bold": 0,
+         "Italic": 0,
+         "Underline": 0,
+         "Strikeout": 0,
+         "Size": 9,
+         "Color": 3815477,
+         "Name": "Open Sans"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 2,
+       "format": {
+        "FormattingFont": {
+         "Name": "Inter",
+         "Size": "12",
+         "Bold": -1,
+         "Italic": -1,
+         "Underline": -1,
+         "Color": "3090881"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 3,
+       "format": {
+        "FormattingFont": {
+         "Name": "Open Sans",
+         "Size": "9"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 2,
+       "format": {
+        "FormattingAlignment": {
+         "Horizontal": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 522,
+       "formatType": 3,
+       "format": {
+        "FormattingAlignment": {
+         "Horizontal": 1,
+         "TextWrap": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "title_format_one_line": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "TitlesLines": 1
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 2,
+       "format": {
+        "FormattingAlignment": {
+         "Horizontal": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "title_format_wrap_only": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W62",
+       "unitType": 521,
+       "formatType": 2,
+       "format": {
+        "FormattingAlignment": {
+         "TextWrap": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "reference_line_average": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "operateTRFLine",
+       "tks": "W62",
+       "lineType": 3,
+       "lineLevel": 1,
+       "lineLabel": 5,
+       "enabled": 1,
+       "includeBreakby": 0,
+       "lineConstant": "",
+       "lineIndex": 1,
+       "format": "{&quot;trdRefLnThk&quot;:1,&quot;trdRefLnClr&quot;:5066061,&quot;trdRefLnStyle&quot;:1,&quot;rfLnFntFml&quot;:&quot;Open Sans&quot;,&quot;rfLnFntSz&quot;:&quot;9pt&quot;,&quot;rfLnFntStyle&quot;:0,&quot;rfLnFntClr&quot;:3815477,&quot;trdRefLnCmbStyle&quot;:3}",
+       "metricId": "M1"
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "reference_line_max_all": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "operateTRFLine",
+       "tks": "W62",
+       "lineType": 1,
+       "lineLevel": 1,
+       "lineLabel": 7,
+       "enabled": 1,
+       "includeBreakby": 0,
+       "lineConstant": "",
+       "lineIndex": 2,
+       "format": "{&quot;trdRefLnThk&quot;:1,&quot;trdRefLnClr&quot;:5066061,&quot;trdRefLnStyle&quot;:1,&quot;rfLnFntFml&quot;:&quot;Open Sans&quot;,&quot;rfLnFntSz&quot;:&quot;9pt&quot;,&quot;rfLnFntStyle&quot;:0,&quot;rfLnFntClr&quot;:3815477,&quot;trdRefLnCmbStyle&quot;:3}",
+       "metricId": "M1"
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "reference_line_constant": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "operateTRFLine",
+       "tks": "W62",
+       "lineType": 7,
+       "lineLevel": 1,
+       "lineLabel": 5,
+       "enabled": 1,
+       "includeBreakby": 0,
+       "lineConstant": "75",
+       "lineIndex": 1,
+       "format": "{&quot;trdRefLnThk&quot;:2,&quot;trdRefLnClr&quot;:3090881,&quot;trdRefLnStyle&quot;:0,&quot;rfLnFntFml&quot;:&quot;Inter&quot;,&quot;rfLnFntSz&quot;:&quot;10pt&quot;,&quot;rfLnFntStyle&quot;:0,&quot;rfLnFntClr&quot;:0,&quot;trdRefLnCmbStyle&quot;:3}",
+       "metricId": "M1"
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "reference_line_constant_missing": {
+  "calls": [],
+  "result": {
+   "error": "A constant reference line needs a value"
+  }
+ },
+ "reference_line_bitmask": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "operateTRFLine",
+       "tks": "W62",
+       "lineType": 2,
+       "lineLevel": 1,
+       "lineLabel": 1,
+       "enabled": 1,
+       "includeBreakby": 0,
+       "lineConstant": "",
+       "lineIndex": 1,
+       "format": "{&quot;trdRefLnThk&quot;:1,&quot;trdRefLnClr&quot;:5066061,&quot;trdRefLnStyle&quot;:1,&quot;rfLnFntFml&quot;:&quot;Open Sans&quot;,&quot;rfLnFntSz&quot;:&quot;9pt&quot;,&quot;rfLnFntStyle&quot;:0,&quot;rfLnFntClr&quot;:3815477,&quot;trdRefLnCmbStyle&quot;:3}",
+       "metricId": "M1"
+      }
+     ],
+     "nodes": [
+      "W62"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "insert_chart_clustered": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W70",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b"
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W70",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W70",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 1
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "GraphMatrixVisualizationStyle",
+         "VisualizationList": "GraphMatrixVisualizationStyle",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "IPadGraphMatrix2Style",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props ><widgetProps ><fmt ><visStyle value=\"GraphMatrixVisualizationStyle\" ></visStyle><Shape value=\"Bar\" ></Shape><Subtype value=\"Clustered\" ></Subtype><visType value=\"10\" ></visType><userVisType value=\"10\" ></userVisType></fmt></widgetProps></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W70",
+       "displayMode": 2
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
  }
 }

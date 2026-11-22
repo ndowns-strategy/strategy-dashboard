@@ -1,0 +1,44 @@
+{
+  "name": "SDC bar catalog test",
+  "project_id": "607F0D20E84F2EF50271148D7D409484",
+  "dataset": {"id": "C7F3DE7BEC434DD7AD86FD33A78E9263", "name": "Retail Orders Sales Performance Model (global)"},
+  "overwrite": true,
+  "pages": [
+    {
+      "id": "titles", "title": "Titles and lines", "layout": "freeform",
+      "items": [
+        {"id": "left", "type": "chart", "vis": "bar", "title": "Vertical Bar Chart - Left Justified",
+         "title_format": {"lines": 1, "align": "left"},
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [1, 1, 32, 30]},
+        {"id": "center", "type": "chart", "vis": "bar", "title": "Vertical Bar Chart - Centered",
+         "title_format": {"subtitle": "uses 2 lines for Title", "align": "center"},
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [34, 1, 32, 30]},
+        {"id": "right", "type": "chart", "vis": "bar", "title": "Vertical Bar Chart - Right Justified",
+         "title_format": {"subtitle": "notice how Top Line and Bottom Line have different formatting", "align": "right", "wrap": true,
+                          "font": {"name": "Inter", "size": 12, "bold": true, "italic": true, "underline": true, "color": "#c1292f"}},
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [67, 1, 32, 30]},
+
+        {"id": "labels", "type": "chart", "vis": "bar", "title": "Data Labels on v2",
+         "title_format": {"subtitle": "Data Labels Position = Outside End and Rotation = Vertical"},
+         "props": {"DataLabel": "Show only values", "bdlp": "1", "dlrtt": "2"},
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [1, 34, 32, 30]},
+        {"id": "ref_avg", "type": "chart", "vis": "bar", "title": "Reference Lines Average and Median",
+         "title_format": {"subtitle": "Average labelled with Type and Metric, Median with Type and Value"},
+         "reference_lines": [{"type": "average", "label": ["type", "metric"]}, {"type": "median"}],
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [34, 34, 32, 30]},
+        {"id": "ref_const", "type": "chart", "vis": "bar", "title": "Reference Lines Maximum and Constant",
+         "title_format": {"subtitle": "Maximum with every label part; Constant at 5,000"},
+         "reference_lines": [{"type": "maximum", "label": ["type", "metric", "value"]}, {"type": "constant", "value": 5000}],
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [67, 34, 32, 30]},
+
+        {"id": "clustered_v", "type": "chart", "vis": "clusteredBar", "title": "Vertical Clustered Bar Chart",
+         "title_format": {"subtitle": "two metrics side by side", "align": "center"},
+         "zones": {"xAxis": "Product Category", "yAxis": ["Order Quantity", "Unit Price"]}, "box": [1, 67, 49, 32]},
+        {"id": "clustered_h", "type": "chart", "vis": "clusteredHbar", "title": "Horizontal Clustered Bar Chart",
+         "title_format": {"subtitle": "these titles are right justified", "align": "right"},
+         "props": {"DataLabel": "Show only values", "bdlp": "1", "allShpFmt": "{'shpRadius':0}"},
+         "zones": {"xAxis": ["Order Quantity", "Unit Price"], "yAxis": "Product Category"}, "box": [51, 67, 48, 32]}
+      ]
+    }
+  ]
+}

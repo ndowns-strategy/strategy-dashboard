@@ -1,0 +1,1441 @@
+{
+ "source": {
+  "dashboard": "Viz details",
+  "id": "646628F3FF49BCCC2BE831BEE4BBB0F3",
+  "project": "Shared Studio (1FC5A43B374C963CC773C285DF86E2F6)",
+  "dataset": "IMT Advisor Sales and Opportunity Performance Model (C4AF3C5600794076AFA4BBE8EC09F4AC)",
+  "studied": "2026-11-22",
+  "how": "Read-only: REST definition, getServerJSONResults on an instance that was never saved, and the rendered pages in Library."
+ },
+ "codes": {
+  "bdlp (data label position)": {
+   "0": "Auto",
+   "1": "Outside End",
+   "3": "Inside Base"
+  },
+  "dlrtt (data label rotation)": {
+   "(absent)": "Auto",
+   "0": "Horizontal",
+   "2": "Vertical"
+  },
+  "mod_c.tp (line type)": {
+   "1": "maximum",
+   "2": "minimum",
+   "3": "average",
+   "4": "median",
+   "5": "first",
+   "6": "last",
+   "7": "constant",
+   "256": "trend: best fit",
+   "257": "trend: linear"
+  },
+  "mod_c.la (line label bitmask)": {
+   "1": "type name",
+   "2": "metric name",
+   "4": "value",
+   "-1": "none (trend lines)"
+  },
+  "mod_c.cst": "{vt: 8, vv: \"<number>\"}: the constant for a Constant line (vv \"75\"); trend lines carry vv \"2\"; others {vt: 0, vv: \"\"}",
+  "mod_c.enabl": "1 drawn, 0 stored but off",
+  "fms.trdRefLnStyle": "0 solid (trend default), 1 dashed (reference lines here)",
+  "fms.trdRefLnCmbStyle": "1 on trend lines, 3 on reference lines here (meaning not confirmed)",
+  "fms.trdRefLnClr": "BGR integer; 5066061 = #4D4D4D",
+  "fms.rfLnFnt*": "label font: rfLnFntFml family, rfLnFntSz size, rfLnFntStyle, rfLnFntClr (BGR; 3815477 = #35383A). Some entries wrap each value with a _tmsp key, as the editor writes it."
+ },
+ "baseProps": {
+  "visStyle": "GraphMatrixVisualizationStyle",
+  "Shape": "Bar",
+  "Subtype": "Clustered",
+  "metricShapes": "{}",
+  "visType": "70",
+  "userVisType": "70",
+  "pdlll": "1",
+  "pnsr": "1",
+  "oxalr": "1",
+  "xAxLbWrapText": "true",
+  "pso": "4",
+  "bdlp": "0",
+  "xAxLbNestedLabel": "true",
+  "opt1132": "true",
+  "rwHdrTxtFntSz": "8pt",
+  "colHdrTxtFntSz": "8pt",
+  "rwVlTxtFntSz": "8pt",
+  "colVlTxtFntSz": "8pt",
+  "lgdFntSz": "8pt",
+  "dlFntSz": "8pt",
+  "dlTtFntSz": "8pt",
+  "rfLnFntSz": "8pt",
+  "xAxTtFntSz": "8pt",
+  "xAxLbFntSz": "8pt",
+  "yAxTtFntSz": "8pt",
+  "yAxLbFntSz": "8pt",
+  "yAxLnStyle": "99",
+  "yAxLnThk": "0",
+  "xAxLnStyle": "99",
+  "xAxLnThk": "0",
+  "majorGridLnStyle": "1",
+  "minerGridLnStyle": "1",
+  "ftFgGrpA": "1048575",
+  "th": "1",
+  "bgFillClr": "16777215",
+  "rwHdrTxtFntClr": "3815477",
+  "colHdrTxtFntClr": "3815477",
+  "rwVlTxtFntClr": "3815477",
+  "colVlTxtFntClr": "3815477",
+  "lgdFntClr": "3815477",
+  "rfLnFntClr": "5066061",
+  "allAxTtFntClr": "3815477",
+  "allAxLbFntClr": "3815477",
+  "xAxTtFntClr": "3815477",
+  "xAxLbFntClr": "3815477",
+  "yAxTtFntClr": "3815477",
+  "yAxLbFntClr": "3815477",
+  "xAxTtFntStyle": "1",
+  "yAxTtFntStyle": "1",
+  "dlFntClr": "3815477",
+  "lgdBgFillClr": "16185078",
+  "lgdBgFillStyle": "0",
+  "rwHdrFillClr": "16777215",
+  "rwHdrFillStyle": "0",
+  "colHdrFillClr": "16777215",
+  "colHdrFillStyle": "0",
+  "lgdBgFillTrans": "0",
+  "vMatrixLnClr": "14737632",
+  "hMatrixLnClr": "14737632",
+  "xAxLnClr": "14737632",
+  "yAxLnClr": "14737632",
+  "xAxOriLnClr": "14737632",
+  "yAxOriLnClr": "14737632",
+  "majorGridLnClr": "16053492",
+  "minerGridLnClr": "16053492",
+  "outBdrClr": "13553358",
+  "trdRefLnThk": "1",
+  "trdRefLnClr": "5066061",
+  "trdRefLnStyle": "0",
+  "groupInfo": "[]",
+  "AxisScale": "AllMetrics:0:0:242:0:242:false:false:false,5C13F07F029846299AC523B0C100FB0B:0:0:242:0:242:false:false:false",
+  "axisOrigin": "{'5C13F07F029846299AC523B0C100FB0B':{'axOriAuto':true,'axOriValue':0},'AllMetrics':{'axOriAuto':true,'axOriValue':0}}"
+ },
+ "examples": [
+  {
+   "key": "K52",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Left Justified",
+   "subtitle": "Add bottom line",
+   "titleLines": 1,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {},
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W75",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Centered",
+   "subtitle": "uses 2 lines for Title",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "center",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "center",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {},
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W78",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Right Justified",
+   "subtitle": "notice how Top Line and Botton Line have different formatting",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "italic bold 12pt 'Inter'",
+    "color": "#c1292f",
+    "text-decoration": "underline",
+    "text-align": "right",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "right",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {},
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W82",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Data Labels On v1",
+   "subtitle": "Both Data Labels Position and Rotation set to Auto",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Show only values"
+   },
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W87",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Data Labels on v2",
+   "subtitle": "Data Labels Position = Outside End and Rotation = Vertical",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Show only values",
+    "bdlp": "1",
+    "dlrtt": "2"
+   },
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W93",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Data Labels On v3",
+   "subtitle": "Data Labels Position = Inside Base and Rotation = Horiztonal",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Show only values",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W100",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Trend Line Enabled",
+   "subtitle": "Uses default Mode = Best Fit",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": null
+  },
+  {
+   "key": "W108",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines Maximum",
+   "subtitle": "Reference Line enabled for Maximum, Line Label turned on with all label types displayed",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 1,
+     "lv": 1,
+     "la": 7,
+     "incl": 0,
+     "cst": {
+      "vt": 0,
+      "vv": ""
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": {
+       "rfLnFntFml": "Open Sans",
+       "rfLnFntFml_tmsp": 1795384731482
+      },
+      "rfLnFntSz": {
+       "rfLnFntSz": "9pt",
+       "rfLnFntSz_tmsp": 1795384731482
+      },
+      "rfLnFntStyle": {
+       "rfLnFntStyle": 0,
+       "rfLnFntStyle_tmsp": 1795384731482
+      },
+      "rfLnFntClr": {
+       "rfLnFntClr": 3815477,
+       "rfLnFntClr_tmsp": 1795384731482
+      },
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "maximum",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 143.0
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "W117",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines Minimum",
+   "subtitle": "Reference Line enabled for Minimum, Line Label turned on for Type",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 2,
+     "lv": 1,
+     "la": 1,
+     "incl": 0,
+     "cst": {
+      "vt": 0,
+      "vv": ""
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": {
+       "rfLnFntFml": "Open Sans",
+       "rfLnFntFml_tmsp": 1795384805361
+      },
+      "rfLnFntSz": {
+       "rfLnFntSz": "9pt",
+       "rfLnFntSz_tmsp": 1795384805361
+      },
+      "rfLnFntStyle": {
+       "rfLnFntStyle": 0,
+       "rfLnFntStyle_tmsp": 1795384805361
+      },
+      "rfLnFntClr": {
+       "rfLnFntClr": 3815477,
+       "rfLnFntClr_tmsp": 1795384805361
+      },
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "minimum",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 37.0
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "W127",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines Average",
+   "subtitle": "Reference Line enabled for Average, Line Label turned on for Type and Metric",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 3,
+     "lv": 1,
+     "la": 3,
+     "incl": 0,
+     "cst": {
+      "vt": 0,
+      "vv": ""
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": {
+       "rfLnFntFml": "Open Sans",
+       "rfLnFntFml_tmsp": 1795384948605
+      },
+      "rfLnFntSz": {
+       "rfLnFntSz": "9pt",
+       "rfLnFntSz_tmsp": 1795384948605
+      },
+      "rfLnFntStyle": {
+       "rfLnFntStyle": 0,
+       "rfLnFntStyle_tmsp": 1795384948605
+      },
+      "rfLnFntClr": {
+       "rfLnFntClr": 3815477,
+       "rfLnFntClr_tmsp": 1795384948605
+      },
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "average",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 80.66666666666667
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "W138",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines Median",
+   "subtitle": "Reference Line enabled for Median, Line Label turned on for Type and Value",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 4,
+     "lv": 1,
+     "la": 5,
+     "incl": 0,
+     "cst": {
+      "vt": 0,
+      "vv": ""
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": "Open Sans",
+      "rfLnFntSz": "9pt",
+      "rfLnFntStyle": 0,
+      "rfLnFntClr": 3815477,
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "median",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 62.0
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "W150",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines First",
+   "subtitle": "Reference Line enabled for First, Line Label turned on for Type and Value",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 5,
+     "lv": 1,
+     "la": 5,
+     "incl": 0,
+     "cst": {
+      "vt": 0,
+      "vv": ""
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": "Open Sans",
+      "rfLnFntSz": "9pt",
+      "rfLnFntStyle": 0,
+      "rfLnFntClr": 3815477,
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "first",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 143.0
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "W163",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines Last",
+   "subtitle": "Reference Line enabled for Last, Line Label turned on for Type and Value",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 6,
+     "lv": 1,
+     "la": 5,
+     "incl": 0,
+     "cst": {
+      "vt": 0,
+      "vv": ""
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": "Open Sans",
+      "rfLnFntSz": "9pt",
+      "rfLnFntStyle": 0,
+      "rfLnFntClr": 3815477,
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "last",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 62.0
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "W177",
+   "page": "Page 1",
+   "title": "Vertical Bar Chart - Referencs Lines Constant",
+   "subtitle": "Reference Line enabled for Constan, input value required, can not use a metric or attribute.",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "bdlp": "3",
+    "dlrtt": "0"
+   },
+   "referenceAndTrendLines": [
+    {
+     "tp": 256,
+     "lv": 1,
+     "la": -1,
+     "incl": 1,
+     "cst": {
+      "vt": 8,
+      "vv": "2"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 0,
+      "trdRefLnCmbStyle": 1
+     },
+     "enabl": 0,
+     "dua": 0,
+     "lin": "",
+     "type": "trend: best fit",
+     "metric": "Advisor Count"
+    },
+    {
+     "tp": 7,
+     "lv": 1,
+     "la": 5,
+     "incl": 0,
+     "cst": {
+      "vt": 8,
+      "vv": "75"
+     },
+     "fms": {
+      "trdRefLnThk": 1,
+      "trdRefLnClr": 5066061,
+      "trdRefLnStyle": 1,
+      "rfLnFntFml": {
+       "rfLnFntFml": "Open Sans",
+       "rfLnFntFml_tmsp": 1795385187343
+      },
+      "rfLnFntSz": {
+       "rfLnFntSz": "9pt",
+       "rfLnFntSz_tmsp": 1795385187343
+      },
+      "rfLnFntStyle": {
+       "rfLnFntStyle": 0,
+       "rfLnFntStyle_tmsp": 1795385187343
+      },
+      "rfLnFntClr": {
+       "rfLnFntClr": 3815477,
+       "rfLnFntClr_tmsp": 1795385187343
+      },
+      "trdRefLnCmbStyle": 3
+     },
+     "enabl": 1,
+     "dua": 0,
+     "lin": "",
+     "type": "constant",
+     "metric": "Advisor Count"
+    }
+   ],
+   "renderedLineValues": {
+    "all": [
+     {
+      "mid": 0,
+      "modix": 2,
+      "models": [
+       [
+        [
+         {
+          "model": 75
+         }
+        ]
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "K58",
+   "page": "Page 1 copy ",
+   "title": "Vertical Bar Chart",
+   "subtitle": "Add bottom line",
+   "titleLines": 1,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "left",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Advisor Count"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "70",
+    "userVisType": "70"
+   },
+   "propsThatDifferFromFirstChart": {},
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "K70",
+   "page": "Page 1 copy ",
+   "title": "Horizontal Bar Chart",
+   "subtitle": "Notice how this chart has two titles lines, and is centered. ",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "center",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "center",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Advisor Count"
+    ],
+    "YAxis": [
+     "Producer Category"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Automatic",
+    "visType": "71",
+    "userVisType": "71"
+   },
+   "propsThatDifferFromFirstChart": {
+    "yr": "49218222DD264709BBADF5EB6F195826:1.263157894736842"
+   },
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "K78",
+   "page": "Page 1 copy ",
+   "title": "Vertical Clustered Bar Chart",
+   "subtitle": "Notice how this chart has two titles lines, and is centered. ",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "center",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "center",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Producer Category"
+    ],
+    "YAxis": [
+     "Year To Date External Activity Count",
+     "Year To Date Internal Activity Count"
+    ],
+    "BreakBy": [
+     "Metric Names"
+    ],
+    "ColorBy": [
+     "Metric Names"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "7",
+    "userVisType": "7"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Hide",
+    "axisOrigin": "{'YAxis':{'axOriAuto':true,'axOriValue':0},'AllMetrics':{'axOriAuto':true,'axOriValue':0}}",
+    "yr": "49218222DD264709BBADF5EB6F195826:1.263157894736842"
+   },
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  },
+  {
+   "key": "K84",
+   "page": "Page 1 copy ",
+   "title": "Horizontal Clustered Bar Chart",
+   "subtitle": "these titles are right justified",
+   "titleLines": 2,
+   "titleFormat": {
+    "height": "19px",
+    "background-color": "#fff",
+    "font": "12pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "right",
+    "vertical-align": "middle",
+    "white-space": "nowrap"
+   },
+   "subtitleFormat": {
+    "background-color": "#fff",
+    "font": "9pt 'Open Sans'",
+    "color": "#35383a",
+    "text-align": "right",
+    "vertical-align": "middle",
+    "white-space": "nowrap",
+    "border": "1pt solid #000"
+   },
+   "zones": {
+    "XAxis": [
+     "Year To Date Internal Activity Count",
+     "Year To Date External Activity Count"
+    ],
+    "YAxis": [
+     "Producer Category"
+    ],
+    "BreakBy": [
+     "Metric Names"
+    ],
+    "ColorBy": [
+     "Metric Names"
+    ]
+   },
+   "type": {
+    "Shape": "Bar",
+    "Subtype": "Clustered",
+    "visType": "10",
+    "userVisType": "10"
+   },
+   "propsThatDifferFromFirstChart": {
+    "DataLabel": "Show only values",
+    "allShpFmt": "{'shpRadius':0,'shpRadius_tmsp':1795384208852}",
+    "axisOrigin": "{'XAxis':{'axOriAuto':true,'axOriValue':0},'AllMetrics':{'axOriAuto':true,'axOriValue':0}}",
+    "bdlp": "1",
+    "yr": "49218222DD264709BBADF5EB6F195826:1.263157894736842"
+   },
+   "referenceAndTrendLines": [],
+   "renderedLineValues": null
+  }
+ ]
+}

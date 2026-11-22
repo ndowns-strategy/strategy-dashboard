@@ -41,6 +41,10 @@
 //               insertSankey (Sankey Diagram: 2+ level attributes, one flow metric),
 //               insertHeatmap (Heat Map: grouping attributes, Color By + Size By metrics, percentile color bands),
 //               insertKpi (Iconic) / insertCustomVis ('ImageEnhancedKPI', 'AutoNarratives'), setKpiIcon, addNarratives, titleBar
+//   Title bar   titleBar (show / hide + text), setTitle, titleFormat (1 or 2 lines, second-line text, each line's font,
+//               alignment of the title lines, wrap text). Every visualization type has a title bar EXCEPT the Iconic KPI
+//               (ImageEnhancedKPI); reference/bar-catalog.md "Title bar".
+//   Lines       trendLine, referenceLine (maximum, minimum, average, median, first, last, constant; label bitmask)
 //   Text        addText, addRichText (words formatted separately; transparent: no white box), setLink (link to a page,
 //               URL or another dashboard; reference/link-catalog.md), setTitle, rename (display name of a field inside one visualization)
 //   Filters     addChapterFilter, addCanvasSelector (on-canvas Element / Value Filter: drop-down, multi-select, title shown by default; 3+ filters grouped together go in the Filter Panel with addChapterFilter instead), addObjectSelector (Attribute / Metric Selector: swaps an object in target visualizations), keepOnly (visualization filter)
@@ -88,6 +92,9 @@
 //   - Auto Summary (enableAutoSummary) failed with a 500 when the page had an on-canvas selector on an attribute unrelated to
 //     the page's metrics (Month Name on the campus sessions dataset). Pick selector attributes that relate to the metrics.
 //   - A text box's background: format unitType 106 { FormattingPatterns: { FillColor: Number(bgr(hex)), FillStyle: 0 } }.
+//   - Title bar settings (titleFormat: lines, second line, fonts, alignment, wrap) work on every visualization except the
+//     Iconic KPI (ImageEnhancedKPI), which has no title bar. Title alignment is not a chart prop: it is format type 2 (title
+//     line) / 3 (second line) FormattingAlignment.Horizontal, 0 left, 1 right, 2 center (not 1/2/3).
 //   - setLink only works on plain Text boxes (addText). On a Rich Text box (addRichText) the link saves but clicking it
 //     in Library just selects the box (verified 2026-11-16 on "Lincoln Enterprise Performance Hub (freeform, built from code)").
 //   - The AutoNarratives instruction (addNarratives) must not contain double quotes: they break the &quot;-escaped
@@ -211,6 +218,8 @@ const VIS = {
   areaStacked: { shape: 'Area', visType: 30, subtype: 'Stacked' }, // stacked area (diverging area)
   scatter: { shape: 'Circle', visType: 21 },                       // scatter / bubble (add Size By for bubbles)
   combo: { shape: 'Bar', visType: 57, subtype: 'Stacked' },        // dual-axis combo: Metric Names on Rows, metricShapes for lines
+  clusteredBar: { shape: 'Bar', visType: 7, subtype: 'Clustered' },   // vertical clustered: 2+ metrics side by side; Metric Names on Color By + Break By
+  clusteredHbar: { shape: 'Bar', visType: 10, subtype: 'Clustered' }, // horizontal clustered (reference/bar-catalog.md)
 };
 // Verified end to end: bar, hbar, line, pie, ring, 100% hbar.
 // hbar: xAxis = metric, yAxis = attribute. Multi-series line: breakBy + colorBy = attribute.
@@ -1193,6 +1202,61 @@ function client(token, projectId) {
       titleBar(vizKey, show = true, title) {
         return s.edit([{ act: 'format', unitKey: vizKey, unitType: 521, formatType: 1, format: {
           FormattingView: { ShowTitleBar: show ? -1 : 0, ShowWidgetTitleBar: show ? -1 : 0, ...(title ? { Title: title } : {}) } } }], [vizKey]);
+      },
+      // Title bar format (Format > Title and Container; reference/bar-catalog.md "Title bar"). Applies to EVERY visualization
+      // type (charts, grids, KPI cards, maps, custom visualizations...) EXCEPT the Iconic KPI (ImageEnhancedKPI), which has
+      // no title bar. Taken from Library's own editor code (mojo-dossier.js: getTitlesLinesFmts, getRenameSubtitleAction,
+      // getDefaultSubtitleFormatAction, getTitleAlignmentFmts) and verified 2026-11-22 by reading the stored formats back.
+      //   lines: 1 | 2. Two lines shows a second line (subtitle) under the title: format type 1 FormattingView.TitlesLines.
+      //     Going back to 1 hides the second line but keeps its text.
+      //   subtitle: text of the second line (act setSubtitle). New second lines get the editor's default font first
+      //     (Open Sans 9, #35383A), as "Add bottom line" does.
+      //   align: 'left' | 'center' | 'right' for both lines (FormattingAlignment.Horizontal: 0 left, 1 right, 2 center;
+      //     3 and up are rejected). subtitleAlign overrides the second line.
+      //   wrap: true wraps long titles (TextWrap -1), false keeps one line (0; the default on a new visualization).
+      //     subtitleWrap overrides the second line.
+      //   font / subtitleFont: FormattingFont for each line, e.g. { Name: 'Inter', Size: '12', Bold: -1, Italic: -1,
+      //     Underline: -1, Color: bgr('#c1292f') }. Format type 2 is the title line, 3 the second line.
+      // The title text itself is setTitle / titleBar. unitType: 521 for a visualization added in this session (a draft),
+      // 522 for one already saved in the dashboard.
+      titleFormat(vizKey, { lines, subtitle, align, subtitleAlign, wrap, subtitleWrap, font, subtitleFont, unitType = 521 } = {}) {
+        const H = { left: 0, right: 1, center: 2 };
+        const f = (formatType, format) => ({ act: 'format', unitKey: vizKey, unitType, formatType, format });
+        const align2 = (a, w) => { const x = {}; if (a !== undefined) x.Horizontal = H[a]; if (w !== undefined) x.TextWrap = w ? -1 : 0; return x; };
+        const two = lines === 2 || (lines === undefined && subtitle !== undefined);
+        const acts = [];
+        if (lines !== undefined || subtitle !== undefined) acts.push(f(1, { FormattingView: { TitlesLines: two ? 2 : 1 } }));
+        if (subtitle !== undefined) acts.push({ act: 'setSubtitle', nodeKey: vizKey, unitType: 521, subtitle },
+          f(3, { FormattingFont: { Bold: 0, Italic: 0, Underline: 0, Strikeout: 0, Size: 9, Color: 3815477, Name: 'Open Sans' } }));
+        if (font) acts.push(f(2, { FormattingFont: font }));
+        if (subtitleFont) acts.push(f(3, { FormattingFont: subtitleFont }));
+        const a1 = align2(align, wrap), a2 = align2(subtitleAlign ?? align, subtitleWrap ?? wrap);
+        if (Object.keys(a1).length) acts.push(f(2, { FormattingAlignment: a1 }));
+        if (Object.keys(a2).length && (two || subtitleAlign !== undefined || subtitleWrap !== undefined)) acts.push(f(3, { FormattingAlignment: a2 }));
+        return s.edit(acts, [vizKey]);
+      },
+      // Reference line on a chart (Format > Reference Line; reference/bar-catalog.md "Reference lines"). The editor's
+      // operateTRFLine, the same action as trendLine; field names from Library's chart code (vi-gm.js: refTp -> lineType,
+      // refLbTp -> lineLabel, refCstVl -> lineConstant, modix -> lineIndex). Verified 2026-11-22: stored exactly as on the
+      // "Viz details" source dashboard, and the server computed each line's value.
+      //   type: 'maximum' | 'minimum' | 'average' | 'median' | 'first' | 'last' | 'constant' (lineType 1-7).
+      //   value: the number for 'constant' (a typed number; a metric or attribute isn't allowed).
+      //   label: what the label at the line's right end shows, any of 'type', 'metric', 'value' (lineLabel bitmask 1/2/4);
+      //     [] for no label. Default ['type', 'value'] ("Median 62").
+      //   index: position in the metric's line list, 1-based (lineIndex). A chart's second line is 2, and so on; a trend
+      //     line added first takes 1.
+      //   color / style ('dashed' | 'solid') / thickness / font: the line and label look; defaults match the source
+      //     (dashed #4D4D4D, 1 px, Open Sans 9pt #35383A).
+      referenceLine(vizKey, metricId, { type = 'average', value, label = ['type', 'value'], index = 1, color = '#4D4D4D',
+        style = 'dashed', thickness = 1, font = { family: 'Open Sans', size: '9pt', color: '#35383A' } } = {}) {
+        const lineType = { maximum: 1, minimum: 2, average: 3, median: 4, first: 5, last: 6, constant: 7 }[type];
+        if (!lineType) throw new Error('Unknown reference line type ' + type);
+        if (type === 'constant' && (value === undefined || value === null || value === '')) throw new Error('A constant reference line needs a value');
+        const lineLabel = typeof label === 'number' ? label : label.reduce((n, k) => n | ({ type: 1, metric: 2, value: 4 }[k] || 0), 0);
+        const fmt = { trdRefLnThk: thickness, trdRefLnClr: Number(bgr(color)), trdRefLnStyle: style === 'solid' ? 0 : 1,
+          rfLnFntFml: font.family, rfLnFntSz: font.size, rfLnFntStyle: 0, rfLnFntClr: Number(bgr(font.color)), trdRefLnCmbStyle: 3 };
+        return s.edit([{ act: 'operateTRFLine', tks: vizKey, lineType, lineLevel: 1, lineLabel, enabled: 1, includeBreakby: 0,
+          lineConstant: type === 'constant' ? String(value) : '', lineIndex: index, format: JSON.stringify(fmt).replace(/"/g, '&quot;'), metricId }], [vizKey]);
       },
 
       // AI narratives summarizing the given visualizations with an instruction (generated when the page renders).

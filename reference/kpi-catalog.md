@@ -1,5 +1,9 @@
 # KPI (Performance Indicator) catalog
 
+> **Title bar:** every KPI type except the **Iconic KPI** (`ImageEnhancedKPI`) has the standard title bar: one or two lines,
+> each line's format, justification and wrap (`titleFormat`; see [bar-catalog.md](bar-catalog.md) "Title bar"). The Iconic
+> KPI has no title bar, so don't send `titleFormat` to one.
+
 Studied from the demo dashboard **Tec Visual Vocabulary › Performance Indicators** (demo.microstrategy.com, read as a guest, no edits). Exact values are in [kpi-catalog.json](kpi-catalog.json); this page explains how to recognize each variant in an image and how it's built.
 
 Strategy has three native KPI visualizations. They differ in visualization style, drop zones and where their formatting lives.

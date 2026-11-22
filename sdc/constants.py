@@ -43,4 +43,6 @@ VIS = {
     'areaStacked': {'shape': 'Area', 'visType': 30, 'subtype': 'Stacked'},
     'scatter': {'shape': 'Circle', 'visType': 21},
     'combo': {'shape': 'Bar', 'visType': 57, 'subtype': 'Stacked'},
+    'clusteredBar': {'shape': 'Bar', 'visType': 7, 'subtype': 'Clustered'},    # Metric Names on Color By + Break By
+    'clusteredHbar': {'shape': 'Bar', 'visType': 10, 'subtype': 'Clustered'},
 }

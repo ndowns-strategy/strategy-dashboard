@@ -20,6 +20,7 @@ When you rebuild a dashboard from an image:
 
 | File | Covers | Helpers |
 |---|---|---|
+| [bar-catalog.md](bar-catalog.md) | Vertical, horizontal and clustered bars; the **title bar** of every visualization except the Iconic KPI (one or two lines, each line's format, justification, wrap); data label position and rotation; reference lines (max, min, average, median, first, last, constant); trend line | `insertChart`, `chartFormat`, `titleFormat`, `referenceLine`, `trendLine` |
 | [line-catalog.md](line-catalog.md) | Line charts: straight or curved lines, curve smoothness, markers, data labels | `insertLine` |
 | [stacked-bar-catalog.md](stacked-bar-catalog.md) | The gallery's Vertical Stacked Bar Chart (its own type, not a bar chart with a Stacked subtype), rounded segments, white separators | `insertStackedBar` |
 | [donut-catalog.md](donut-catalog.md) | The Donut Chart plugin: total in the center, thin ring, rounded slice ends, legend with values. Not the GraphMatrix ring. | `insertDonut` |
@@ -56,11 +57,12 @@ When you rebuild a dashboard from an image:
 
 ## JSON files
 
-Six catalogs have a JSON counterpart with the exact values read from the source dashboard: drop zones, widget properties
+Seven catalogs have a JSON counterpart with the exact values read from the source dashboard: drop zones, widget properties
 and formats for every example.
 
 | File | Pairs with |
 |---|---|
+| [bar-catalog.json](bar-catalog.json) | [bar-catalog.md](bar-catalog.md) |
 | [kpi-catalog.json](kpi-catalog.json) | [kpi-catalog.md](kpi-catalog.md) |
 | [grid-catalog.json](grid-catalog.json) | [grid-catalog.md](grid-catalog.md) |
 | [filter-catalog.json](filter-catalog.json) | [filter-catalog.md](filter-catalog.md) |

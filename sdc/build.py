@@ -229,6 +229,10 @@ class Builder:
                 s.insert_chart(key, vis, layout, pk)
             zones = dict(it['zones'])
             fields = self._zone_fields(zones)
+            if it['vis'] in ('clusteredBar', 'clusteredHbar'):   # 2+ metrics side by side: Metric Names on both zones
+                for z in ('colorBy', 'breakBy'):
+                    if z not in zones:
+                        fields.append({'zoneId': ZONE[z], 'unitId': METRIC_NAMES, 'unitType': 4})
             if it.get('series_color') and 'colorBy' not in zones:
                 fields.append({'zoneId': ZONE['colorBy'], 'unitId': METRIC_NAMES, 'unitType': 4})
             s.fill_zones(key, ds, fields)
@@ -248,6 +252,8 @@ class Builder:
             if it.get('sort'):
                 srt = it['sort']
                 s.sort_by_metric(key, N.metric(srt['metric']), srt.get('ascending', False), srt.get('axis', 1))
+            first_metric = next((f['unitId'] for f in fields if f['unitType'] == 4 and f['unitId'] != METRIC_NAMES), None)
+            self._reference_lines(it, key, first_metric)
         elif typ == 'line':
             kw = dict(x=[N.attribute(a) for a in _as_list(it['x'])],
                       metrics=[N.metric(m) for m in _as_list(it.get('metrics') or it.get('metric'))],
@@ -263,6 +269,7 @@ class Builder:
                 s.insert_line(key, layout, ds, page_key=pk, **kw)
             if it.get('metric_colors'):
                 s.metric_colors({N.metric(m): c for m, c in it['metric_colors'].items()}, key)
+            self._reference_lines(it, key, kw['metrics'][0])
         elif typ == 'donut':
             s.insert_donut(key, layout, ds, N.metric(it['metric']), N.attribute(it['slice']), page_key=pk,
                            color_by=N.attribute(it['color_by']) if it.get('color_by') else None,
@@ -271,12 +278,28 @@ class Builder:
                            colors=it.get('colors'), props=it.get('props'))
         self._viz_common(it, key)
 
+    def _reference_lines(self, it, key, default_metric):
+        counts = {}
+        for rl in it.get('reference_lines') or []:
+            mid = self.names.metric(rl['metric']) if rl.get('metric') else default_metric
+            counts[mid] = counts.get(mid, 0) + 1          # lineIndex: 1-based per metric
+            kw = {k: rl[k] for k in ('value', 'label', 'color', 'style', 'thickness') if k in rl}
+            if rl.get('font'):
+                kw['font'] = {'family': 'Open Sans', 'size': '9pt', 'color': '#35383A', **rl['font']}
+            self.s.reference_line(key, mid, rl['type'], index=counts[mid], **kw)
+
     def _viz_common(self, it, key):
         s = self.s
         if it.get('title'):
             s.title_bar(key, True, it['title'])
         elif it.get('title_bar') is False:
             s.title_bar(key, False)
+        tf = it.get('title_format')
+        if tf:   # every visualization type has a title bar except the Iconic KPI (not a spec type)
+            s.title_format(key, lines=tf.get('lines'), subtitle=tf.get('subtitle'), align=tf.get('align'),
+                           subtitle_align=tf.get('subtitle_align'), wrap=tf.get('wrap'),
+                           subtitle_wrap=tf.get('subtitle_wrap'),
+                           font=font_format(tf.get('font')) or None, subtitle_font=font_format(tf.get('subtitle_font')) or None)
         if it.get('border'):
             b = it['border']
             s.card_border(key, b.get('color', '#ababab'), b.get('radius', 8), b.get('style', 5))

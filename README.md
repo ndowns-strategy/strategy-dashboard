@@ -106,13 +106,18 @@ One JSON file per dashboard. Top level:
 
 Every item has an `id`, a `type` and a `box`: `[x, y, w, h]` in percent of the page. Items are drawn in list order, back to
 front. Text boxes get 2% added to their height (`exact_height: true` to opt out). Visualizations also take `title` (shows
-the title bar with that text), `title_bar: false`, `border: {"color", "radius"}` and `fill: {"container", "title"}`.
+the title bar with that text), `title_bar: false`, `title_format` (below), `border: {"color", "radius"}` and `fill: {"container", "title"}`.
+
+**Title bar (`title_format`).** Every visualization type has a title bar **except the Iconic KPI**. `"title_format":
+{"lines": 1|2, "subtitle": "second line", "align": "left"|"center"|"right", "wrap": true|false, "font": {...},
+"subtitle_font": {...}}`, plus `subtitle_align` and `subtitle_wrap` to treat the second line differently. Fonts take
+`name`, `size`, `bold`, `italic`, `underline` and `color`. Details: [reference/bar-catalog.md](reference/bar-catalog.md).
 
 | Type | Fields |
 |---|---|
 | `kpi_card` | `metric`, optional `trend` (attribute: sparkline and % badge), `break_by`, `props` (setKpiCardProps settings) |
-| `chart` | `vis` (`bar`, `hbar`, `line`, `area`, `pie`, `ring`, `pctHbar`, `stackedBar`, `scatter`, `combo`, ...), `zones` (`{"xAxis": "Region", "yAxis": "Revenue", ...}`, a name or a list), `series_color`, `colors` (element colors on Color By), `metric_colors`, `legend: false`, `sort: {"metric", "ascending", "axis"}`, `props` (GraphMatrix props) |
-| `line` | `x`, `metrics`, `break_by`, `style` (`curved` default at 0.3, or `straight`), `smoothness`, `color`, `markers`, `data_labels`, `metric_colors`, `props` |
+| `chart` | `vis` (`bar`, `hbar`, `clusteredBar`, `clusteredHbar`, `line`, `area`, `pie`, `ring`, `pctHbar`, `stackedBar`, `scatter`, `combo`, ...), `zones` (`{"xAxis": "Region", "yAxis": "Revenue", ...}`, a name or a list), `series_color`, `colors` (element colors on Color By), `metric_colors`, `legend: false`, `sort: {"metric", "ascending", "axis"}`, `reference_lines` (`[{"type": "average"|"median"|"maximum"|"minimum"|"first"|"last"|"constant", "value", "label": ["type", "metric", "value"], "metric", "color", "style"}]`), `props` (GraphMatrix props) |
+| `line` | `x`, `metrics`, `break_by`, `style` (`curved` default at 0.3, or `straight`), `smoothness`, `color`, `markers`, `data_labels`, `metric_colors`, `reference_lines`, `props` |
 | `donut` | `metric`, `slice`, `color_by`, `target`, `break_by`, `colors`, `props` |
 | `narrative` | `sources` (item ids on the same page), `instruction` (no double quotes) |
 | `text` | `text`, `font: {"name", "size", "bold", "italic", "color"}`, `align`, `fill` (default none), `link: {"page": "<page id>"}` or `{"url", "new_tab"}`, `tooltip` |
@@ -258,7 +263,7 @@ All helpers live on the session that `c.newDashboard()` or `c.open()` returns. T
 |---|---|---|
 | Structure | `addChapter`, `chapterKeys`, `switchChapter`, `addPage`, `renameChapter`, `renamePage`, `structure`, `duplicateChapter`, `deleteChapter`, `moveChapter`, `duplicatePage`, `deletePage`, `movePage` | |
 | Layout | `setLayout` (tiled boxes), `setFreeformLayout` (free-form: x / y / width / height in percent, layered back to front) | |
-| Charts | `insertChart`, `changeType`, `fillZones`, `chartFormat`, `chartProps` / `setChartProps`, `setMetricColor`, `metricColors`, `elementColors`, `setPalette`, `trendLine` | [line](reference/line-catalog.md), [stacked bar](reference/stacked-bar-catalog.md), [bubble](reference/bubble-catalog.md), [correlation](reference/correlation-catalog.md), [deviation](reference/deviation-catalog.md), [ranking](reference/ranking-catalog.md) |
+| Charts | `insertChart`, `changeType`, `fillZones`, `chartFormat`, `chartProps` / `setChartProps`, `setMetricColor`, `metricColors`, `elementColors`, `setPalette`, `trendLine`, `referenceLine` | [bar](reference/bar-catalog.md), [line](reference/line-catalog.md), [stacked bar](reference/stacked-bar-catalog.md), [bubble](reference/bubble-catalog.md), [correlation](reference/correlation-catalog.md), [deviation](reference/deviation-catalog.md), [ranking](reference/ranking-catalog.md) |
 | Special charts | `insertLine`, `insertStackedBar`, `insertBubble`, `insertDonut`, `insertHeatmap`, `insertSankey`, `insertMapbox` | [donut](reference/donut-catalog.md), [heat map](reference/heatmap-catalog.md), [Sankey](reference/sankey-catalog.md) |
 | KPIs | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties`, `insertKpi` (Iconic), `setKpiIcon` | [KPI catalog](reference/kpi-catalog.md) |
 | Grids | `addToGrid`, `moveField`, `sortByMetric`, `attributeThresholds`, `metricThresholds`, `buildModernGrid` (row sets), `buildColumnSetGrid` (column sets and microcharts) | [grid catalog](reference/grid-catalog.md) |
