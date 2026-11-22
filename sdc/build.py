@@ -7,7 +7,7 @@ Nothing is saved until the last step, so a failure part way leaves nothing behin
 """
 import time
 
-from .constants import KPI_ZONE, METRIC_NAMES, VIS, ZONE
+from .constants import KPI_ZONE, METRIC_NAMES, VIS, ZONE, chart_look
 from .spec import REUSABLE, Names, SpecError, _as_list, check_data, check_structure, number_formats, zone_kind
 from .transport import StrategyError
 from .util import bgr
@@ -233,12 +233,14 @@ class Builder:
                 for z in ('colorBy', 'breakBy'):
                     if z not in zones:
                         fields.append({'zoneId': ZONE[z], 'unitId': METRIC_NAMES, 'unitType': 4})
+            if it['vis'] in ('pie', 'ring') and 'colorBy' not in zones and zones.get('sliceBy'):
+                fields.append({'zoneId': ZONE['colorBy'], 'unitId': N.attribute(_as_list(zones['sliceBy'])[0]),
+                               'unitType': 12})   # the editor puts the slice attribute on Color By too
             if it.get('series_color') and 'colorBy' not in zones:
                 fields.append({'zoneId': ZONE['colorBy'], 'unitId': METRIC_NAMES, 'unitType': 4})
             s.fill_zones(key, ds, fields)
-            props = dict(it.get('props') or {})
-            if it.get('legend') is False:
-                props.setdefault('LegendVisibleness', 'Hide')
+            props = {**chart_look(it.get('legend'), it.get('data_labels'), it.get('leader_lines'), it.get('marker_size')),
+                     **(it.get('props') or {})}
             if props:
                 s.chart_format(key, vis, props)
             if it.get('series_color'):
@@ -260,8 +262,7 @@ class Builder:
                       break_by=N.attribute(it['break_by']) if it.get('break_by') else None,
                       style=it.get('style', 'curved'), smoothness=it.get('smoothness', 0.3), color=it.get('color'),
                       markers=it.get('markers', False), data_labels=it.get('data_labels', False),
-                      props={**({'LegendVisibleness': 'Hide'} if it.get('legend') is False else {}),
-                             **(it.get('props') or {})})
+                      props={**chart_look(it.get('legend')), **(it.get('props') or {})})
             if layout is None:
                 s.change_type(key, VIS['line'], 521)
                 s.line_setup(key, ds, **kw)

@@ -566,7 +566,7 @@
      "header": 2
     },
     {
-     "text": "Clarity – for every “decision”, 100% ✓",
+     "text": "Clarity \u2013 for every \u201cdecision\u201d, 100% \u2713",
      "italic": true,
      "underline": true,
      "strike": true
@@ -926,5 +926,112 @@
     "t": "b"
    }
   }
+ },
+ {
+  "name": "chart_look_pie_v1",
+  "js": "chartLook",
+  "args": [
+   "W80",
+   {
+    "shape": "Pie",
+    "visType": 61
+   },
+   {
+    "dataLabels": [
+     "text",
+     "value",
+     "percent"
+    ],
+    "legend": {
+     "position": "left",
+     "align": "top",
+     "shape": "circle"
+    }
+   }
+  ]
+ },
+ {
+  "name": "chart_look_ring_v4",
+  "js": "chartLook",
+  "args": [
+   "W81",
+   {
+    "shape": "Ring",
+    "visType": 62
+   },
+   {
+    "dataLabels": [
+     "text"
+    ],
+    "markerSize": 0.9,
+    "leaderLines": "auto",
+    "legend": {
+     "position": "right",
+     "align": "top",
+     "shape": "line",
+     "title": false
+    }
+   }
+  ]
+ },
+ {
+  "name": "chart_look_top_default_align",
+  "js": "chartLook",
+  "args": [
+   "W82",
+   {
+    "shape": "Pie",
+    "visType": 61
+   },
+   {
+    "dataLabels": [
+     "percent",
+     "value"
+    ],
+    "markerSize": 1.0,
+    "legend": {
+     "position": "top",
+     "title": true,
+     "shape": "roundedRectangle"
+    },
+    "leaderLines": "hide"
+   }
+  ]
+ },
+ {
+  "name": "chart_look_hidden_extra_wins",
+  "js": "chartLook",
+  "args": [
+   "W83",
+   {
+    "shape": "Ring",
+    "visType": 62
+   },
+   {
+    "legend": false,
+    "dataLabels": "hide"
+   },
+   {
+    "DataLabel": "Show only values",
+    "LegendPosition": "13"
+   }
+  ]
+ },
+ {
+  "name": "chart_look_bad_align",
+  "js": "chartLook",
+  "args": [
+   "W84",
+   {
+    "shape": "Pie",
+    "visType": 61
+   },
+   {
+    "legend": {
+     "position": "bottom",
+     "align": "top"
+    }
+   }
+  ]
  }
 ]

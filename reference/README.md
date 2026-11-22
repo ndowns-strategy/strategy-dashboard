@@ -23,6 +23,7 @@ When you rebuild a dashboard from an image:
 | [bar-catalog.md](bar-catalog.md) | Vertical, horizontal and clustered bars; the **title bar** of every visualization except the Iconic KPI (one or two lines, each line's format, justification, wrap); data label position and rotation; reference lines (max, min, average, median, first, last, constant); trend line | `insertChart`, `chartFormat`, `titleFormat`, `referenceLine`, `trendLine` |
 | [line-catalog.md](line-catalog.md) | Line charts: straight or curved lines, curve smoothness, markers, data labels | `insertLine` |
 | [stacked-bar-catalog.md](stacked-bar-catalog.md) | The gallery's Vertical Stacked Bar Chart (its own type, not a bar chart with a Stacked subtype), rounded segments, white separators | `insertStackedBar` |
+| [pie-catalog.md](pie-catalog.md) | GraphMatrix pie and ring: shape, marker size, data labels (text/value/percent), leader lines, legend position/title/key shape. | `chartLook`, spec `legend` / `data_labels` / `leader_lines` / `marker_size` |
 | [donut-catalog.md](donut-catalog.md) | The Donut Chart plugin: total in the center, thin ring, rounded slice ends, legend with values. Not the GraphMatrix ring. | `insertDonut` |
 | [bubble-catalog.md](bubble-catalog.md) | Bubble and scatter charts: two metric axes, Break By, optional Size By | `insertBubble` |
 | [heatmap-catalog.md](heatmap-catalog.md) | Heat Map: nested rectangles sized by one metric and colored by another, percentile color bands | `insertHeatmap` |

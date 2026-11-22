@@ -1,0 +1,43 @@
+{
+  "name": "SDC pie catalog test",
+  "project_id": "607F0D20E84F2EF50271148D7D409484",
+  "dataset": {"id": "C7F3DE7BEC434DD7AD86FD33A78E9263", "name": "Retail Orders Sales Performance Model (global)"},
+  "overwrite": true,
+  "pages": [
+    {
+      "id": "pies", "title": "Pie and ring", "layout": "freeform",
+      "items": [
+        {"id": "v1", "type": "chart", "vis": "pie", "title": "Pie/Ring Chart v1",
+         "title_format": {"subtitle": "Pie; labels text, value, percent; legend left top, circles"},
+         "data_labels": ["text", "value", "percent"],
+         "legend": {"position": "left", "align": "top", "shape": "circle"},
+         "zones": {"angle": "Order Total Amount", "sliceBy": "Region"}, "box": [0, 0, 50, 33]},
+        {"id": "v2", "type": "chart", "vis": "ring", "title": "Pie/Ring Chart V2",
+         "title_format": {"subtitle": "Ring; labels percent; legend left middle, squares"},
+         "data_labels": ["percent"],
+         "legend": {"position": "left", "align": "middle", "shape": "square"},
+         "zones": {"angle": "Order Total Amount", "sliceBy": "Region"}, "box": [50, 0, 50, 33]},
+        {"id": "v3", "type": "chart", "vis": "pie", "title": "Pie/Ring Chart v3",
+         "title_format": {"subtitle": "Pie; labels not set; marker size 0.8; legend left bottom, rounded rectangles"},
+         "marker_size": 0.8,
+         "legend": {"position": "left", "align": "bottom", "shape": "roundedRectangle", "title": true},
+         "zones": {"angle": "Order Total Amount", "sliceBy": "Region"}, "box": [0, 33, 50, 33]},
+        {"id": "v4", "type": "chart", "vis": "ring", "title": "Pie/Ring Chart v4",
+         "title_format": {"subtitle": "Ring; labels text; marker size 0.9; legend right top, lines, no title"},
+         "data_labels": ["text"], "marker_size": 0.9,
+         "legend": {"position": "right", "align": "top", "shape": "line", "title": false},
+         "zones": {"angle": "Order Total Amount", "sliceBy": "Region"}, "box": [50, 33, 50, 33]},
+        {"id": "lead_show", "type": "chart", "vis": "pie", "title": "Leader lines show",
+         "title_format": {"subtitle": "labels text and value; legend top center"},
+         "data_labels": ["text", "value"], "leader_lines": "show",
+         "legend": {"position": "top", "align": "center"},
+         "zones": {"angle": "Order Total Amount", "sliceBy": "Region"}, "box": [0, 66, 50, 34]},
+        {"id": "lead_hide", "type": "chart", "vis": "ring", "title": "Leader lines hide",
+         "title_format": {"subtitle": "labels value and percent; legend bottom right"},
+         "data_labels": ["value", "percent"], "leader_lines": "hide",
+         "legend": {"position": "bottom", "align": "right", "shape": "circle"},
+         "zones": {"angle": "Order Total Amount", "sliceBy": "Region"}, "box": [50, 66, 50, 34]}
+      ]
+    }
+  ]
+}

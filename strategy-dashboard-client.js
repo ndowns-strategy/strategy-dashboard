@@ -30,6 +30,7 @@
 //               deleteChapter, moveChapter, duplicatePage, deletePage, movePage (reference/chapter-page-catalog.md), setLayout,
 //               setFreeformLayout (free-form page: x/y/width/height in percent, overlap, layer order; adds 2% to every text box's height)
 //   Charts      insertChart, changeType, fillZones, setWidgetProps, chartProps/setChartProps, setMetricColor, setPalette
+//               chartLook (legend position / title / key shape, data labels, pie leader lines, marker size; reference/pie-catalog.md)
 //   Grids       addToGrid, moveField, sortByMetric, attributeThresholds, buildModernGrid (Modern Grid with row sets),
 //               buildColumnSetGrid (Modern Grid with column sets + sparkline / bar microchart columns)
 //   Image       insertImage (picture from a URL)
@@ -148,6 +149,44 @@ const SANKEY_ZONE = { levels: 3, metric: 4, tooltip: 5 };
 // plugin's order: Angle (metric), Color By (attribute), Slice (attribute), Target (metric), Break By (attribute: one donut each).
 const DONUT_ZONE = { angle: 3, colorBy: 4, slice: 5, target: 6, breakBy: 7 };
 const DONUT_LABEL = { value: 2, text: 4, textAndValue: 6 };   // dataLabelType: what the center shows
+// GraphMatrix chart look (reference/pie-catalog.md; read from Library's mstrmojo.gm enums). Legend props apply to every
+// GraphMatrix chart; leader lines (pdlll) only to pie and ring.
+// LegendPosition: [side][align]. Left/right legends are vertical, top/bottom horizontal.
+const LEGEND_SLOT = { right: { top: 1, middle: 2, bottom: 3 }, left: { top: 4, middle: 5, bottom: 6 },
+  top: { left: 9, center: 10, right: 11 }, bottom: { left: 12, center: 13, right: 14 } };
+const LEGEND_SHAPES = ['circle', 'square', 'roundedRectangle', 'line'];   // lgdItmShp
+// DataLabel strings are bits: value 2, text 4, percent 8 (hide 1). Always set it: unset, a new pie shows text only.
+const DATA_LABEL = { 1: 'Hide', 2: 'Show only values', 4: 'Show only text', 6: 'Show both text value', 8: 'Show only percent',
+  10: 'Show both value percent', 12: 'Show both text percent', 14: 'Show text value percent' };
+const DATA_LABEL_BIT = { value: 2, text: 4, percent: 8 };
+const LEADER_LINE = { auto: 1, show: 2, hide: 3 };   // pdlll
+// chartLook({ legend: false | { position, align, title, shape }, dataLabels: 'hide' | ['text','value','percent'],
+//   leaderLines: 'auto'|'show'|'hide', markerSize: 0.6..1 }) -> GraphMatrix props for chartFormat / setChartProps.
+function chartLook({ legend, dataLabels, leaderLines, markerSize } = {}) {
+  const p = {};
+  if (legend === false) p.LegendVisibleness = 'Hide';
+  else if (legend) {
+    p.LegendVisibleness = 'Show';
+    if (legend.position) {
+      const side = LEGEND_SLOT[legend.position];
+      if (!side) throw new Error('legend position must be left, right, top or bottom');
+      const align = legend.align || (legend.position === 'left' || legend.position === 'right' ? 'top' : 'center');
+      if (!side[align]) throw new Error(`legend align for ${legend.position} must be one of ${Object.keys(side).join(', ')}`);
+      p.LegendPosition = String(side[align]);
+    }
+    if (legend.title === false) p.LegendTitleHide = 'true';
+    else if (legend.title === true) p.LegendTitleHide = 'false';
+    if (legend.shape) {
+      if (!LEGEND_SHAPES.includes(legend.shape)) throw new Error('legend shape must be one of ' + LEGEND_SHAPES.join(', '));
+      p.lgdItmShp = legend.shape;
+    }
+  }
+  if (dataLabels === 'hide' || (Array.isArray(dataLabels) && dataLabels.length === 0)) p.DataLabel = 'Hide';
+  else if (dataLabels) p.DataLabel = DATA_LABEL[dataLabels.reduce((a, k) => a | DATA_LABEL_BIT[k], 0)];
+  if (leaderLines) p.pdlll = String(LEADER_LINE[leaderLines]);
+  if (markerSize != null) { p.SizeType = 'Manual'; p.SizeValue = String(markerSize); }
+  return p;
+}
 // The editor's default heat map colors, lowest 20% to top 20% of the Color By metric (read from Wawa 08.31 Demo).
 const HEATMAP_BANDS = ['#fc6f02', '#fbc85b', '#d9e5f2', '#54bfd9', '#3f95d6'];
 const KPI_CARD_CLASS ='com.microstrategy.web.vf.viewer.KPICardApplicationViewer';
@@ -671,8 +710,11 @@ function client(token, projectId) {
           if (ch === '"') { q = true; continue; } if (ch === '{') d++; else if (ch === '}') { d--; if (d === 0) break; } } return t.slice(start, e + 1); };
         return JSON.parse(grab(t.indexOf('"visProp":{', t.indexOf('{"k":"' + vizKey + '","sid"')) + 10)).fmt;
       },
-      // Useful GraphMatrix props (values are strings): LegendVisibleness 'Show'|'Hide', LegendPosition '13' (bottom),
-      // LegendTitleHide 'true', DataLabel 'Show only values'|'Show both text value'|'Show only text'|'Show only percent'...,
+      // Useful GraphMatrix props (values are strings): LegendVisibleness 'Show'|'Hide', LegendPosition (LEGEND_SLOT: right
+      // 1-3 top/middle/bottom, left 4-6, top 9-11 left/center/right, bottom 12-14), LegendTitleHide 'true', lgdItmShp
+      // (circle|square|roundedRectangle|line), DataLabel (DATA_LABEL: 'Show only values'|'Show only text'|'Show only percent'
+      // |'Show text value percent'...), SizeType 'Manual' + SizeValue '0.8' (pie size), pdlll 1|2|3 (leader lines). chartLook()
+      // builds these from friendly names (reference/pie-catalog.md).
       // xAxTtShw / yAxTtShw 'false' to hide an axis title, Subtype 'Percent' for 100% bars.
       // FitTo 'Content' | 'Window' | 'Compact': 'Content' keeps every bar's height and label and lets the chart scroll (a long
       // category list, e.g. 25 stores); the default squeezes the bars into the panel and skips labels. Stored as the word, not a number.
@@ -705,6 +747,10 @@ function client(token, projectId) {
         }
         if (extra.seriesColor) { p.modDefFillClr = bgr(extra.seriesColor); delete p.seriesColor; } // fill when nothing is on Color By
         return s.setWidgetProps(vizKey, 'com.microstrategy.flex.viewer.GraphMatrixViewer', p);
+      },
+      // chartFormat with chartLook() props (legend, data labels, leader lines, marker size); extra wins over look.
+      chartLook(vizKey, vis, look = {}, extra = {}) {
+        return s.chartFormat(vizKey, vis, { ...chartLook(look), ...extra });
       },
       // Single-series color (e.g. one metric on a bar chart): Metric Names on Color By + a dashboard-wide color for the metric
       // (what the editor's "Shape Fill Color" sends), legend hidden. Note the color applies to that metric dashboard-wide

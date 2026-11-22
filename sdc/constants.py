@@ -46,3 +46,52 @@ VIS = {
     'clusteredBar': {'shape': 'Bar', 'visType': 7, 'subtype': 'Clustered'},    # Metric Names on Color By + Break By
     'clusteredHbar': {'shape': 'Bar', 'visType': 10, 'subtype': 'Clustered'},
 }
+
+# GraphMatrix chart look (reference/pie-catalog.md; Library's mstrmojo.gm enums). Mirrors LEGEND_SLOT etc. in the JS client.
+LEGEND_SLOT = {'right': {'top': 1, 'middle': 2, 'bottom': 3}, 'left': {'top': 4, 'middle': 5, 'bottom': 6},
+               'top': {'left': 9, 'center': 10, 'right': 11}, 'bottom': {'left': 12, 'center': 13, 'right': 14}}
+LEGEND_SHAPES = ('circle', 'square', 'roundedRectangle', 'line')          # lgdItmShp
+DATA_LABEL = {1: 'Hide', 2: 'Show only values', 4: 'Show only text', 6: 'Show both text value', 8: 'Show only percent',
+              10: 'Show both value percent', 12: 'Show both text percent', 14: 'Show text value percent'}
+DATA_LABEL_BIT = {'value': 2, 'text': 4, 'percent': 8}
+LEADER_LINE = {'auto': 1, 'show': 2, 'hide': 3}                          # pdlll
+
+
+def chart_look(legend=None, data_labels=None, leader_lines=None, marker_size=None):
+    """GraphMatrix props from friendly names (same output as chartLook() in the JS client)."""
+    from .util import js_num
+    p = {}
+    if legend is False:
+        p['LegendVisibleness'] = 'Hide'
+    elif legend:
+        p['LegendVisibleness'] = 'Show'
+        pos = legend.get('position')
+        if pos:
+            side = LEGEND_SLOT.get(pos)
+            if not side:
+                raise ValueError('legend position must be left, right, top or bottom')
+            align = legend.get('align') or ('top' if pos in ('left', 'right') else 'center')
+            if align not in side:
+                raise ValueError(f'legend align for {pos} must be one of {", ".join(side)}')
+            p['LegendPosition'] = str(side[align])
+        if legend.get('title') is False:
+            p['LegendTitleHide'] = 'true'
+        elif legend.get('title') is True:
+            p['LegendTitleHide'] = 'false'
+        if legend.get('shape'):
+            if legend['shape'] not in LEGEND_SHAPES:
+                raise ValueError('legend shape must be one of ' + ', '.join(LEGEND_SHAPES))
+            p['lgdItmShp'] = legend['shape']
+    if data_labels == 'hide' or data_labels == []:
+        p['DataLabel'] = 'Hide'
+    elif data_labels:
+        code = 0
+        for k in data_labels:
+            code |= DATA_LABEL_BIT[k]
+        p['DataLabel'] = DATA_LABEL[code]
+    if leader_lines:
+        p['pdlll'] = str(LEADER_LINE[leader_lines])
+    if marker_size is not None:
+        p['SizeType'] = 'Manual'
+        p['SizeValue'] = js_num(marker_size)
+    return p

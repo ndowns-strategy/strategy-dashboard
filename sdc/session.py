@@ -11,7 +11,7 @@ import json
 import re
 import time
 
-from .constants import (AUTO_SUMMARY_INSTRUCTION, CUSTOM_VIS_CLASS, DONUT_LABEL, DONUT_ZONE, GRAPH_MATRIX_CLASS,
+from .constants import (AUTO_SUMMARY_INSTRUCTION, chart_look, CUSTOM_VIS_CLASS, DONUT_LABEL, DONUT_ZONE, GRAPH_MATRIX_CLASS,
                         KPI_CARD_CLASS, METRIC_NAMES, TEXT_HEIGHT_PAD, VIS, ZONE)
 from .transport import StrategyError
 from .util import (bgr, esc_attr, jdump, js_num, js_str, parse_float_prefix, random_key32, rich_text_value,
@@ -309,6 +309,13 @@ class Session:
             p['modDefFillClr'] = bgr(extra['seriesColor'])
             del p['seriesColor']
         return self.set_widget_props(viz_key, GRAPH_MATRIX_CLASS, p)
+
+    def chart_look(self, viz_key, vis, look=None, extra=None):
+        """chart_format with chart_look() props (legend, data labels, leader lines, marker size); extra wins.
+        look uses the JS names: legend, dataLabels, leaderLines, markerSize."""
+        look = look or {}
+        props = chart_look(look.get('legend'), look.get('dataLabels'), look.get('leaderLines'), look.get('markerSize'))
+        return self.chart_format(viz_key, vis, {**props, **(extra or {})})
 
     def insert_line(self, new_key, layout, dataset_id, x, metrics=None, metric=None, page_key='K53', proto_key='K51',
                     break_by=None, style='curved', smoothness=0.3, color=None, markers=False, data_labels=False,

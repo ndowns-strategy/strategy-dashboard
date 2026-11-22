@@ -1,0 +1,124 @@
+{
+ "source": {
+  "dashboard": "Viz details",
+  "id": "646628F3FF49BCCC2BE831BEE4BBB0F3",
+  "page": "W178 Pie/Ring Charts",
+  "studied": "2026-11-22",
+  "dataset": "IMT Advisor Sales and Opportunity Performance Model",
+  "zones": "AngleBy: Advisor Count; SliceBy and ColorBy: Producer Category"
+ },
+ "charts": [
+  {
+   "key": "K62",
+   "title": "Pie/Ring Chart v1",
+   "seen": "Pie. Labels text, value and percent. Legend left top, circles, title shown. Marker size default (0.6).",
+   "fmt": {
+    "Shape": "Pie",
+    "visType": "61",
+    "Subtype": "Automatic",
+    "DataLabel": "Show text value percent",
+    "LegendVisibleness": "Show",
+    "LegendPosition": "4",
+    "lgdItmShp": "circle",
+    "pdlll": "1",
+    "pso": "4",
+    "pnsr": "1",
+    "bdlp": "0"
+   },
+   "box": {
+    "top": "0",
+    "left": "0",
+    "width": "934px",
+    "height": "403px"
+   }
+  },
+  {
+   "key": "W179",
+   "title": "Pie/Ring Chart V2",
+   "seen": "Ring. Labels percent only. Legend left middle, squares, title shown. Marker size default.",
+   "fmt": {
+    "Shape": "Ring",
+    "visType": "62",
+    "Subtype": "Automatic",
+    "DataLabel": "Show only percent",
+    "LegendVisibleness": "Show",
+    "LegendPosition": "5",
+    "lgdItmShp": "square",
+    "pdlll": "1",
+    "pso": "4",
+    "pnsr": "1",
+    "bdlp": "0"
+   },
+   "box": {
+    "top": "0",
+    "left": "936px",
+    "width": "978px",
+    "height": "403px"
+   }
+  },
+  {
+   "key": "W182",
+   "title": "Pie/Ring Chart v3",
+   "seen": "Pie. No DataLabel prop: renders text and percent. Legend left bottom, rounded rectangles, title shown (LegendTitleHide false). Marker size 0.8 (bigger pie).",
+   "fmt": {
+    "Shape": "Pie",
+    "visType": "61",
+    "Subtype": "Automatic",
+    "LegendVisibleness": "Show",
+    "LegendPosition": "6",
+    "LegendTitleHide": "false",
+    "lgdItmShp": "roundedRectangle",
+    "SizeType": "Manual",
+    "SizeValue": "0.8",
+    "pdlll": "1",
+    "pso": "4",
+    "pnsr": "1",
+    "bdlp": "0"
+   },
+   "box": {
+    "top": "405px",
+    "left": "0",
+    "width": "934px",
+    "height": "402px"
+   }
+  },
+  {
+   "key": "W186",
+   "title": "Pie/Ring Chart v4",
+   "seen": "Ring. Labels text only. Legend right top, lines, title hidden. Marker size 0.9.",
+   "fmt": {
+    "Shape": "Ring",
+    "visType": "62",
+    "Subtype": "Automatic",
+    "DataLabel": "Show only text",
+    "LegendVisibleness": "Show",
+    "LegendPosition": "1",
+    "LegendTitleHide": "true",
+    "lgdItmShp": "line",
+    "SizeType": "Manual",
+    "SizeValue": "0.9",
+    "pdlll": "1",
+    "pso": "4",
+    "pnsr": "1",
+    "bdlp": "0"
+   },
+   "box": {
+    "top": "405px",
+    "left": "936px",
+    "width": "978px",
+    "height": "402px"
+   }
+  }
+ ],
+ "verified": {
+  "dashboard": "SDC pie catalog test",
+  "id": "D177897E86429DA9C06BCB9BAD454C4D",
+  "spec": "examples/pie-catalog-test.json",
+  "notes": [
+   "all props read back as sent",
+   "top/bottom legend slots render one horizontal row",
+   "pdlll 2 draws leader lines, 3 hides them",
+   "no DataLabel on a new pie shows text only (the source v3 shows text + percent)"
+  ]
+ }
+}

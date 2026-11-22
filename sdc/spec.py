@@ -7,7 +7,7 @@ See examples/lincoln.json and the README for every field.
 check_structure() needs no server. check_data() resolves every attribute and metric name against the dataset's own
 lists, attributes and metrics looked up separately (a dataset can have both with the same name).
 """
-from .constants import VIS, ZONE
+from .constants import LEADER_LINE, LEGEND_SHAPES, LEGEND_SLOT, VIS, ZONE
 
 VIZ_TYPES = {'kpi_card', 'chart', 'line', 'donut', 'narrative'}
 FIELD_TYPES = {'text', 'rich_text', 'image', 'shape'}
@@ -52,6 +52,49 @@ def check_reference_lines(w, lines):
         lab = rl.get('label', ['type', 'value'])
         if not isinstance(lab, int) and not set(lab) <= REF_LABELS:
             p.append(f'{ww}: label items must be from {sorted(REF_LABELS)}')
+    return p
+
+
+def check_chart_look(w, it):
+    """legend, data_labels, leader_lines, marker_size on chart items (reference/pie-catalog.md)."""
+    p = []
+    lg = it.get('legend')
+    if lg is not None and lg is not False:
+        if not isinstance(lg, dict):
+            p.append(f'{w}: legend must be false or an object')
+        else:
+            unknown = set(lg) - {'position', 'align', 'title', 'shape'}
+            if unknown:
+                p.append(f'{w}: unknown legend field(s) {sorted(unknown)}')
+            pos = lg.get('position')
+            if pos is not None and pos not in LEGEND_SLOT:
+                p.append(f'{w}: legend.position must be left, right, top or bottom')
+            elif lg.get('align') is not None:
+                ok = LEGEND_SLOT[pos or 'right']
+                if lg['align'] not in ok:
+                    p.append(f'{w}: legend.align for {pos or "right"} must be one of {", ".join(ok)}')
+            if lg.get('title') is not None and not isinstance(lg['title'], bool):
+                p.append(f'{w}: legend.title must be true or false')
+            if lg.get('shape') is not None and lg['shape'] not in LEGEND_SHAPES:
+                p.append(f'{w}: legend.shape must be one of {", ".join(LEGEND_SHAPES)}')
+    dl = it.get('data_labels')
+    if dl is not None and it.get('type') == 'chart' and dl != 'hide' and not (
+            isinstance(dl, list) and set(dl) <= {'text', 'value', 'percent'}):
+        p.append(f'{w}: data_labels must be "hide" or a list from text, value, percent')
+    if it.get('leader_lines') is not None:
+        if it.get('leader_lines') not in LEADER_LINE:
+            p.append(f'{w}: leader_lines must be auto, show or hide')
+        if it.get('type') != 'chart' or it.get('vis') not in ('pie', 'ring'):
+            p.append(f'{w}: leader_lines only work on pie and ring charts')
+    ms = it.get('marker_size')
+    if ms is not None and (isinstance(ms, bool) or not isinstance(ms, (int, float)) or not 0 < ms <= 1):
+        p.append(f'{w}: marker_size must be a number above 0 and up to 1 (the default is 0.6)')
+    if it.get('type') not in ('chart', 'line'):
+        for k in ('legend', 'leader_lines', 'marker_size'):
+            if it.get(k) is not None:
+                p.append(f'{w}: {k} only works on chart items')
+    elif it.get('type') == 'line' and it.get('marker_size') is not None:
+        p.append(f'{w}: marker_size only works on chart items')
     return p
 
 
@@ -122,6 +165,7 @@ def check_structure(spec):
                     p.append(f'{w}: "zones" is required')
             if typ in VIZ_TYPES and it.get('title_format') is not None:
                 p += check_title_format(w, it['title_format'])
+            p += check_chart_look(w, it)
             if it.get('reference_lines'):
                 if typ not in ('chart', 'line'):
                     p.append(f'{w}: reference_lines only work on chart and line items')

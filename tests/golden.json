@@ -5976,5 +5976,123 @@
    }
   ],
   "result": null
+ },
+ "chart_look_pie_v1": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W80",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Pie\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"61\"></visType><userVisType value=\"61\"></userVisType><LegendVisibleness value=\"Show\"></LegendVisibleness><LegendPosition value=\"4\"></LegendPosition><lgdItmShp value=\"circle\"></lgdItmShp><DataLabel value=\"Show text value percent\"></DataLabel></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W80"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "chart_look_ring_v4": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W81",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Ring\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"62\"></visType><userVisType value=\"62\"></userVisType><LegendVisibleness value=\"Show\"></LegendVisibleness><LegendPosition value=\"1\"></LegendPosition><LegendTitleHide value=\"true\"></LegendTitleHide><lgdItmShp value=\"line\"></lgdItmShp><DataLabel value=\"Show only text\"></DataLabel><pdlll value=\"1\"></pdlll><SizeType value=\"Manual\"></SizeType><SizeValue value=\"0.9\"></SizeValue></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W81"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "chart_look_top_default_align": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W82",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Pie\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"61\"></visType><userVisType value=\"61\"></userVisType><LegendVisibleness value=\"Show\"></LegendVisibleness><LegendPosition value=\"10\"></LegendPosition><LegendTitleHide value=\"false\"></LegendTitleHide><lgdItmShp value=\"roundedRectangle\"></lgdItmShp><DataLabel value=\"Show both value percent\"></DataLabel><pdlll value=\"3\"></pdlll><SizeType value=\"Manual\"></SizeType><SizeValue value=\"1\"></SizeValue></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W82"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "chart_look_hidden_extra_wins": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W83",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.flex.viewer.GraphMatrixViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><visStyle value=\"GraphMatrixVisualizationStyle\"></visStyle><Shape value=\"Ring\"></Shape><Subtype value=\"Automatic\"></Subtype><visType value=\"62\"></visType><userVisType value=\"62\"></userVisType><LegendVisibleness value=\"Hide\"></LegendVisibleness><DataLabel value=\"Show only values\"></DataLabel><LegendPosition value=\"13\"></LegendPosition></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W83"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "chart_look_bad_align": {
+  "calls": [],
+  "result": {
+   "error": "legend align for bottom must be one of left, center, right"
+  }
  }
 }
