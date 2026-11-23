@@ -493,11 +493,31 @@ class Session:
         previousValueLabel, referenceLine, change, fillOpacity."""
         look = look or {}
         props = iconic_kpi_look(look.get('icon'), look.get('tooltip'), look.get('trend'), look.get('previousValueLabel'),
-                                look.get('referenceLine'), look.get('change'), look.get('fillOpacity'), metric_id)
+                                look.get('referenceLine'), look.get('change'), look.get('fillOpacity'), metric_id,
+                                look.get('content'), look.get('layout'), look.get('columns'), look.get('alignment'),
+                                look.get('background'))
         self.set_kpi_properties(viz_key, {**props, **(extra or {})})
         if look.get('previousValueLabel') is not None:
             self.edit([{'act': 'setWidgetString', 'nodeKey': viz_key, 'skey': 'previousValueLabel',
                         'wdgs': look['previousValueLabel']}], [viz_key])
+
+    def kpi_card_formats(self, viz_key, cards):
+        """Per-card settings of an Iconic KPI with several metrics: cards = [{metricId, background, opacity=100, icon}].
+        background fills that card (areaFillColor + areaFillOpacity), icon pins a Material Symbols file. Cards left out
+        keep Auto (their palette color at 10% opacity). One element map edit for all cards."""
+        epmv = []
+        for c in cards:
+            fc = {}
+            if c.get('icon'):
+                fc['imageSrc'] = '/images/material-symbols/400/rounded/' + c['icon']
+                fc['imageName'] = fc['imageSrc']
+            if c.get('background'):
+                fc['areaFillColor'] = c['background']
+                fc['areaFillOpacity'] = js_num(c['opacity'] if c.get('opacity') is not None else 100)
+            epmv.append({'k': {'chn': [{'emt': 2, 'mt': {'did': c['metricId'], 'tp': 4, 'ql': 0}}]},
+                         'v': {'vv': '', 'format_config': jdump(fc), 'image_id': '', 'ov': -1}})
+        return self.edit([{'act': 'updateElementsPropertiesMap', 'nodeKey': viz_key,
+                           'epm': [{'epmk': [{'ob': {'did': '', 'tp': 4}}], 'epmv': epmv}]}], [viz_key])
 
     def insert_donut(self, new_key, layout, dataset_id, metric, slice, page_key='K53', proto_key='K51',  # noqa: A002
                      color_by=None, target=None, break_by=None, colors=None, props=None):

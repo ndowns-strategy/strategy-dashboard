@@ -7,7 +7,9 @@ See examples/lincoln.json and the README for every field.
 check_structure() needs no server. check_data() resolves every attribute and metric name against the dataset's own
 lists, attributes and metrics looked up separately (a dataset can have both with the same name).
 """
-from .constants import KPI_CHANGE, LEADER_LINE, LEGEND_SHAPES, LEGEND_SLOT, TREND_SHAPES, VIS, ZONE
+import re
+
+from .constants import KPI_ALIGN, KPI_CHANGE, KPI_LAYOUT, LEADER_LINE, LEGEND_SHAPES, LEGEND_SLOT, TREND_SHAPES, VIS, ZONE
 
 VIZ_TYPES = {'kpi_card', 'iconic_kpi', 'chart', 'line', 'donut', 'narrative', 'grid'}   # grid = Grid (Modern), always
 FIELD_TYPES = {'text', 'rich_text', 'image', 'shape'}
@@ -58,11 +60,51 @@ def check_reference_lines(w, lines):
 ICONIC_FIELDS = {'icon', 'tooltip', 'trend_shape', 'previous_value_label', 'reference_line', 'change', 'fill_opacity'}
 
 
+def _check_background(w, b):
+    if b is None:
+        return []
+    p = []
+    if not isinstance(b, dict) or not isinstance(b.get('color'), str) or not re.fullmatch(r'#[0-9A-Fa-f]{6}', b['color']):
+        return [f'{w}: needs a color like "#ABABAB"']
+    op = b.get('opacity')
+    if op is not None and (not isinstance(op, (int, float)) or isinstance(op, bool) or not 0 <= op <= 100):
+        p.append(f'{w}: opacity must be a number from 0 to 100 (the default, 100, shows the color exactly)')
+    return p
+
+
 def check_iconic_kpi(w, it):
     """Iconic KPI fields (reference/iconic-kpi-catalog.md)."""
     p = []
-    if not it.get('metric'):
-        p.append(f'{w}: "metric" is required')
+    names = _as_list(it.get('metrics') or it.get('metric'))
+    if not names:
+        p.append(f'{w}: "metric" (or "metrics", one card each) is required')
+    if it.get('metric') and it.get('metrics'):
+        p.append(f'{w}: use "metric" or "metrics", not both')
+    if it.get('content') is not None and it['content'] not in ('all', 'name_and_value'):
+        p.append(f'{w}: content must be "all" or "name_and_value"')
+    if it.get('card_layout') is not None and it['card_layout'] not in KPI_LAYOUT:
+        p.append(f'{w}: card_layout must be one of {", ".join(KPI_LAYOUT)}')
+    if it.get('columns') is not None and (not isinstance(it['columns'], int) or isinstance(it['columns'], bool)
+                                          or it['columns'] < 1):
+        p.append(f'{w}: columns must be a whole number of 1 or more')
+    if it.get('card_alignment') is not None and it['card_alignment'] not in KPI_ALIGN:
+        p.append(f'{w}: card_alignment must be left, middle or right')
+    p += _check_background(f'{w} background', it.get('background'))
+    cards = it.get('cards')
+    if cards is not None:
+        if not isinstance(cards, dict):
+            p.append(f'{w}: cards must be {{"<metric name>": {{"background", "opacity", "icon"}}}}')
+        else:
+            for name, c in cards.items():
+                if name not in names:
+                    p.append(f'{w}: cards has {name!r}, which is not one of the item\'s metrics')
+                if not isinstance(c, dict) or set(c) - {'background', 'opacity', 'icon'}:
+                    p.append(f'{w}: cards[{name!r}] takes background, opacity and icon')
+                    continue
+                p += _check_background(f'{w} cards[{name!r}]', {'color': c['background'], 'opacity': c.get('opacity')}
+                                       if c.get('background') is not None else None)
+                if c.get('icon') is not None and not (isinstance(c['icon'], str) and c['icon'].endswith('.svg')):
+                    p.append(f'{w}: cards[{name!r}].icon must be a material-symbols file such as "payments-fill.svg"')
     if it.get('trend') in TREND_SHAPES:
         p.append(f'{w}: "trend" is the trend attribute; the shape {it["trend"]!r} goes in "trend_shape"')
     if it.get('title_format') is not None:
@@ -309,7 +351,12 @@ def check_data(spec, names):
 
     for _pg, it in items(spec):
         w, typ = f'item {it.get("id")!r}', it.get('type')
-        if typ in ('kpi_card', 'iconic_kpi'):
+        if typ == 'iconic_kpi':
+            for m in _as_list(it.get('metrics') or it.get('metric')):
+                need(w, m, 'metric')
+            if it.get('trend'):
+                need(w, it['trend'], 'attribute')
+        elif typ == 'kpi_card':
             need(w, it['metric'], 'metric')
             for k in ('trend', 'break_by'):
                 if it.get(k):

@@ -1179,5 +1179,84 @@
     "change": "percent"
    }
   ]
+ },
+ {
+  "name": "iconic_kpi_look_strip",
+  "js": "iconicKpiLook",
+  "args": [
+   "K52",
+   "M1",
+   {
+    "icon": false,
+    "tooltip": false,
+    "content": "nameAndValue",
+    "layout": "grid",
+    "columns": 5,
+    "alignment": "middle"
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_all_cards_background",
+  "js": "iconicKpiLook",
+  "args": [
+   "W70",
+   "M1",
+   {
+    "layout": "vertical",
+    "background": {
+     "color": "#E8EEF9"
+    }
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_background_opacity",
+  "js": "iconicKpiLook",
+  "args": [
+   "W70",
+   "M1",
+   {
+    "layout": "stacked",
+    "background": {
+     "color": "#ABABAB",
+     "opacity": 40
+    }
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_bad_layout",
+  "js": "iconicKpiLook",
+  "args": [
+   "W70",
+   "M1",
+   {
+    "layout": "carousel"
+   }
+  ]
+ },
+ {
+  "name": "kpi_card_formats",
+  "js": "kpiCardFormats",
+  "args": [
+   "K52",
+   [
+    {
+     "metricId": "M1",
+     "background": "#ABABAB"
+    },
+    {
+     "metricId": "M2",
+     "background": "#FFF4D6",
+     "opacity": 60,
+     "icon": "payments-fill.svg"
+    },
+    {
+     "metricId": "M3",
+     "icon": "route-fill.svg"
+    }
+   ]
+  ]
  }
 ]

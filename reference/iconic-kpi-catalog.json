@@ -298,5 +298,65 @@
   "spec": "examples/iconic-kpi-test.json",
   "date": "2026-11-23",
   "result": "every option rendered as sent and read back exactly; icons pinned with imageSrc; label via properties alone works (props_only card)"
+ },
+ "kpiStrip": {
+  "source": {
+   "page": "W89 Page 2",
+   "visualization": "W94",
+   "metrics": [
+    "Delivery Cost",
+    "Customer Rating",
+    "Failed Stops",
+    "Minutes Late",
+    "Planned Route Miles"
+   ],
+   "container": "1914 x 195 px, radius 8"
+  },
+  "properties": {
+   "textContentType": "label",
+   "layoutType": 0,
+   "gridColumnCount": "5",
+   "gridFixCardHeight": 396,
+   "gridFixCardHeightEnabled": false,
+   "cardAlignment": "middle",
+   "showIcon": false,
+   "metricTooltipEnabled": false,
+   "areaFillColor": "AUTO",
+   "areaFillOpacity": 10,
+   "trendShape": "area"
+  },
+  "cardFormatConfig": {
+   "Delivery Cost": {
+    "areaFillColor": "#ABABAB",
+    "areaFillOpacity": "100"
+   },
+   "others": "Auto (no areaFillColor): palette color at 10%"
+  },
+  "enums": {
+   "layoutType": {
+    "grid": 0,
+    "stacked": 1,
+    "horizontal": 2,
+    "vertical": 3
+   },
+   "textContentType": [
+    "all",
+    "label",
+    "primaryValue",
+    "secondaryValue",
+    "indicator"
+   ],
+   "cardAlignment": [
+    "left",
+    "middle",
+    "right"
+   ]
+  },
+  "verified": {
+   "dashboard": "SDC KPI strip test",
+   "id": "9A7B3386784F40A5D0C9C49773B74929",
+   "spec": "examples/kpi-strip-test.json",
+   "date": "2026-11-23"
+  }
  }
 }

@@ -1,0 +1,34 @@
+{
+  "name": "SDC KPI strip test",
+  "project_id": "607F0D20E84F2EF50271148D7D409484",
+  "dataset": {"id": "C7F3DE7BEC434DD7AD86FD33A78E9263", "name": "Retail Orders Sales Performance Model (global)"},
+  "overwrite": true,
+  "pages": [
+    {
+      "id": "strip", "title": "KPI strip", "layout": "freeform",
+      "items": [
+        {"id": "strip", "type": "iconic_kpi", "title": "KPI strip: name and value, one color per card",
+         "metrics": ["Order Total Amount", "Order Quantity", "Unit Price"],
+         "content": "name_and_value", "icon": false, "tooltip": false, "card_layout": "grid", "columns": 3, "card_alignment": "middle",
+         "cards": {"Order Total Amount": {"background": "#ABABAB"},
+                   "Order Quantity": {"background": "#FFF4D6"},
+                   "Unit Price": {"background": "#DCEBFA", "opacity": 100}},
+         "box": [0, 0, 100, 24]},
+        {"id": "vertical", "type": "iconic_kpi", "title": "vertical, one background for all cards",
+         "metrics": ["Order Total Amount", "Order Quantity", "Unit Price"],
+         "content": "name_and_value", "icon": false, "tooltip": false, "card_layout": "vertical", "card_alignment": "left",
+         "background": {"color": "#E8EEF9"},
+         "box": [0, 26, 30, 74]},
+        {"id": "horizontal", "type": "iconic_kpi", "title": "horizontal",
+         "metrics": ["Order Total Amount", "Order Quantity", "Unit Price"],
+         "content": "name_and_value", "icon": false, "tooltip": false, "card_layout": "horizontal", "card_alignment": "middle",
+         "cards": {"Order Quantity": {"background": "#FDE7E1"}},
+         "box": [31, 26, 69, 34]},
+        {"id": "stacked", "type": "iconic_kpi", "title": "stacked",
+         "metrics": ["Order Total Amount", "Order Quantity", "Unit Price"],
+         "content": "name_and_value", "icon": false, "tooltip": false, "card_layout": "stacked", "card_alignment": "middle",
+         "box": [31, 62, 40, 38]}
+      ]
+    }
+  ]
+}

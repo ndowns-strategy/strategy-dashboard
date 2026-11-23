@@ -44,7 +44,8 @@
 //               insertSankey (Sankey Diagram: 2+ level attributes, one flow metric),
 //               insertHeatmap (Heat Map: grouping attributes, Color By + Size By metrics, percentile color bands),
 //               insertKpi / toIconicKpi (Iconic KPI) + iconicKpiLook (icon, tooltip, trend shape, previous value label,
-//               reference line, change indicator) + setKpiIcon; insertCustomVis ('AutoNarratives'), addNarratives, titleBar
+//               reference line, change indicator; several metrics: name and value only, layout, columns, background)
+//               + kpiCardFormats (per-card background, icon) + setKpiIcon; insertCustomVis ('AutoNarratives'), addNarratives, titleBar
 //   Title bar   titleBar (show / hide + text), setTitle, titleFormat (1 or 2 lines, second-line text, each line's font,
 //               alignment of the title lines, wrap text). Every visualization type has a title bar EXCEPT the Iconic KPI
 //               (ImageEnhancedKPI); reference/bar-catalog.md "Title bar".
@@ -204,9 +205,21 @@ function chartLook({ legend, dataLabels, leaderLines, markerSize } = {}) {
 //   change: 'percent'|'amount'|false   the change indicator badge: percent change, the actual difference, or off
 //                                      (trendIndicatorEnabled + trendIndicatorValueType percentValue | numericValue)
 //   fillOpacity: 0-100                 trend fill opacity (trendFillOpacity; the source uses 40, and 100 on the line)
+// One Iconic KPI can hold several metrics, one card each (all on X Axis). For those:
+//   content: 'all' | 'nameAndValue'    what text each card shows (textContentType all | label). nameAndValue = only the
+//                                      metric name and value: the KPI strip on "KPI Disscovery" Page 2.
+//   layout: 'grid'|'stacked'|'horizontal'|'vertical'   (layoutType 0|1|2|3); columns: cards per row in a grid
+//                                      (gridColumnCount; set it to the number of metrics for one row)
+//   alignment: 'left'|'middle'|'right' (cardAlignment)
+//   background: { color, opacity = 100 }  every card's background (areaFillColor + areaFillOpacity). Per-card colors
+//                                      are kpiCardFormats. Always use opacity 100 unless asked: the color is then exact.
 const TREND_SHAPES = ['area', 'line', 'bar', 'none'];
 const KPI_CHANGE = { percent: 'percentValue', amount: 'numericValue' };
-function iconicKpiLook({ icon, tooltip, trend, previousValueLabel, referenceLine, change, fillOpacity, metricId } = {}) {
+const KPI_CONTENT = { all: 'all', nameAndValue: 'label' };
+const KPI_LAYOUT = { grid: 0, stacked: 1, horizontal: 2, vertical: 3 };
+const KPI_ALIGN = ['left', 'middle', 'right'];
+function iconicKpiLook({ icon, tooltip, trend, previousValueLabel, referenceLine, change, fillOpacity, content, layout,
+  columns, alignment, background, metricId } = {}) {
   const p = {};
   if (icon != null) p.showIcon = !!icon;
   if (tooltip != null) p.metricTooltipEnabled = !!tooltip;
@@ -232,6 +245,23 @@ function iconicKpiLook({ icon, tooltip, trend, previousValueLabel, referenceLine
     p.trendIndicatorValueType = KPI_CHANGE[change];
   }
   if (fillOpacity != null) p.trendFillOpacity = fillOpacity;
+  if (content != null) {
+    if (!KPI_CONTENT[content]) throw new Error('content must be all or nameAndValue');
+    p.textContentType = KPI_CONTENT[content];
+  }
+  if (layout != null) {
+    if (KPI_LAYOUT[layout] === undefined) throw new Error('layout must be one of ' + Object.keys(KPI_LAYOUT).join(', '));
+    p.layoutType = KPI_LAYOUT[layout];
+  }
+  if (columns != null) p.gridColumnCount = String(columns);
+  if (alignment != null) {
+    if (!KPI_ALIGN.includes(alignment)) throw new Error('alignment must be left, middle or right');
+    p.cardAlignment = alignment;
+  }
+  if (background) {
+    p.areaFillColor = background.color;
+    p.areaFillOpacity = background.opacity ?? 100;
+  }
   return p;
 }
 // The editor's default heat map colors, lowest 20% to top 20% of the Color By metric (read from Wawa 08.31 Demo).
@@ -593,6 +623,20 @@ function client(token, projectId) {
         if (look.previousValueLabel != null) {
           await s.edit([{ act: 'setWidgetString', nodeKey: vizKey, skey: 'previousValueLabel', wdgs: look.previousValueLabel }], [vizKey]);
         }
+      },
+      // Per-card settings of an Iconic KPI with several metrics (the format panel's Card Appearance with one card picked):
+      // cards = [{ metricId, background, opacity = 100, icon }]. background '#rrggbb' fills that card (areaFillColor +
+      // areaFillOpacity; it wins over the look's background), icon pins a Material Symbols file as setKpiIcon does.
+      // Cards left out keep Auto: their palette color at 10% opacity. All cards go in one element map edit.
+      kpiCardFormats(vizKey, cards) {
+        const epmv = cards.map(({ metricId, background, opacity = 100, icon }) => {
+          const fc = {};
+          if (icon) { fc.imageSrc = '/images/material-symbols/400/rounded/' + icon; fc.imageName = fc.imageSrc; }
+          if (background) { fc.areaFillColor = background; fc.areaFillOpacity = String(opacity); }
+          return { k: { chn: [{ emt: 2, mt: { did: metricId, tp: 4, ql: 0 } }] },
+            v: { vv: '', format_config: JSON.stringify(fc), image_id: '', ov: -1 } };
+        });
+        return s.edit([{ act: 'updateElementsPropertiesMap', nodeKey: vizKey, epm: [{ epmk: [{ ob: { did: '', tp: 4 } }], epmv }] }], [vizKey]);
       },
       setTitle(vizKey, title) {
         return s.edit([{ act: 'format', unitKey: vizKey, unitType: 521, formatType: 1, format: { FormattingView: { Title: title } } }], [vizKey]);

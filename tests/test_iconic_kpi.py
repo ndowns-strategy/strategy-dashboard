@@ -52,5 +52,27 @@ class IconicKpi(unittest.TestCase):
             iconic_kpi_look(reference_line={'value': 1})   # needs the metric id
 
 
+    def test_strip_example_is_valid(self):
+        self.assertEqual(check_structure(json.loads((ROOT / 'examples/kpi-strip-test.json').read_text())), [])
+
+    def test_strip_fields(self):
+        ok = dict(metric=None, metrics=['M', 'N'], content='name_and_value', card_layout='grid', columns=2,
+                  card_alignment='middle', background={'color': '#E8EEF9'}, cards={'N': {'background': '#ABABAB'}})
+        self.assertEqual(one(**ok), [])
+        self.assertTrue(one(**{**ok, 'content': 'label'}))
+        self.assertTrue(one(**{**ok, 'card_layout': 'carousel'}))
+        self.assertTrue(one(**{**ok, 'columns': 0}))
+        self.assertTrue(one(**{**ok, 'cards': {'X': {'background': '#ABABAB'}}}))   # not one of the metrics
+        self.assertTrue(one(**{**ok, 'cards': {'N': {'background': 'grey'}}}))
+        self.assertTrue(one(**{**ok, 'background': {'color': '#ABABAB', 'opacity': 150}}))
+        self.assertTrue(one(**{**ok, 'metric': 'M'}))   # metric and metrics together
+
+    def test_background_defaults_to_full_opacity(self):
+        self.assertEqual(iconic_kpi_look(background={'color': '#ABABAB'}),
+                         {'areaFillColor': '#ABABAB', 'areaFillOpacity': 100})
+        self.assertEqual(iconic_kpi_look(content='nameAndValue', layout='grid', columns=5, alignment='middle'),
+                         {'textContentType': 'label', 'layoutType': 0, 'gridColumnCount': '5', 'cardAlignment': 'middle'})
+
+
 if __name__ == '__main__':
     unittest.main()

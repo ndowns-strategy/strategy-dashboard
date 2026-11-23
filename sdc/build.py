@@ -232,8 +232,11 @@ class Builder:
                 s.to_iconic_kpi(key)
             else:
                 s.insert_kpi(key, layout, pk)
-            mid = N.metric(it['metric'])
-            f = [{'zoneId': ZONE['xAxis'], 'unitId': mid, 'unitType': 4}]
+            names = _as_list(it.get('metrics') or it.get('metric'))   # one card per metric
+            mids = [N.metric(m) for m in names]
+            mid = mids[0]
+            f = [{'zoneId': ZONE['xAxis'], 'unitId': m, 'unitType': 4, **({'unitPos': i + 1} if len(mids) > 1 else {})}
+                 for i, m in enumerate(mids)]
             if it.get('trend'):
                 f.append({'zoneId': ZONE['yAxis'], 'unitId': N.attribute(it['trend']), 'unitType': 12})
             s.fill_zones(key, ds, f)
@@ -241,11 +244,21 @@ class Builder:
             look = {'icon': None if icon is None else bool(icon), 'tooltip': it.get('tooltip'),
                     'trend': it.get('trend_shape'), 'previousValueLabel': it.get('previous_value_label'),
                     'referenceLine': it.get('reference_line'), 'change': it.get('change'),
-                    'fillOpacity': it.get('fill_opacity')}
+                    'fillOpacity': it.get('fill_opacity'),
+                    'content': {'name_and_value': 'nameAndValue', 'all': 'all'}.get(it.get('content')),
+                    'layout': it.get('card_layout'), 'columns': it.get('columns'),
+                    'alignment': it.get('card_alignment'), 'background': it.get('background')}
             if any(v is not None for v in look.values()) or it.get('props'):
                 s.iconic_kpi_look(key, mid, look, it.get('props'))
-            if isinstance(icon, str):
-                s.set_kpi_icon(key, mid, icon)
+            per = it.get('cards') or {}
+            cards = []
+            for name, m in zip(names, mids):
+                c = per.get(name) or {}
+                ic = c.get('icon') or (icon if isinstance(icon, str) else None)
+                if ic or c.get('background'):
+                    cards.append({'metricId': m, 'icon': ic, 'background': c.get('background'), 'opacity': c.get('opacity')})
+            if cards:
+                s.kpi_card_formats(key, cards)
         elif typ == 'chart':
             vis = VIS[it['vis']]
             if layout is None:

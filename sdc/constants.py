@@ -100,10 +100,14 @@ def chart_look(legend=None, data_labels=None, leader_lines=None, marker_size=Non
 # Iconic KPI (ImageEnhancedKPI) look (reference/iconic-kpi-catalog.md). Mirrors iconicKpiLook() in the JS client.
 TREND_SHAPES = ('area', 'line', 'bar', 'none')                         # trendShape
 KPI_CHANGE = {'percent': 'percentValue', 'amount': 'numericValue'}    # trendIndicatorValueType
+KPI_CONTENT = {'all': 'all', 'nameAndValue': 'label'}                  # textContentType
+KPI_LAYOUT = {'grid': 0, 'stacked': 1, 'horizontal': 2, 'vertical': 3}  # layoutType
+KPI_ALIGN = ('left', 'middle', 'right')                                # cardAlignment
 
 
 def iconic_kpi_look(icon=None, tooltip=None, trend=None, previous_value_label=None, reference_line=None, change=None,
-                    fill_opacity=None, metric_id=None):
+                    fill_opacity=None, metric_id=None, content=None, layout=None, columns=None, alignment=None,
+                    background=None):
     """cvp properties for an Iconic KPI from friendly names (same output as iconicKpiLook() in the JS client).
     change: 'percent' | 'amount' | False. reference_line: {value, label='Target', color='#35383A', style='1pt dashed'}."""
     p = {}
@@ -139,4 +143,22 @@ def iconic_kpi_look(icon=None, tooltip=None, trend=None, previous_value_label=No
         p['trendIndicatorValueType'] = KPI_CHANGE[change]
     if fill_opacity is not None:
         p['trendFillOpacity'] = fill_opacity
+    if content is not None:
+        if content not in KPI_CONTENT:
+            raise ValueError('content must be all or nameAndValue')
+        p['textContentType'] = KPI_CONTENT[content]
+    if layout is not None:
+        if layout not in KPI_LAYOUT:
+            raise ValueError('layout must be one of ' + ', '.join(KPI_LAYOUT))
+        p['layoutType'] = KPI_LAYOUT[layout]
+    if columns is not None:
+        from .util import js_num
+        p['gridColumnCount'] = js_num(columns)
+    if alignment is not None:
+        if alignment not in KPI_ALIGN:
+            raise ValueError('alignment must be left, middle or right')
+        p['cardAlignment'] = alignment
+    if background:
+        p['areaFillColor'] = background['color']
+        p['areaFillOpacity'] = background['opacity'] if background.get('opacity') is not None else 100
     return p

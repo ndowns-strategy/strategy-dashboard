@@ -7026,5 +7026,188 @@
    }
   ],
   "result": null
+ },
+ "iconic_kpi_look_strip": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;showIcon&quot;:false,&quot;metricTooltipEnabled&quot;:false,&quot;textContentType&quot;:&quot;label&quot;,&quot;layoutType&quot;:0,&quot;gridColumnCount&quot;:&quot;5&quot;,&quot;cardAlignment&quot;:&quot;middle&quot;}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "iconic_kpi_look_all_cards_background": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;layoutType&quot;:3,&quot;areaFillColor&quot;:&quot;#E8EEF9&quot;,&quot;areaFillOpacity&quot;:100}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "iconic_kpi_look_background_opacity": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;layoutType&quot;:1,&quot;areaFillColor&quot;:&quot;#ABABAB&quot;,&quot;areaFillOpacity&quot;:40}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "iconic_kpi_look_bad_layout": {
+  "calls": [],
+  "result": {
+   "error": "layout must be one of grid, stacked, horizontal, vertical"
+  }
+ },
+ "kpi_card_formats": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateElementsPropertiesMap",
+       "nodeKey": "K52",
+       "epm": [
+        {
+         "epmk": [
+          {
+           "ob": {
+            "did": "",
+            "tp": 4
+           }
+          }
+         ],
+         "epmv": [
+          {
+           "k": {
+            "chn": [
+             {
+              "emt": 2,
+              "mt": {
+               "did": "M1",
+               "tp": 4,
+               "ql": 0
+              }
+             }
+            ]
+           },
+           "v": {
+            "vv": "",
+            "format_config": "{\"areaFillColor\":\"#ABABAB\",\"areaFillOpacity\":\"100\"}",
+            "image_id": "",
+            "ov": -1
+           }
+          },
+          {
+           "k": {
+            "chn": [
+             {
+              "emt": 2,
+              "mt": {
+               "did": "M2",
+               "tp": 4,
+               "ql": 0
+              }
+             }
+            ]
+           },
+           "v": {
+            "vv": "",
+            "format_config": "{\"imageSrc\":\"/images/material-symbols/400/rounded/payments-fill.svg\",\"imageName\":\"/images/material-symbols/400/rounded/payments-fill.svg\",\"areaFillColor\":\"#FFF4D6\",\"areaFillOpacity\":\"60\"}",
+            "image_id": "",
+            "ov": -1
+           }
+          },
+          {
+           "k": {
+            "chn": [
+             {
+              "emt": 2,
+              "mt": {
+               "did": "M3",
+               "tp": 4,
+               "ql": 0
+              }
+             }
+            ]
+           },
+           "v": {
+            "vv": "",
+            "format_config": "{\"imageSrc\":\"/images/material-symbols/400/rounded/route-fill.svg\",\"imageName\":\"/images/material-symbols/400/rounded/route-fill.svg\"}",
+            "image_id": "",
+            "ov": -1
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
  }
 }
