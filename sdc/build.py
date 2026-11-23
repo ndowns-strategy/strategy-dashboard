@@ -8,7 +8,8 @@ Nothing is saved until the last step, so a failure part way leaves nothing behin
 import time
 
 from .constants import KPI_ZONE, METRIC_NAMES, VIS, ZONE, chart_look
-from .spec import REUSABLE, Names, SpecError, _as_list, check_data, check_structure, number_formats, zone_kind
+from .spec import (REUSABLE, Names, SpecError, _as_list, check_data, check_structure, expand_kpi_notes, number_formats,
+                   zone_kind)
 from .transport import StrategyError
 from .util import bgr
 
@@ -63,7 +64,7 @@ def resolve_dataset(conn, ds):
 
 class Builder:
     def __init__(self, conn, spec, log=print):
-        self.conn, self.spec, self.log = conn, spec, log
+        self.conn, self.spec, self.log = conn, expand_kpi_notes(spec), log   # notes become Rich Text items
         self.timings = []
         self.keys = {}        # item id -> {'key', 'node', 'page', 'type'}
         self.page_keys = {}   # page id -> Strategy page key

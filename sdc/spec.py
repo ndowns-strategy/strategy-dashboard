@@ -105,6 +105,19 @@ def check_iconic_kpi(w, it):
                                        if c.get('background') is not None else None)
                 if c.get('icon') is not None and not (isinstance(c['icon'], str) and c['icon'].endswith('.svg')):
                     p.append(f'{w}: cards[{name!r}].icon must be a material-symbols file such as "payments-fill.svg"')
+    notes = it.get('notes')
+    if notes is not None:
+        if not isinstance(notes, dict):
+            p.append(f'{w}: notes must be {{"<metric>": "text with {{[Metric]}} values"}}')
+        else:
+            if it.get('card_layout') == 'stacked':
+                p.append(f'{w}: notes need cards that stay in place; not available with card_layout "stacked"')
+            for name, n in notes.items():
+                if name not in names:
+                    p.append(f'{w}: notes has {name!r}, which is not one of the item\'s metrics')
+                text = n.get('text') if isinstance(n, dict) else n
+                if not isinstance(text, str) or not text:
+                    p.append(f'{w}: notes[{name!r}] needs text (a string, or {{"text", "size", "color"}})')
     if it.get('trend') in TREND_SHAPES:
         p.append(f'{w}: "trend" is the trend attribute; the shape {it["trend"]!r} goes in "trend_shape"')
     if it.get('title_format') is not None:
@@ -190,6 +203,50 @@ def items(spec):
             yield page, it
 
 
+TOKEN = re.compile(r'\{\[(.+?)\]\}')   # dynamic text: {[Metric Name]} shows that metric's formatted value
+
+
+def tokens(text):
+    """Object names used as dynamic text, {[Order Total Amount]}, in a Text or Rich Text value."""
+    return TOKEN.findall(text or '')
+
+
+def note_boxes(it):
+    """Where each card of an Iconic KPI sits, as boxes in page percent, in metric order (grid, horizontal, vertical)."""
+    names = _as_list(it.get('metrics') or it.get('metric'))
+    n = len(names)
+    lay = it.get('card_layout', 'grid')
+    cols = n if lay == 'horizontal' else 1 if lay == 'vertical' else min(n, it.get('columns') or 4)
+    rows = -(-n // cols)
+    x, y, w, h = it['box']
+    cw, ch = w / cols, h / rows
+    return {m: [x + (i % cols) * cw, y + (i // cols) * ch, cw, ch] for i, m in enumerate(names)}
+
+
+def expand_kpi_notes(spec):
+    """Copy of the spec where each Iconic KPI's `notes` become Rich Text items layered on its cards, right after it.
+    A note sits under the card's value: from 74% of the card's height down, 26% tall, as wide as the card, centered,
+    9pt #35383a, transparent (the layout of "KPI Disscovery" Page 3)."""
+    out = {**spec, 'pages': []}
+    for pg in spec.get('pages', []):
+        its = []
+        for it in pg.get('items', []):
+            its.append(it)
+            if it.get('type') == 'iconic_kpi' and isinstance(it.get('notes'), dict) and it.get('box'):
+                boxes = note_boxes(it)
+                for i, (name, n) in enumerate(it['notes'].items()):
+                    if name not in boxes:
+                        continue
+                    n = n if isinstance(n, dict) else {'text': n}
+                    bx, by, bw, bh = boxes[name]
+                    its.append({'id': f'{it["id"]}_note{i + 1}', 'type': 'rich_text', 'align': 'center',
+                                'runs': [{'text': n['text'], 'size': n.get('size', 9),
+                                          **({'color': n['color']} if n.get('color') else {})}],
+                                'box': [round(bx, 3), round(by + bh * 0.74, 3), round(bw, 3), round(bh * 0.26, 3)]})
+        out['pages'].append({**pg, 'items': its})
+    return out
+
+
 def check_structure(spec):
     """Problems that need no server. Returns a list of strings (empty = fine)."""
     p = []
@@ -210,6 +267,8 @@ def check_structure(spec):
         if pg.get('layout', 'freeform') != 'freeform':
             p.append(f'{where}: only layout "freeform" is supported so far')
         its = pg.get('items') or []
+        if pg.get('layout', 'freeform') != 'freeform' and any(it.get('notes') for it in its):
+            p.append(f'{where}: Iconic KPI notes layer text on top of the cards, which only a free-form layout allows')
         if not any(it.get('type') in REUSABLE for it in its):
             p.append(f'{where}: needs at least one kpi_card, iconic_kpi, chart or line item (the page\'s default visualization, a '
                      f'classic Grid, becomes the first one; grid items are always new Modern Grids)')
@@ -351,6 +410,11 @@ def check_data(spec, names):
 
     for _pg, it in items(spec):
         w, typ = f'item {it.get("id")!r}', it.get('type')
+        texts = [it.get('text')] if typ == 'text' else [r.get('text') for r in it.get('runs') or []] \
+            if typ == 'rich_text' else []
+        for t in texts:
+            for name in tokens(t):
+                need(f'{w} dynamic text {{[{name}]}}', name)
         if typ == 'iconic_kpi':
             for m in _as_list(it.get('metrics') or it.get('metric')):
                 need(w, m, 'metric')

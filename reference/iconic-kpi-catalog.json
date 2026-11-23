@@ -358,5 +358,33 @@
    "spec": "examples/kpi-strip-test.json",
    "date": "2026-11-23"
   }
+ },
+ "kpiWithNotes": {
+  "source": {
+   "page": "W101 Page 3",
+   "kpi": "W102 (On Time Stops, Units, Order Value; grid; no trend; no icon; no tooltip; areaFillColor #EBEBEB at 100)",
+   "kpiBox": "top 57px left 0 width 1914px height 137px (7.05% / 17.2% of the page height)",
+   "texts": [
+    {
+     "key": "W106",
+     "value": "On Time % {[On Time %]}  with a Target of {[On-Time Target]}",
+     "box": "top 160px left 0 width 600px height 21px",
+     "font": "9pt Open Sans #35383a, centered"
+    },
+    {
+     "key": "W104",
+     "value": "Average Order Value {[Average Item Value]} ",
+     "box": "top 160px left 1392px width 395px height 21px",
+     "font": "9pt Open Sans #35383a, centered"
+    }
+   ]
+  },
+  "noteBox": "card x, card y + 74% of card height, card width, 26% of card height",
+  "verified": {
+   "dashboard": "SDC KPI notes test",
+   "id": "F521BCC0054B29ADED50589275FE9480",
+   "spec": "examples/kpi-notes-test.json",
+   "date": "2026-11-23"
+  }
  }
 }

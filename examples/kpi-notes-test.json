@@ -1,0 +1,25 @@
+{
+  "name": "SDC KPI notes test",
+  "project_id": "607F0D20E84F2EF50271148D7D409484",
+  "dataset": {"id": "C7F3DE7BEC434DD7AD86FD33A78E9263", "name": "Retail Orders Sales Performance Model (global)"},
+  "overwrite": true,
+  "pages": [
+    {
+      "id": "notes", "title": "KPI with notes", "layout": "freeform",
+      "items": [
+        {"id": "kpis", "type": "iconic_kpi", "title": "Bare KPIs with text layered on top",
+         "metrics": ["Order Total Amount", "Order Quantity", "Unit Price"],
+         "icon": false, "tooltip": false, "card_layout": "grid", "columns": 3, "background": {"color": "#EBEBEB"},
+         "notes": {"Order Total Amount": "Quantity {[Order Quantity]} at {[Unit Price]} per unit",
+                   "Unit Price": "Revenue {[Order Total Amount]}"},
+         "box": [0, 7, 100, 17]},
+        {"id": "kpis2", "type": "iconic_kpi", "title": "Two rows",
+         "metrics": ["Order Total Amount", "Order Quantity", "Unit Price"],
+         "icon": false, "tooltip": false, "card_layout": "grid", "columns": 2, "background": {"color": "#EBEBEB"},
+         "notes": {"Order Quantity": {"text": "Units sold {[Order Quantity]}", "color": "#c1292f"},
+                   "Unit Price": "Sum of unit prices {[Unit Price]}"},
+         "box": [0, 30, 60, 34]}
+      ]
+    }
+  ]
+}

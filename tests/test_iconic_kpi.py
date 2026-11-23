@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from sdc.constants import iconic_kpi_look
-from sdc.spec import check_structure
+from sdc.spec import check_structure, expand_kpi_notes, tokens
 
 ROOT = Path(__file__).parent.parent
 
@@ -72,6 +72,40 @@ class IconicKpi(unittest.TestCase):
                          {'areaFillColor': '#ABABAB', 'areaFillOpacity': 100})
         self.assertEqual(iconic_kpi_look(content='nameAndValue', layout='grid', columns=5, alignment='middle'),
                          {'textContentType': 'label', 'layoutType': 0, 'gridColumnCount': '5', 'cardAlignment': 'middle'})
+
+
+    def test_notes_example_is_valid(self):
+        self.assertEqual(check_structure(json.loads((ROOT / 'examples/kpi-notes-test.json').read_text())), [])
+
+    def test_tokens(self):
+        self.assertEqual(tokens('On Time % {[On Time %]}  with a Target of {[On-Time Target]}'),
+                         ['On Time %', 'On-Time Target'])
+        self.assertEqual(tokens('plain'), [])
+
+    def test_notes_become_rich_text_on_the_cards(self):
+        kpi = {'id': 'k', 'type': 'iconic_kpi', 'metrics': ['A', 'B', 'C'], 'columns': 3, 'box': [0, 7, 100, 17],
+               'notes': {'A': 'x {[D]}', 'C': {'text': 'y', 'color': '#c1292f'}}}
+        its = expand_kpi_notes({'pages': [{'id': 'p', 'items': [kpi]}]})['pages'][0]['items']
+        self.assertEqual([i['id'] for i in its], ['k', 'k_note1', 'k_note2'])
+        a, c = its[1], its[2]
+        self.assertEqual((a['type'], a['align'], a['runs']), ('rich_text', 'center', [{'text': 'x {[D]}', 'size': 9}]))
+        self.assertEqual(a['box'], [0, 19.58, 33.333, 4.42])        # first card: under its value
+        self.assertEqual(c['box'][0], 66.667)                       # third card
+        self.assertEqual(c['runs'][0]['color'], '#c1292f')
+
+    def test_notes_two_rows(self):
+        kpi = {'id': 'k', 'type': 'iconic_kpi', 'metrics': ['A', 'B', 'C'], 'columns': 2, 'box': [0, 30, 60, 34],
+               'notes': {'C': 'z'}}
+        note = expand_kpi_notes({'pages': [{'id': 'p', 'items': [kpi]}]})['pages'][0]['items'][1]
+        self.assertEqual(note['box'], [0, 59.58, 30, 4.42])          # second row, first column
+
+    def test_bad_notes(self):
+        self.assertTrue(one(metric=None, metrics=['M'], notes={'X': 'not a metric of the item'}))
+        self.assertTrue(one(metric=None, metrics=['M'], notes={'M': ''}))
+        self.assertTrue(one(metric=None, metrics=['M'], card_layout='stacked', notes={'M': 'moves'}))
+        auto = {'name': 'x', 'dataset': 'd', 'pages': [{'id': 'pg', 'layout': 'auto', 'items': [
+            {'id': 'k', 'type': 'iconic_kpi', 'metrics': ['M'], 'notes': {'M': 'n'}, 'box': [0, 0, 50, 50]}]}]}
+        self.assertTrue(any('free-form' in x for x in check_structure(auto)))
 
 
 if __name__ == '__main__':

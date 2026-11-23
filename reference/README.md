@@ -37,7 +37,7 @@ When you rebuild a dashboard from an image:
 | File | Covers | Helpers |
 |---|---|---|
 | [kpi-catalog.md](kpi-catalog.md) | The three native KPI families (KPI card, Comparison KPI, Multi-Metric KPI) and their seven variants: plain, trend with % badge and sparkline, break by, comparison | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties` |
-| [iconic-kpi-catalog.md](iconic-kpi-catalog.md) | The Iconic KPI: icon on/off and pinned icons, metric tooltip, trend shape (area, line, bar, none), previous value label, reference line, change indicator (percent or amount); the KPI strip (several metrics, name and value only, grid/stacked/horizontal/vertical, per-card background colors) | `insertKpi`, `toIconicKpi`, `iconicKpiLook`, `kpiCardFormats`, `setKpiIcon` |
+| [iconic-kpi-catalog.md](iconic-kpi-catalog.md) | The Iconic KPI: icon on/off and pinned icons, metric tooltip, trend shape (area, line, bar, none), previous value label, reference line, change indicator (percent or amount); the KPI strip (several metrics, name and value only, grid/stacked/horizontal/vertical, per-card background colors); bare KPIs with Rich Text and `{[Metric]}` values layered on the cards | `insertKpi`, `toIconicKpi`, `iconicKpiLook`, `kpiCardFormats`, `setKpiIcon` |
 | [grid-catalog.md](grid-catalog.md) | The three grid kinds (Grid (Modern) is the default), Modern Grids with column sets and microchart columns | `insertModernGrid`, `buildColumnSetGrid`, `buildModernGrid` |
 
 ### Text, shapes and AI

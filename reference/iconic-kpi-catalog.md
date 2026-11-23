@@ -117,6 +117,57 @@ await s.kpiCardFormats('K52', [{ metricId: metricIds[0], background: '#ABABAB' }
  "box": [0, 0, 100, 24]}
 ```
 
+## Bare KPIs with text layered on top
+
+**The pattern.** Generated dashboards (including ones Claude makes) often show KPI tiles that mix metrics: a big value
+with a line of other numbers under it, such as "On Time % 93.39% with a Target of 93.75%". There's no trend. No single
+visualization looks like that. Build it as a **bare Iconic KPI plus transparent Rich Text boxes on top of its cards**:
+- The KPI draws the tiles, names and values.
+- Each text box adds the extra line.
+- Text boxes can hold live metric values, so other metrics and words can be layered onto any card.
+
+**This only works on a free-form page.** Layering needs objects that can overlap. An auto (tiled) layout puts every object in its own slot beside the others, so a text box can never sit on top of a card. Use `"layout": "freeform"` (the builder's only page layout so far, and `check` rejects `notes` on any other).
+
+Studied on KPI Disscovery **Page 3** (`W101`):
+
+| Object | What it is |
+|---|---|
+| `W102`, Iconic KPI | Three metrics (On Time Stops, Units, Order Value), grid, no trend attribute, `showIcon false`, `metricTooltipEnabled false`, all cards `areaFillColor #EBEBEB` at `areaFillOpacity 100`. 1914 × 137 px at the top |
+| `W106`, Rich Text | `On Time % {[On Time %]}  with a Target of {[On-Time Target]}`, 9pt Open Sans #35383a, centered, on card 1 (left 0, width 600 px) |
+| `W104`, Rich Text | `Average Order Value {[Average Item Value]}`, same format, on card 3 |
+
+Both text boxes are placed after the KPI, so they sit above it. Each one's top is about 74% of the way down the card,
+under the value, and it is about 26% of the card's height. Average Item Value isn't on the KPI at all: a text box can
+show any metric in the dataset.
+
+**Dynamic text.** In a Text or Rich Text value, `{[Metric Name]}` shows that metric's formatted value (93.39%,
+$1,849.00), computed for the whole dataset under the current filters. The field value stores the `{[...]}` text
+(the server JSON's `rv`), and `v` holds the rendered result. No other action is needed: `addRichText` /
+`add_rich_text` with the token in a run's text works as is. `check` resolves every `{[...]}` name against the dataset.
+
+**Spec: `notes`.** On an `iconic_kpi`, `notes` places the text boxes for you, one per card:
+
+```json
+{"id": "kpis", "type": "iconic_kpi", "metrics": ["On Time Stops", "Units", "Order Value"],
+ "icon": false, "tooltip": false, "card_layout": "grid", "columns": 3, "background": {"color": "#EBEBEB"},
+ "notes": {"On Time Stops": "On Time % {[On Time %]}  with a Target of {[On-Time Target]}",
+           "Order Value": {"text": "Average Order Value {[Average Item Value]}", "size": 9, "color": "#35383a"}},
+ "box": [0, 7, 100, 17]}
+```
+
+**How the notes are placed:**
+- The builder works out each card's box from the KPI's `box`, `card_layout` and `columns`. That works for grid,
+  horizontal and vertical layouts, but not stacked.
+- It adds a centered, transparent Rich Text item `<id>_note<n>` right after the KPI: 74% of the way down the card,
+  26% of the card's height, and as wide as the card.
+- Keep the KPI box short, about 17% of the page height per row as on the source, so the note lands under the value.
+- For a free-form layout, use plain `rich_text` items with your own boxes instead.
+
+Verified as **SDC KPI notes test** (`F521BCC0054B29ADED50589275FE9480`, Showcase) from
+[examples/kpi-notes-test.json](../examples/kpi-notes-test.json):
+- A three-card row matches Page 3's layout, and "Quantity 382 at 10,669.88 per unit" draws under the first value.
+- A two-row grid puts notes on its second and third cards, one of them red.
+
 ## The icon
 
 The icon is an element map entry on the metric (`updateElementsPropertiesMap`, emt 2), and its `format_config` names a
@@ -193,6 +244,7 @@ properties wins over the look.
 | `card_alignment` | `left`, `middle`, `right` |
 | `background` | `{"color": "#E8EEF9", "opacity": 100}`: every card. Opacity defaults to 100 |
 | `cards` | `{"<metric>": {"background": "#ABABAB", "opacity": 100, "icon": "route-fill.svg"}}`: per card; wins over `background` |
+| `notes` | `{"<metric>": "text with {[Metric]} values"}` or `{"text", "size", "color"}`: a Rich Text line layered under that card's value (see "Bare KPIs with text layered on top") |
 | `props` | raw cvp properties; they win |
 
 `title` only names the visualization in the editor, and `title_format` is rejected. An `iconic_kpi` can take over the
