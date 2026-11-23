@@ -115,9 +115,23 @@ def check_iconic_kpi(w, it):
             for name, n in notes.items():
                 if name not in names:
                     p.append(f'{w}: notes has {name!r}, which is not one of the item\'s metrics')
-                text = n.get('text') if isinstance(n, dict) else n
-                if not isinstance(text, str) or not text:
-                    p.append(f'{w}: notes[{name!r}] needs text (a string, or {{"text", "size", "color"}})')
+                if isinstance(n, dict) and n.get('runs'):
+                    if not all(isinstance(r, dict) and isinstance(r.get('text'), str) for r in n['runs']):
+                        p.append(f'{w}: notes[{name!r}].runs must be [{{"text", "size", "color", "bold"}}, ...]')
+                else:
+                    text = n.get('text') if isinstance(n, dict) else n
+                    if not isinstance(text, str) or not text:
+                        p.append(f'{w}: notes[{name!r}] needs text (a string, {{"text", "size", "color"}} or {{"runs"}})')
+                if isinstance(n, dict) and n.get('align') is not None and n['align'] not in ALIGNS:
+                    p.append(f'{w}: notes[{name!r}].align must be left, center or right')
+    labels = it.get('labels')
+    if labels is not None:
+        if not isinstance(labels, dict) or not all(isinstance(v, str) and v for v in labels.values()):
+            p.append(f'{w}: labels must be {{"<metric>": "name shown on the card"}}')
+        else:
+            for name in labels:
+                if name not in names:
+                    p.append(f'{w}: labels has {name!r}, which is not one of the item\'s metrics')
     if it.get('trend') in TREND_SHAPES:
         p.append(f'{w}: "trend" is the trend attribute; the shape {it["trend"]!r} goes in "trend_shape"')
     if it.get('title_format') is not None:
@@ -239,9 +253,12 @@ def expand_kpi_notes(spec):
                         continue
                     n = n if isinstance(n, dict) else {'text': n}
                     bx, by, bw, bh = boxes[name]
-                    its.append({'id': f'{it["id"]}_note{i + 1}', 'type': 'rich_text', 'align': 'center',
-                                'runs': [{'text': n['text'], 'size': n.get('size', 9),
-                                          **({'color': n['color']} if n.get('color') else {})}],
+                    runs = n.get('runs') or [{'text': n['text'], **({'color': n['color']} if n.get('color') else {})}]
+                    runs = [{'size': n.get('size', 9), **r} for r in runs]
+                    # cards without a trend are always centered (the plugin ignores cardAlignment then), so notes are too
+                    align = n.get('align') or ({'left': 'left', 'right': 'right'}.get(it.get('card_alignment'), 'center')
+                                               if it.get('trend') else 'center')
+                    its.append({'id': f'{it["id"]}_note{i + 1}', 'type': 'rich_text', 'align': align, 'runs': runs,
                                 'box': [round(bx, 3), round(by + bh * 0.74, 3), round(bw, 3), round(bh * 0.26, 3)]})
         out['pages'].append({**pg, 'items': its})
     return out
@@ -258,6 +275,15 @@ def check_structure(spec):
     pages = spec.get('pages') or []
     if not pages:
         p.append('spec: at least one page is required')
+    dms = spec.get('derived_metrics') or []
+    if not isinstance(dms, list):
+        p.append('spec: derived_metrics must be a list of {"name", "formula", "format"}')
+        dms = []
+    for i, dm in enumerate(dms):
+        if not isinstance(dm, dict) or not dm.get('name') or not dm.get('formula') or set(dm) - {'name', 'formula', 'format'}:
+            p.append(f'spec: derived_metrics[{i}] needs "name" and "formula" (and an optional "format")')
+        elif '"' in dm['name'] or '[' in dm['name']:
+            p.append(f'spec: derived_metrics[{i}] name must not contain quotes or brackets')
     page_ids = [pg.get('id') for pg in pages]
     ids = {}
     for pg in pages:
@@ -398,9 +424,22 @@ def zone_kind(zone):
     return None
 
 
+FORMULA_NAME = re.compile(r'\[([^\]]+)\]')   # [Metric] or [Attribute] in a derived metric formula
+
+
 def check_data(spec, names):
-    """Resolve every name in the spec. Returns a list of problems."""
+    """Resolve every name in the spec. Returns a list of problems. Derived metrics are added to `names` (id None until
+    the build creates them), after checking that each formula's [names] exist."""
     p = []
+    for dm in spec.get('derived_metrics') or []:
+        if dm['name'] in names.metrics:
+            p.append(f'derived metric {dm["name"]!r}: a metric with that name already exists (formulas would be ambiguous)')
+        for ref in FORMULA_NAME.findall(dm['formula']):
+            try:
+                names.resolve(ref)
+            except KeyError as e:
+                p.append(f'derived metric {dm["name"]!r} formula: {e.args[0]}')
+        names.metrics[dm['name']] = {'name': dm['name'], 'id': None}
 
     def need(where, name, kind=None):
         try:

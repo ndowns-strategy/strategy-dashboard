@@ -108,5 +108,31 @@ class IconicKpi(unittest.TestCase):
         self.assertTrue(any('free-form' in x for x in check_structure(auto)))
 
 
+    def test_imt_example_is_valid(self):
+        self.assertEqual(check_structure(json.loads((ROOT / 'examples/imt-advisor-kpis.json').read_text())), [])
+
+    def test_note_runs_and_alignment(self):
+        kpi = {'id': 'k', 'type': 'iconic_kpi', 'metrics': ['A'], 'card_alignment': 'left', 'box': [0, 0, 50, 20],
+               'notes': {'A': {'runs': [{'text': '{[Chg]}', 'color': '#2E7D32'}, {'text': ' vs last year'}]}}}
+        note = expand_kpi_notes({'pages': [{'id': 'p', 'items': [kpi]}]})['pages'][0]['items'][1]
+        self.assertEqual(note['runs'], [{'size': 9, 'text': '{[Chg]}', 'color': '#2E7D32'}, {'size': 9, 'text': ' vs last year'}])
+        self.assertEqual(note['align'], 'center')     # no trend: the plugin centers the card whatever cardAlignment says
+        kpi['trend'] = 'Month'
+        note = expand_kpi_notes({'pages': [{'id': 'p', 'items': [kpi]}]})['pages'][0]['items'][1]
+        self.assertEqual(note['align'], 'left')
+
+    def test_labels(self):
+        self.assertEqual(one(metric=None, metrics=['M'], labels={'M': 'SALES'}), [])
+        self.assertTrue(one(metric=None, metrics=['M'], labels={'X': 'SALES'}))
+        self.assertTrue(one(metric=None, metrics=['M'], labels={'M': ''}))
+
+    def test_derived_metrics_structure(self):
+        base = {'name': 'x', 'dataset': 'd', 'pages': [{'id': 'pg', 'items': [
+            {'id': 'k', 'type': 'iconic_kpi', 'metric': 'M', 'box': [0, 0, 50, 50]}]}]}
+        self.assertEqual(check_structure({**base, 'derived_metrics': [{'name': 'D', 'formula': '[M] * 2', 'format': '#,##0'}]}), [])
+        self.assertTrue(check_structure({**base, 'derived_metrics': [{'name': 'D'}]}))
+        self.assertTrue(check_structure({**base, 'derived_metrics': [{'name': 'D[1]', 'formula': '1'}]}))
+
+
 if __name__ == '__main__':
     unittest.main()

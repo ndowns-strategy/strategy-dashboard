@@ -162,6 +162,12 @@ $1,849.00), computed for the whole dataset under the current filters. The field 
   26% of the card's height, and as wide as the card.
 - Keep the KPI box short, about 17% of the page height per row as on the source, so the note lands under the value.
 - For a free-form layout, use plain `rich_text` items with your own boxes instead.
+- **Cards without a trend are always centered.** The plugin ignores `cardAlignment` unless a trend attribute is on Y
+  Axis: it always adds its `left-alignment` class and leaves the rest to CSS. So notes default to centered on those
+  KPIs (and follow `card_alignment` when there is a trend). A note's own `align` wins.
+- Numbers the dataset lacks, such as a change percent, an average or a count filtered to one element, come from
+  top-level `derived_metrics`. Example: [examples/imt-advisor-kpis.json](../examples/imt-advisor-kpis.json) rebuilds a
+  generated six-KPI header on the IMT Advisor model, with every value and note matching the source image.
 
 Verified as **SDC KPI notes test** (`F521BCC0054B29ADED50589275FE9480`, Showcase) from
 [examples/kpi-notes-test.json](../examples/kpi-notes-test.json):
@@ -244,7 +250,8 @@ properties wins over the look.
 | `card_alignment` | `left`, `middle`, `right` |
 | `background` | `{"color": "#E8EEF9", "opacity": 100}`: every card. Opacity defaults to 100 |
 | `cards` | `{"<metric>": {"background": "#ABABAB", "opacity": 100, "icon": "route-fill.svg"}}`: per card; wins over `background` |
-| `notes` | `{"<metric>": "text with {[Metric]} values"}` or `{"text", "size", "color"}`: a Rich Text line layered under that card's value (see "Bare KPIs with text layered on top") |
+| `labels` | `{"<metric>": "YEAR TO DATE SALES"}`: the name shown on that card (`renameUnit` in the visualization) |
+| `notes` | `{"<metric>": "text with {[Metric]} values"}`, `{"text", "size", "color", "align"}` or `{"runs": [{"text", "color", "bold"}, ...]}` (e.g. a green change before gray text): a Rich Text line layered under that card's value (see "Bare KPIs with text layered on top") |
 | `props` | raw cvp properties; they win |
 
 `title` only names the visualization in the editor, and `title_format` is rejected. An `iconic_kpi` can take over the

@@ -7209,5 +7209,61 @@
    }
   ],
   "result": null
+ },
+ "rename_metric_in_viz": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "K52",
+       "actions": [
+        {
+         "act": "renameUnit",
+         "id": "M1",
+         "type": 4,
+         "name": "YEAR TO DATE SALES",
+         "isDynamicAlias": false
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "create_derived_metric_no_id": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "addDerivedMetricToDataset",
+       "dsid": "DS",
+       "formula": "Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))",
+       "isTokenStream": false,
+       "name": "Active Producers",
+       "dsc": "",
+       "newObjectIds": [
+        "$GUID_1"
+       ]
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": {
+   "error": "new object id not found for Active Producers"
+  }
  }
 }

@@ -115,6 +115,12 @@ class Builder:
         self.next_key = max(s.all_keys() | {99})
         first = ch['pages'][0]['key']
         defaults = {}
+        if sp.get('derived_metrics'):
+            self._phase('derived metrics')
+            for dm in sp['derived_metrics']:
+                mid = self._step(f'derived metric {dm["name"]}', lambda: s.create_derived_metric(
+                    self.ds_id, dm['name'], dm['formula'], dm.get('format')))
+                self.names.metrics[dm['name']]['id'] = mid
         self._phase('pages')
         for i, pg in enumerate(sp['pages']):
             if i == 0:
@@ -251,6 +257,8 @@ class Builder:
                     'alignment': it.get('card_alignment'), 'background': it.get('background')}
             if any(v is not None for v in look.values()) or it.get('props'):
                 s.iconic_kpi_look(key, mid, look, it.get('props'))
+            for name, label in (it.get('labels') or {}).items():
+                s.rename(key, N.metric(name), 4, label)
             per = it.get('cards') or {}
             cards = []
             for name, m in zip(names, mids):

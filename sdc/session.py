@@ -45,6 +45,15 @@ def vis_format(key, unit_type, vis):
     }
 
 
+def new_object_id(response_text, name):
+    """Id of a just-created derived object, from the edit response (the server may append " 1" to the name)."""
+    esc = re.sub(r'[.*+?^${}()|[\]\\/]', lambda m: '\\\\?\\/' if m.group(0) == '/' else '\\' + m.group(0), name)
+    m = re.search('"n":"' + esc + r'( \d+)?","did":"([0-9A-F]{32})"', response_text)
+    if not m:
+        raise StrategyError('new object id not found for ' + name)
+    return m.group(2)
+
+
 def _layout_action(page_key, layout):
     return {'act': 'format', 'unitKey': page_key, 'unitType': 9, 'formatType': 1,
             'format': {'FormattingSize': {'LayoutXML': layout}}, 'isJson': True}
@@ -418,6 +427,16 @@ class Session:
         return self.edit([{'act': 'updateTemplate', 'keyContext': viz_key, 'actions': [{'act': 'sort',
             'sorts': [[sort]], 'nodeKey': viz_key, 'subTotalsPos': [0], 'stt': -1, 'rp': None}]}], [viz_key])
 
+    def create_derived_metric(self, dataset_id, name, formula, number_format=None):
+        """Dataset-level derived metric from a plain-text formula (isTokenStream false). Returns the new metric's id.
+        Don't reuse a base metric's name: formulas that reference it become ambiguous."""
+        t = self.edit([{'act': 'addDerivedMetricToDataset', 'dsid': dataset_id, 'formula': formula, 'isTokenStream': False,
+                        'name': name, 'dsc': '', 'newObjectIds': ['$GUID_1']}], [self.node])
+        mid = new_object_id(t, name)
+        if number_format:
+            self.edit([{'act': 'numberFormat', 'unitId': mid, 'unitType': 4, 'c': 7, 'f': number_format}], [self.node])
+        return mid
+
     def number_format(self, metric_ids, f, category=7):
         return self.edit([{'act': 'numberFormat', 'unitId': u, 'unitType': 4, 'c': category, 'f': f} for u in metric_ids],
                          [self.node])
@@ -712,6 +731,11 @@ class Session:
 
     def set_current_panel(self, page_key):
         return self.edit([{'act': 'setCurrentPanel', 'unitKey': page_key}], [page_key])
+
+    def rename(self, viz_key, unit_id, unit_type, name):
+        """Display name of an attribute (12) or metric (4) inside one visualization."""
+        return self.edit([{'act': 'updateTemplate', 'keyContext': viz_key, 'actions': [
+            {'act': 'renameUnit', 'id': unit_id, 'type': unit_type, 'name': name, 'isDynamicAlias': False}]}], [viz_key])
 
     def rename_chapter(self, chapter_key, title):
         return self.edit([{'act': 'format', 'unitKey': chapter_key, 'unitType': 1, 'formatType': 1,

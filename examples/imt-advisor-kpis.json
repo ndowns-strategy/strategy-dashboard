@@ -1,0 +1,60 @@
+{
+  "name": "IMT Advisor Sales and Opportunity Performance",
+  "project_id": "1FC5A43B374C963CC773C285DF86E2F6",
+  "dataset": {"id": "C4AF3C5600794076AFA4BBE8EC09F4AC", "name": "IMT Advisor Sales and Opportunity Performance Model"},
+  "overwrite": true,
+  "derived_metrics": [
+    {"name": "Active Producers", "formula": "Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))", "format": "#,##0"},
+    {"name": "Not Active Producers", "formula": "[Advisor Count] - Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))", "format": "#,##0"},
+    {"name": "Wholesaler Count", "formula": "Count<Distinct=True>([External Wholesaler Name])", "format": "#,##0"},
+    {"name": "YTD Sales Change", "formula": "([Year To Date Total Sales Amount] - [Prior Year To Date Total Sales Amount]) / [Prior Year To Date Total Sales Amount]", "format": "+0.0%;-0.0%"},
+    {"name": "Avg Ticket YTD", "formula": "[Year To Date Total Sales Amount] / [Year To Date New Ticket Count]", "format": "$#,##0,\"K\""}
+  ],
+  "number_formats": {
+    "Year To Date Total Sales Amount": "$#,##0.0,,\"M\"",
+    "Prior Year To Date Total Sales Amount": "$#,##0.0,,\"M\"",
+    "Rolling 12 Month Total Sales Amount": "$#,##0.0,,\"M\"",
+    "Prior Fiscal Year Total Sales Amount": "$#,##0.0,,\"M\"",
+    "Rolling 12 Month Total Annuity Opportunity Amount": "$#,##0.0,,\"M\"",
+    "Year To Date External Spend Amount": "$#,##0,\"K\""
+  },
+  "pages": [
+    {
+      "id": "overview", "title": "Overview", "layout": "freeform",
+      "items": [
+        {"id": "bg", "type": "shape", "shape": "Rectangle", "fill": "#F3F5F8", "stroke_width": 0, "box": [0, 0, 100, 100]},
+        {"id": "title", "type": "text", "text": "IMT Advisor Sales and Opportunity Performance",
+         "font": {"name": "Open Sans", "size": 20, "bold": true, "color": "#1B2332"}, "box": [1.2, 1.5, 70, 5.5]},
+        {"id": "subtitle", "type": "rich_text",
+         "runs": [{"text": "{[Advisor Count]} advisors · {[Wholesaler Count]} external wholesalers · year to date vs prior year to date", "size": 10, "color": "#3D4451"}],
+         "box": [1.2, 7.2, 70, 3.6]},
+        {"id": "source", "type": "rich_text",
+         "runs": [{"text": "Source: Shared Studio / IMT Advisor Sales and Opportunity Performance Model · queried Nov 22, 2026", "size": 9, "color": "#5B6270"}],
+         "box": [1.2, 11, 70, 3.6]},
+        {"id": "kpis", "type": "iconic_kpi", "title": "Headline KPIs",
+         "metrics": ["Year To Date Total Sales Amount", "Rolling 12 Month Total Sales Amount",
+                     "Rolling 12 Month Total Annuity Opportunity Amount", "Active Producers",
+                     "Year To Date New Ticket Count", "Year To Date External Activity Count"],
+         "labels": {"Year To Date Total Sales Amount": "YEAR TO DATE SALES",
+                    "Rolling 12 Month Total Sales Amount": "ROLLING 12 MONTH SALES",
+                    "Rolling 12 Month Total Annuity Opportunity Amount": "12 MONTH OPPORTUNITY",
+                    "Active Producers": "ACTIVE PRODUCERS",
+                    "Year To Date New Ticket Count": "NEW TICKETS, YEAR TO DATE",
+                    "Year To Date External Activity Count": "EXTERNAL ACTIVITIES"},
+         "icon": false, "tooltip": false, "card_layout": "grid", "columns": 6,
+         "background": {"color": "#FFFFFF"},
+         "border": {"color": "#E2E6EB", "radius": 8}, "fill": {"container": "none"},
+         "notes": {
+           "Year To Date Total Sales Amount": {"runs": [
+             {"text": "{[YTD Sales Change]}", "color": "#2E7D32"},
+             {"text": " vs {[Prior Year To Date Total Sales Amount]} prior year to date", "color": "#5B6270"}]},
+           "Rolling 12 Month Total Sales Amount": {"text": "Prior fiscal year {[Prior Fiscal Year Total Sales Amount]}", "color": "#5B6270"},
+           "Rolling 12 Month Total Annuity Opportunity Amount": {"text": "{[Open Opportunities Number]} open opportunities", "color": "#5B6270"},
+           "Active Producers": {"text": "of {[Advisor Count]} advisors ({[Not Active Producers]} lapsed or prospect)", "color": "#5B6270"},
+           "Year To Date New Ticket Count": {"text": "Avg ticket {[Avg Ticket YTD]}", "color": "#5B6270"},
+           "Year To Date External Activity Count": {"text": "{[Year To Date Internal Activity Count]} internal · {[Year To Date External Spend Amount]} spend", "color": "#5B6270"}},
+         "box": [1.2, 16, 97.6, 20]}
+      ]
+    }
+  ]
+}

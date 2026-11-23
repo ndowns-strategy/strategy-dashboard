@@ -1258,5 +1258,26 @@
     }
    ]
   ]
+ },
+ {
+  "name": "rename_metric_in_viz",
+  "js": "rename",
+  "args": [
+   "K52",
+   "M1",
+   4,
+   "YEAR TO DATE SALES"
+  ]
+ },
+ {
+  "name": "create_derived_metric_no_id",
+  "js": "createDerivedMetric",
+  "py": "create_derived_metric",
+  "args": [
+   "DS",
+   "Active Producers",
+   "Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))",
+   "#,##0"
+  ]
  }
 ]
