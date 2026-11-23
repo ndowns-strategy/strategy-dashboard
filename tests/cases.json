@@ -1279,5 +1279,152 @@
    "Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))",
    "#,##0"
   ]
+ },
+ {
+  "name": "dashboard_format_background",
+  "js": "dashboardFormat",
+  "opts": {
+   "background": "#B9D3EE"
+  }
+ },
+ {
+  "name": "dashboard_format_hover_on",
+  "js": "dashboardFormat",
+  "opts": {
+   "hoverHighlight": true
+  }
+ },
+ {
+  "name": "dashboard_format_nothing",
+  "js": "dashboardFormat",
+  "opts": {}
+ },
+ {
+  "name": "save_as_keep_hover",
+  "js": "saveAs",
+  "args": [
+   "Name",
+   "FOLDER"
+  ],
+  "opts": {
+   "hoverHighlight": true,
+   "autoSummary": false
+  }
+ },
+ {
+  "name": "number_format_in_grid",
+  "js": "numberFormat",
+  "args": [
+   [
+    "M1",
+    "M2"
+   ],
+   "$#,##0.0,,\"M\"",
+   7,
+   "W90"
+  ]
+ },
+ {
+  "name": "metric_limit_top15",
+  "js": "metricLimit",
+  "args": [
+   "W90",
+   "M1",
+   "Rank",
+   "<=",
+   15
+  ]
+ },
+ {
+  "name": "metric_limit_bad_op",
+  "js": "metricLimit",
+  "args": [
+   "W90",
+   "M1",
+   "Rank",
+   "~",
+   15
+  ]
+ },
+ {
+  "name": "condition_thresholds_new",
+  "js": "conditionThresholds",
+  "args": [
+   "W90",
+   "M3",
+   [
+    {
+     "metricId": "M2",
+     "metricName": "Prior \"YTD\"",
+     "op": "=",
+     "value": 0,
+     "font": "#339966",
+     "replaceText": "new"
+    },
+    {
+     "metricId": "M2",
+     "metricName": "Prior YTD",
+     "op": ">",
+     "value": 1.5,
+     "fill": "#ffeeee"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "attribute_thresholds_level",
+  "js": "attributeThresholds",
+  "args": [
+   "W90",
+   "A1",
+   "Producer Level",
+   [
+    {
+     "value": "Platinum",
+     "color": "#333399"
+    },
+    {
+     "value": "Gold",
+     "color": "#ffcc00"
+    }
+   ]
+  ]
+ },
+ {
+  "name": "metric_thresholds_sign",
+  "js": "metricThresholds",
+  "args": [
+   "W90",
+   "M3",
+   [
+    {
+     "font": "#ff0000",
+     "ceil": 0
+    },
+    {
+     "font": "#008000",
+     "flr": 0
+    }
+   ]
+  ]
+ },
+ {
+  "name": "metric_thresholds_percent",
+  "js": "metricThresholds",
+  "args": [
+   "W90",
+   "M3",
+   [
+    {
+     "color": "#ffcc00",
+     "ceil": 25.5
+    },
+    {
+     "color": "#00ff00",
+     "flr": 25.5
+    }
+   ],
+   "percent"
+  ]
  }
 ]

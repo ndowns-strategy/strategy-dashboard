@@ -45,6 +45,17 @@ def vis_format(key, unit_type, vis):
     }
 
 
+QUAL_FN = {'=': 6, '!=': 7, '>': 8, '<': 9, '>=': 10, '<=': 11}   # EnumDSSXMLFunction
+
+
+def metric_qual_expr(metric_id, metric_name, op, value):
+    """Metric qualification as expression XML (what mstrmojo.fe.FilterUtils.getExprXml writes)."""
+    if op not in QUAL_FN:
+        raise ValueError('op must be one of ' + ' '.join(QUAL_FN))
+    return (f'<exp><nd et="14" fn="19"><nds><nd et="10" dmt="7" fn="{QUAL_FN[op]}" node="0"><m did="{metric_id}" '
+            f'n="{esc_attr(metric_name)}"></m><cs><c v="{js_num(value)}" dtp="5"></c></cs></nd></nds></nd></exp>')
+
+
 def new_object_id(response_text, name):
     """Id of a just-created derived object, from the edit response (the server may append " 1" to the name)."""
     esc = re.sub(r'[.*+?^${}()|[\]\\/]', lambda m: '\\\\?\\/' if m.group(0) == '/' else '\\' + m.group(0), name)
@@ -437,9 +448,66 @@ class Session:
             self.edit([{'act': 'numberFormat', 'unitId': mid, 'unitType': 4, 'c': 7, 'f': number_format}], [self.node])
         return mid
 
-    def number_format(self, metric_ids, f, category=7):
-        return self.edit([{'act': 'numberFormat', 'unitId': u, 'unitType': 4, 'c': category, 'f': f} for u in metric_ids],
-                         [self.node])
+    def number_format(self, metric_ids, f, category=7, viz_key=None):
+        """viz_key: format the metrics in that visualization only (a Grid (Modern)'s gridKey); else dashboard-wide."""
+        return self.edit([{'act': 'numberFormat', 'unitId': u, 'unitType': 4, 'c': category, 'f': f,
+                           **({'nodeKey': viz_key} if viz_key else {})} for u in metric_ids], [viz_key or self.node])
+
+    # ---- thresholds and limits (reference/grid-catalog.md "Ranked grid") ----
+    def attribute_thresholds(self, viz_key, attr_id, attr_name, rules):
+        """Font color per attribute element: rules = [{'value': 'Platinum', 'color': '#333399'}, ...]."""
+        thresholds = [{'expr': f'<exp><nd et="14" fn="19"><nds><nd fn="22" et="5"><a did="{attr_id}" t="12" st="3072" '
+                               f'n="{attr_name}"></a><es><e v="{attr_id}:{r["value"]}" n="{r["value"]}"></e></es></nd></nds>'
+                               f'</nd></exp>',
+                       'fmt': {'FormattingFont': {'Color': bgr(r['color'])}}} for r in rules]
+        return self.edit([{'act': 'updateTemplate', 'keyContext': viz_key, 'actions': [{
+            'act': 'threshold', 'nodeKey': viz_key, 'thresholds': thresholds, 'thresholdType': -1, 'basedOnId': attr_id,
+            'did': attr_id, 'objType': 12}]}], [viz_key])
+
+    def metric_thresholds(self, viz_key, metric_id, bands, basis='value'):
+        """Value bands: [{'color' (fill), 'font', 'flr', 'ceil'}, ...]; basis 'value' (7) or 'percent' (1)."""
+        thresholds = []
+        for b in bands:
+            fmt = {}
+            if b.get('color'):
+                fmt['FormattingPatterns'] = {'FillColor': int(bgr(b['color'])), 'FillStyle': 0}
+            if b.get('font'):
+                fmt['FormattingFont'] = {'Color': bgr(b['font'])}
+            th = {'fmt': fmt}
+            if b.get('flr') is not None:
+                th['flr'] = js_num(b['flr'])
+            if b.get('ceil') is not None:
+                th['ceil'] = js_num(b['ceil'])
+            thresholds.append(th)
+        return self.edit([{'act': 'updateTemplate', 'keyContext': viz_key, 'actions': [{
+            'act': 'threshold', 'nodeKey': viz_key, 'thresholds': thresholds,
+            'thresholdType': 1 if basis == 'percent' else 7, 'basedOnId': metric_id, 'did': metric_id,
+            'objType': 4}]}], [viz_key])
+
+    def metric_limit(self, viz_key, metric_id, metric_name, op, value):
+        """Show only rows whose metric passes op value (the grid's metric limit), e.g. a rank metric '<=' 15."""
+        return self.edit([{'act': 'saveViewFilterLimit', 'nodeKey': viz_key,
+                           'limitExp': metric_qual_expr(metric_id, metric_name, op, value), 'limitToRemove': []}],
+                         [viz_key])
+
+    def condition_thresholds(self, viz_key, target_metric_id, rules):
+        """Thresholds on a metric decided by a condition, often on another metric: rules = [{'metricId', 'metricName',
+        'op', 'value', 'font', 'fill', 'replaceText'}]. replaceText shows that text instead of the value (rtp 3)."""
+        thresholds = []
+        for r in rules:
+            fmt = {}
+            if r.get('fill'):
+                fmt['FormattingPatterns'] = {'FillColor': int(bgr(r['fill'])), 'FillStyle': 0}
+            if r.get('font'):
+                fmt['FormattingFont'] = {'Color': bgr(r['font'])}
+            th = {'expr': metric_qual_expr(r['metricId'], r['metricName'], r['op'], r['value']), 'fmt': fmt}
+            if r.get('replaceText') is not None:
+                th['rtp'] = 3
+                th['rtxt'] = r['replaceText']
+            thresholds.append(th)
+        return self.edit([{'act': 'updateTemplate', 'keyContext': viz_key, 'actions': [{
+            'act': 'threshold', 'nodeKey': viz_key, 'thresholds': thresholds, 'thresholdType': -1,
+            'basedOnId': target_metric_id, 'did': target_metric_id, 'objType': 4}]}], [viz_key])
 
     def card_border(self, viz_key, color='#ababab', radius=8, style=5):
         c = bgr(color)
@@ -814,15 +882,31 @@ class Session:
             done.append({'pageKey': page_key, 'stack': stack, 'viz': viz, 'sources': sources})
         return done
 
-    def save_as(self, name, folder_id, auto_summary=True, overwrite=False):
+    def dashboard_format(self, background=None, hover_highlight=None):
+        """Dashboard Formatting Properties. background '#rrggbb': every page's background (the Panel default format,
+        type 17; use it instead of a page-sized rectangle). hover_highlight False: "Disable highlight on hover for
+        containers in Presentation mode" checked (RWDocumentProperties hideVizBoxShadow 1). save_as / save turn the
+        highlight off by default."""
+        acts = []
+        if background:
+            acts.append({'act': 'setDefaultFormat', 'dssFormatTypes': '17',
+                         'format': {'FormattingPatterns': {'FillColor': int(bgr(background)), 'FillStyle': 0}}})
+        if hover_highlight is not None:
+            acts.append({'act': 'setDocumentProperties',
+                         'props': {'RWDocumentProperties': {'hideVizBoxShadow': '0' if hover_highlight else '1'}}})
+        return self.edit(acts, [self.node]) if acts else None
+
+    def save_as(self, name, folder_id, auto_summary=True, overwrite=False, hover_highlight=False):
         if auto_summary:
             self.enable_auto_summary()
+        self.dashboard_format(hover_highlight=hover_highlight)
         body = {'name': name, 'folderId': folder_id, 'saveAsTemplate': False}
         if overwrite:
             body['overwrite'] = True
         return self.t.api('POST', f'/documents/{self.dashboard_id}/instances/{self.mid}/saveAs', body)
 
-    def save(self, auto_summary=True):
+    def save(self, auto_summary=True, hover_highlight=False):
         if auto_summary:
             self.enable_auto_summary()
+        self.dashboard_format(hover_highlight=hover_highlight)
         return self.t.api('POST', f'/documents/{self.dashboard_id}/instances/{self.mid}/save', {})

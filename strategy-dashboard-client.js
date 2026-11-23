@@ -33,7 +33,7 @@
 //               chartLook (legend position / title / key shape, data labels, pie leader lines, marker size; reference/pie-catalog.md)
 //   Grids       DEFAULT: insertModernGrid (Grid (Modern): rows, columns, metrics). buildModernGrid (Modern Grid with row sets),
 //               buildColumnSetGrid (Modern Grid with column sets + sparkline / bar microchart columns)
-//               moveField, sortByMetric, attributeThresholds. addToGrid fills a CLASSIC Grid (the blank draft's K52): only
+//               moveField, sortByMetric, attributeThresholds, conditionThresholds (replace text), metricLimit (top N). addToGrid fills a CLASSIC Grid (the blank draft's K52): only
 //               when the user asks for the classic Grid. Never build a Compound Grid unless asked (reference/grid-catalog.md).
 //   Image       insertImage (picture from a URL)
 //   KPI/custom  insertKpiCard / toKpiCard (draft's K52 in place) + setKpiCardProps, insertComparisonKpi / insertMultiMetricKpi + setKpiProperties,
@@ -55,7 +55,8 @@
 //   Filters     addChapterFilter, addCanvasSelector (on-canvas Element / Value Filter: drop-down, multi-select, title shown by default; 3+ filters grouped together go in the Filter Panel with addChapterFilter instead), addObjectSelector (Attribute / Metric Selector: swaps an object in target visualizations), keepOnly (visualization filter)
 //   Data        createDerivedMetric, createDerivedAttribute (plain-text formulas), numberFormat,
 //               createTimeAttributes (only the time attributes an image uses that the dataset lacks; renamed "Processed Year" style), renameDatasetAttribute
-//   Look        setFill (Container / Title Bar fill: no fill on a same-color background), cardBorder, setWidgetProps (copy a styling blob from another dashboard), chartFormat (type + axis origin,
+//   Look        dashboardFormat (page background color; hover highlight, off by default in saveAs / save),
+//               setFill (Container / Title Bar fill: no fill on a same-color background), cardBorder, setWidgetProps (copy a styling blob from another dashboard), chartFormat (type + axis origin,
 //               fixed axis range, single-series color); sortByMetric takes { axis: 2 } for a column sort,
 //               metricThresholds (value or percent bands that fill cells or chart marks), elementColors, metricColors,
 //               trendLine (linear / best-fit trend line on a chart)
@@ -399,6 +400,16 @@ function newObjectId(responseText, name) {
   const m = responseText.match(new RegExp('"n":"' + esc + '( \\d+)?","did":"([0-9A-F]{32})"'));
   if (!m) throw new Error('new object id not found for ' + name);
   return m[2];
+}
+// Metric qualification "<metric> <op> <value>" as expression XML (what mstrmojo.fe.FilterUtils.getExprXml writes).
+// fn: = 6, != 7, > 8, < 9, >= 10, <= 11 (EnumDSSXMLFunction); dmt 7, constant dtp 5.
+const QUAL_FN = { '=': 6, '!=': 7, '>': 8, '<': 9, '>=': 10, '<=': 11 };
+function metricQualExpr(metricId, metricName, op, value) {
+  const fn = QUAL_FN[op];
+  if (!fn) throw new Error('op must be one of ' + Object.keys(QUAL_FN).join(' '));
+  const n = String(metricName).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return `<exp><nd et="14" fn="19"><nds><nd et="10" dmt="7" fn="${fn}" node="0"><m did="${metricId}" n="${n}"></m>`
+    + `<cs><c v="${value}" dtp="5"></c></cs></nd></nds></nd></exp>`;
 }
 // View-filter expression: IsNotNull({attr} (ID)).
 function notNullExpr(attrId, attrName, idFormId) {
@@ -749,8 +760,11 @@ function client(token, projectId) {
       },
       // Metric number format for the whole dashboard. category 7 = custom format string (f), e.g.
       // '[>=1000000]$#,##0.0,,"M";[>=1000]$#,##0.0,"K";0.0;[<=-1000000]#,##0.0,,"M";[<=-1000]#,##0.0,"K"'
-      numberFormat(metricIds, f, category = 7) {
-        return s.edit(metricIds.map((unitId) => ({ act: 'numberFormat', unitId, unitType: 4, c: category, f })), [s.node]);
+      // vizKey: format the metrics in that visualization only (a grid's own formats, `nf` in the server JSON; for a
+      // Grid (Modern) pass its gridKey). Without it the format is the dashboard-wide one for the metric.
+      numberFormat(metricIds, f, category = 7, vizKey) {
+        return s.edit(metricIds.map((unitId) => ({ act: 'numberFormat', unitId, unitType: 4, c: category, f,
+          ...(vizKey ? { nodeKey: vizKey } : {}) })), [vizKey || s.node]);
       },
       // Container border (style 5 = solid) + rounded corners. Colors are BGR integers (see bgr()).
       cardBorder(vizKey, color = '#ababab', radius = 8, style = 5) {
@@ -783,6 +797,26 @@ function client(token, projectId) {
           fmt: { FormattingFont: { Color: bgr(color) } } }));
         return s.edit([{ act: 'updateTemplate', keyContext: vizKey, actions: [{ act: 'threshold', nodeKey: vizKey, thresholds,
           thresholdType: -1, basedOnId: attrId, did: attrId, objType: 12 }] }], [vizKey]);
+      },
+      // Show only the rows whose metric passes a test (Filter > metric limit: the grid's `vlexpr`). e.g. the top 15 by a
+      // rank metric: metricLimit(G, rankId, 'Rank', '<=', 15). op: '=', '!=', '>', '<', '>=', '<='. vizKey: a grid's
+      // gridKey (for a Grid (Modern), not its stitched key).
+      metricLimit(vizKey, metricId, metricName, op, value) {
+        return s.edit([{ act: 'saveViewFilterLimit', nodeKey: vizKey, limitExp: metricQualExpr(metricId, metricName, op, value),
+          limitToRemove: [] }], [vizKey]);
+      },
+      // Thresholds on a metric's cells decided by a condition, often on ANOTHER metric (Thresholds > Advanced). rules:
+      // [{ metricId, metricName, op, value, font, fill, replaceText }]. replaceText shows that text instead of the value
+      // (rtp 3), e.g. "new" in a Change column when Prior YTD = 0. Each call adds to the metric's existing thresholds;
+      // the first matching threshold wins, so add the special cases before metricThresholds bands.
+      conditionThresholds(vizKey, targetMetricId, rules) {
+        const thresholds = rules.map(({ metricId, metricName, op, value, font, fill, replaceText }) => ({
+          expr: metricQualExpr(metricId, metricName, op, value),
+          fmt: { ...(fill ? { FormattingPatterns: { FillColor: Number(bgr(fill)), FillStyle: 0 } } : {}),
+            ...(font ? { FormattingFont: { Color: bgr(font) } } : {}) },
+          ...(replaceText != null ? { rtp: 3, rtxt: replaceText } : {}) }));
+        return s.edit([{ act: 'updateTemplate', keyContext: vizKey, actions: [{ act: 'threshold', nodeKey: vizKey, thresholds,
+          thresholdType: -1, basedOnId: targetMetricId, did: targetMetricId, objType: 4 }] }], [vizKey]);
       },
       // Value-band thresholds on a metric (Thresholds dialog, "Value" basis). Fill grid cells, or chart marks when the same
       // metric is also on Color By (diverging bars/areas). bands: [{ color, ceil }, { color, flr, ceil }, ..., { color, flr }]
@@ -1670,12 +1704,27 @@ function client(token, projectId) {
         return done;
       },
       // overwrite: replace a dashboard of the same name in the folder (keeps its id); without it a name clash returns 409.
-      async saveAs(name, folderId, { autoSummary = true, overwrite = false } = {}) {
+      // Dashboard Formatting Properties (Format > Dashboard Formatting):
+      //   background '#rrggbb': the page background of every page (Background; the Panel default format, type 17).
+      //     Use this rather than a page-sized rectangle.
+      //   hoverHighlight false: "Disable highlight on hover for containers in Presentation mode" checked
+      //     (RWDocumentProperties hideVizBoxShadow 1; true sets 0). saveAs / save turn it off by default.
+      dashboardFormat({ background, hoverHighlight } = {}) {
+        const acts = [];
+        if (background) acts.push({ act: 'setDefaultFormat', dssFormatTypes: '17',
+          format: { FormattingPatterns: { FillColor: Number(bgr(background)), FillStyle: 0 } } });
+        if (hoverHighlight !== undefined) acts.push({ act: 'setDocumentProperties',
+          props: { RWDocumentProperties: { hideVizBoxShadow: hoverHighlight ? '0' : '1' } } });
+        return acts.length ? s.edit(acts, [s.node]) : null;
+      },
+      async saveAs(name, folderId, { autoSummary = true, overwrite = false, hoverHighlight = false } = {}) {
         if (autoSummary) await s.enableAutoSummary();
+        await s.dashboardFormat({ hoverHighlight });
         return api('POST', `/documents/${dashboardId}/instances/${mid}/saveAs`, { name, folderId, saveAsTemplate: false, ...(overwrite ? { overwrite: true } : {}) });
       },
-      async save({ autoSummary = true } = {}) {
+      async save({ autoSummary = true, hoverHighlight = false } = {}) {
         if (autoSummary) await s.enableAutoSummary();
+        await s.dashboardFormat({ hoverHighlight });
         return api('POST', `/documents/${dashboardId}/instances/${mid}/save`, {});
       },
     };

@@ -158,6 +158,50 @@ def check_iconic_kpi(w, it):
     return p
 
 
+QUAL_OPS = ('=', '!=', '>', '<', '>=', '<=')
+
+
+def check_grid_extras(w, it):
+    """labels, number_formats, sort, limit and thresholds on a grid item (reference/grid-catalog.md "Ranked grid")."""
+    p = []
+    fields = set(_as_list(it.get('rows'))) | set(_as_list(it.get('columns'))) | set(_as_list(it.get('metrics')))
+    for name in (it.get('labels') or {}):
+        if name not in fields:
+            p.append(f'{w}: labels has {name!r}, which is not one of the grid\'s rows, columns or metrics')
+    for name in (it.get('number_formats') or {}):
+        if name not in _as_list(it.get('metrics')):
+            p.append(f'{w}: number_formats has {name!r}, which is not one of the grid\'s metrics')
+    srt = it.get('sort')
+    if srt is not None and not (isinstance(srt, dict) and srt.get('metric')):
+        p.append(f'{w}: sort must be {{"metric", "ascending"}}')
+    lim = it.get('limit')
+    if lim is not None:
+        if not (isinstance(lim, dict) and lim.get('metric') and isinstance(lim.get('value'), (int, float))):
+            p.append(f'{w}: limit must be {{"metric", "op", "value": <number>}}')
+        elif lim.get('op', '<=') not in QUAL_OPS:
+            p.append(f'{w}: limit op must be one of {" ".join(QUAL_OPS)}')
+    for i, th in enumerate(it.get('thresholds') or []):
+        ww = f'{w} thresholds[{i}]'
+        if not isinstance(th, dict) or not th.get('on'):
+            p.append(f'{ww}: needs "on" (the row attribute or metric it colors)')
+            continue
+        if th['on'] not in fields:
+            p.append(f'{ww}: {th["on"]!r} is not one of the grid\'s rows, columns or metrics')
+        kinds = [k for k in ('elements', 'bands', 'when') if th.get(k)]
+        if len(kinds) != 1:
+            p.append(f'{ww}: give exactly one of "elements" (attribute colors), "bands" (value bands) or "when" (a condition)')
+        elif kinds[0] == 'when':
+            wh = th['when']
+            if not (isinstance(wh, dict) and wh.get('metric') and wh.get('op') in QUAL_OPS
+                    and isinstance(wh.get('value'), (int, float))):
+                p.append(f'{ww}: when must be {{"metric", "op" ({" ".join(QUAL_OPS)}), "value": <number>}}')
+            if not (th.get('font') or th.get('fill') or th.get('replace_text') is not None):
+                p.append(f'{ww}: a condition needs "font", "fill" or "replace_text"')
+        elif kinds[0] == 'bands' and not all(isinstance(b, dict) and (b.get('font') or b.get('color')) for b in th['bands']):
+            p.append(f'{ww}: each band needs "font" or "color", with "flr" and/or "ceil"')
+    return p
+
+
 def check_chart_look(w, it):
     """legend, data_labels, leader_lines, marker_size on chart items (reference/pie-catalog.md)."""
     p = []
@@ -275,6 +319,11 @@ def check_structure(spec):
     pages = spec.get('pages') or []
     if not pages:
         p.append('spec: at least one page is required')
+    bg = spec.get('background')
+    if bg is not None and not (isinstance(bg, str) and re.fullmatch(r'#[0-9A-Fa-f]{6}', bg)):
+        p.append('spec: background must be a color like "#B9D3EE" (every page\'s background)')
+    if spec.get('hover_highlight') is not None and not isinstance(spec['hover_highlight'], bool):
+        p.append('spec: hover_highlight must be true or false (false, the default, disables it)')
     dms = spec.get('derived_metrics') or []
     if not isinstance(dms, list):
         p.append('spec: derived_metrics must be a list of {"name", "formula", "format"}')
@@ -334,6 +383,7 @@ def check_structure(spec):
                     p.append(f'{w}: reference_lines only work on chart and line items')
                 p += check_reference_lines(w, it['reference_lines'])
             if typ == 'grid':
+                p += check_grid_extras(w, it)
                 if not (it.get('rows') or it.get('metrics')):
                     p.append(f'{w}: a grid needs "rows" and/or "metrics"')
                 if it.get('kind', 'modern') != 'modern':
@@ -476,6 +526,12 @@ def check_data(spec, names):
             for k, kind in (('rows', 'attribute'), ('columns', 'attribute'), ('metrics', 'metric')):
                 for v in _as_list(it.get(k)):
                     need(f'{w} {k}', v, kind)
+            for k in ('sort', 'limit'):
+                if (it.get(k) or {}).get('metric'):
+                    need(f'{w} {k}', it[k]['metric'], 'metric')
+            for th in it.get('thresholds') or []:
+                if (th.get('when') or {}).get('metric'):
+                    need(f'{w} threshold condition', th['when']['metric'], 'metric')
         if typ in ('chart', 'line'):
             for rl in it.get('reference_lines') or []:
                 if rl.get('metric'):

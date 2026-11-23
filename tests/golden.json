@@ -4926,6 +4926,24 @@
     }
    },
    {
+    "edit": {
+     "actions": [
+      {
+       "act": "setDocumentProperties",
+       "props": {
+        "RWDocumentProperties": {
+         "hideVizBoxShadow": "1"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
     "api": "POST",
     "path": "/documents/DASH/instances/MID/saveAs",
     "body": {
@@ -4942,6 +4960,24 @@
  },
  "save_as_overwrite_no_summary": {
   "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setDocumentProperties",
+       "props": {
+        "RWDocumentProperties": {
+         "hideVizBoxShadow": "1"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   },
    {
     "api": "POST",
     "path": "/documents/DASH/instances/MID/saveAs",
@@ -5519,6 +5555,24 @@
      ],
      "nodes": [
       "W300"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setDocumentProperties",
+       "props": {
+        "RWDocumentProperties": {
+         "hideVizBoxShadow": "1"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
      ],
      "rwb": "BS1"
     }
@@ -7265,5 +7319,343 @@
   "result": {
    "error": "new object id not found for Active Producers"
   }
+ },
+ "dashboard_format_background": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setDefaultFormat",
+       "dssFormatTypes": "17",
+       "format": {
+        "FormattingPatterns": {
+         "FillColor": 15651769,
+         "FillStyle": 0
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "dashboard_format_hover_on": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setDocumentProperties",
+       "props": {
+        "RWDocumentProperties": {
+         "hideVizBoxShadow": "0"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "dashboard_format_nothing": {
+  "calls": [],
+  "result": null
+ },
+ "save_as_keep_hover": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setDocumentProperties",
+       "props": {
+        "RWDocumentProperties": {
+         "hideVizBoxShadow": "0"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "K46"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "api": "POST",
+    "path": "/documents/DASH/instances/MID/saveAs",
+    "body": {
+     "name": "Name",
+     "folderId": "FOLDER",
+     "saveAsTemplate": false
+    }
+   }
+  ],
+  "result": {
+   "id": "NEW",
+   "mid": "MID"
+  }
+ },
+ "number_format_in_grid": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "numberFormat",
+       "unitId": "M1",
+       "unitType": 4,
+       "c": 7,
+       "f": "$#,##0.0,,\"M\"",
+       "nodeKey": "W90"
+      },
+      {
+       "act": "numberFormat",
+       "unitId": "M2",
+       "unitType": 4,
+       "c": 7,
+       "f": "$#,##0.0,,\"M\"",
+       "nodeKey": "W90"
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "metric_limit_top15": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "saveViewFilterLimit",
+       "nodeKey": "W90",
+       "limitExp": "<exp><nd et=\"14\" fn=\"19\"><nds><nd et=\"10\" dmt=\"7\" fn=\"11\" node=\"0\"><m did=\"M1\" n=\"Rank\"></m><cs><c v=\"15\" dtp=\"5\"></c></cs></nd></nds></nd></exp>",
+       "limitToRemove": []
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "metric_limit_bad_op": {
+  "calls": [],
+  "result": {
+   "error": "op must be one of = != > < >= <="
+  }
+ },
+ "condition_thresholds_new": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "threshold",
+         "nodeKey": "W90",
+         "thresholds": [
+          {
+           "expr": "<exp><nd et=\"14\" fn=\"19\"><nds><nd et=\"10\" dmt=\"7\" fn=\"6\" node=\"0\"><m did=\"M2\" n=\"Prior &quot;YTD&quot;\"></m><cs><c v=\"0\" dtp=\"5\"></c></cs></nd></nds></nd></exp>",
+           "fmt": {
+            "FormattingFont": {
+             "Color": "6723891"
+            }
+           },
+           "rtp": 3,
+           "rtxt": "new"
+          },
+          {
+           "expr": "<exp><nd et=\"14\" fn=\"19\"><nds><nd et=\"10\" dmt=\"7\" fn=\"8\" node=\"0\"><m did=\"M2\" n=\"Prior YTD\"></m><cs><c v=\"1.5\" dtp=\"5\"></c></cs></nd></nds></nd></exp>",
+           "fmt": {
+            "FormattingPatterns": {
+             "FillColor": 15658751,
+             "FillStyle": 0
+            }
+           }
+          }
+         ],
+         "thresholdType": -1,
+         "basedOnId": "M3",
+         "did": "M3",
+         "objType": 4
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "attribute_thresholds_level": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "threshold",
+         "nodeKey": "W90",
+         "thresholds": [
+          {
+           "expr": "<exp><nd et=\"14\" fn=\"19\"><nds><nd fn=\"22\" et=\"5\"><a did=\"A1\" t=\"12\" st=\"3072\" n=\"Producer Level\"></a><es><e v=\"A1:Platinum\" n=\"Platinum\"></e></es></nd></nds></nd></exp>",
+           "fmt": {
+            "FormattingFont": {
+             "Color": "10040115"
+            }
+           }
+          },
+          {
+           "expr": "<exp><nd et=\"14\" fn=\"19\"><nds><nd fn=\"22\" et=\"5\"><a did=\"A1\" t=\"12\" st=\"3072\" n=\"Producer Level\"></a><es><e v=\"A1:Gold\" n=\"Gold\"></e></es></nd></nds></nd></exp>",
+           "fmt": {
+            "FormattingFont": {
+             "Color": "52479"
+            }
+           }
+          }
+         ],
+         "thresholdType": -1,
+         "basedOnId": "A1",
+         "did": "A1",
+         "objType": 12
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "metric_thresholds_sign": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "threshold",
+         "nodeKey": "W90",
+         "thresholds": [
+          {
+           "fmt": {
+            "FormattingFont": {
+             "Color": "255"
+            }
+           },
+           "ceil": "0"
+          },
+          {
+           "fmt": {
+            "FormattingFont": {
+             "Color": "32768"
+            }
+           },
+           "flr": "0"
+          }
+         ],
+         "thresholdType": 7,
+         "basedOnId": "M3",
+         "did": "M3",
+         "objType": 4
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "metric_thresholds_percent": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "threshold",
+         "nodeKey": "W90",
+         "thresholds": [
+          {
+           "fmt": {
+            "FormattingPatterns": {
+             "FillColor": 52479,
+             "FillStyle": 0
+            }
+           },
+           "ceil": "25.5"
+          },
+          {
+           "fmt": {
+            "FormattingPatterns": {
+             "FillColor": 65280,
+             "FillStyle": 0
+            }
+           },
+           "flr": "25.5"
+          }
+         ],
+         "thresholdType": 1,
+         "basedOnId": "M3",
+         "did": "M3",
+         "objType": 4
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
  }
 }

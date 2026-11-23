@@ -25,6 +25,67 @@ Verified 2026-11-23 as **SDC modern grid test** (`C6BCF4522B466B783F4375894F4A05
 [examples/grid-test.json](../examples/grid-test.json): both grids saved with `stitchSectionKey` and `sdm 2`, render with
 the Modern Grid look, and read back 5 rows each (the second with Product Category across the columns).
 
+## Ranked grid: rank, renames, thresholds, top N
+
+Studied 2026-11-23 on a grid the user built on **IMT Advisor Sales and Opportunity Performance**
+(`AAD34112BA477BFF5142508585493EB7`, Shared Studio), to match a generated "Top 15 advisors by year to date sales" table.
+It is a Grid (Modern) (stitched container `FFC49199…`, `sdm 2`).
+
+**How a generated table maps to Strategy:**
+
+| In the image | In Strategy |
+|---|---|
+| A rank column "#" on the far left | Not possible: **attributes always come first, then metrics**. Put the attributes (Advisor, Firm, Level) on the left and make the rank a **derived metric** in the **first metric position** |
+| Rank = 1..15 by YTD sales | Derived metric `Rank<ASC=False>([Year To Date Total Sales Amount])` (the source used `Rank<ASC=False, BreakBy={(@auto)*}>(...)`), labelled "Rank" |
+| Only 15 rows | A **metric limit** on the rank: `Rank <= 15` (`saveViewFilterLimit`; stored as the grid's `vlexpr`, shown as "Rank of {…} Top 15") |
+| Rows in sales order | Sort on the YTD sales metric, descending |
+| Short column names ("YTD sales", "Level") | **Renamed in the grid** (`renameUnit`): the dataset names stay as they are |
+| A pill or badge around a value ("Platinum", "Gold") | Not possible: values can't get a pill-shaped border. Use **font color thresholds** per element instead (Platinum `#333399`, Gold `#FFCC00`) |
+| Change in red or green | Value-band thresholds on the metric, font only: red `ceil 0`, green `flr 0` |
+| "new" instead of a change | A **condition threshold that replaces the text**: when Prior YTD = 0, show "new" (`rtp 3`, `rtxt "new"`, font `#339966`). Added before the bands so it wins |
+| Change % | Derived `([YTD] / [Prior YTD]) - 1` (the same as `([YTD] - [Prior]) / [Prior]`) |
+| $686K next to $7.2M in one column | Not possible: Strategy ignores Excel-style conditions such as `[>=1000000]` in number formats. Use one unit per column (`$#,##0.0,,"M"` gives $0.7M) |
+
+**What gets written** (all on the grid template, the `gridKey`, not the stitched key):
+
+| Setting | Action |
+|---|---|
+| Rename an attribute or metric | `updateTemplate` › `renameUnit {id, type 12 or 4, name}` |
+| Number format in this grid only | `numberFormat {unitId, unitType 4, c 7, f, nodeKey: gridKey}`, stored in the grid's `nf`. Without `nodeKey` the format is dashboard-wide |
+| Top N | `saveViewFilterLimit {nodeKey, limitExp, limitToRemove: []}`, where `limitExp` is a metric qualification (below) |
+| Element font colors | `threshold`, `thresholdType -1`, `objType 12`, an element-list expression per rule (`attributeThresholds`) |
+| Value bands | `threshold`, `thresholdType 7`, `flr` / `ceil` per band (`metricThresholds`) |
+| Condition on another metric | `threshold`, `thresholdType -1`, `objType 4`, `expr` = a metric qualification, plus `rtp: 3, rtxt: "<text>"` to replace the value (`conditionThresholds`). Each `threshold` action adds to the metric's existing thresholds |
+
+A metric qualification, as `mstrmojo.fe.FilterUtils.getExprXml` writes it (fn: `=` 6, `!=` 7, `>` 8, `<` 9, `>=` 10, `<=` 11):
+
+```xml
+<exp><nd et="14" fn="19"><nds><nd et="10" dmt="7" fn="11" node="0"><m did="<metric id>" n="Rank"></m><cs><c v="15" dtp="5"></c></cs></nd></nds></nd></exp>
+```
+
+**Spec** (`grid` item):
+
+```json
+{"id": "top15", "type": "grid", "title": "Top 15 advisors by year to date sales",
+ "title_format": {"subtitle": "Ranked on year to date total sales amount."},
+ "rows": ["Advisor", "Firm Name", "Producer Level"],
+ "metrics": ["Advisor Rank", "Year To Date Total Sales Amount", "Prior Year To Date Total Sales Amount", "YTD Sales Change"],
+ "labels": {"Firm Name": "Firm", "Producer Level": "Level", "Advisor Rank": "Rank", "YTD Sales Change": "Change"},
+ "number_formats": {"Year To Date Total Sales Amount": "$#,##0.0,,\"M\""},
+ "sort": {"metric": "Year To Date Total Sales Amount", "ascending": false},
+ "limit": {"metric": "Advisor Rank", "op": "<=", "value": 15},
+ "thresholds": [
+   {"on": "Producer Level", "elements": {"Platinum": "#333399", "Gold": "#FFCC00"}},
+   {"on": "YTD Sales Change", "when": {"metric": "Prior Year To Date Total Sales Amount", "op": "=", "value": 0},
+    "replace_text": "new", "font": "#339966"},
+   {"on": "YTD Sales Change", "bands": [{"font": "#FF0000", "ceil": 0}, {"font": "#008000", "flr": 0}]}]}
+```
+
+Define the rank and change metrics in the spec's top-level `derived_metrics`. Thresholds are applied in the order given,
+and the first one that matches wins. The full example is [examples/imt-advisor-kpis.json](../examples/imt-advisor-kpis.json).
+It was built as "SDC IMT grid test" and checked in Library: the same 15 advisors in the same order, Level colors,
+red/green Change and "new" for the advisor with no prior sales.
+
 ## Row and column sets
 
 Studied from the demo dashboard **Tec Visual Vocabulary › Grids** (demo.microstrategy.com, read as a guest, no edits). Exact values are in [grid-catalog.json](grid-catalog.json).

@@ -142,11 +142,15 @@ class Builder:
             self._phase('number formats')
             self._step('number_formats', lambda: s.number_format([self.names.metric(m) for m in nf['metrics']],
                                                                  nf['format']))
+        if sp.get('background'):
+            self._phase('dashboard background')
+            self._step('background', lambda: s.dashboard_format(background=sp['background']))
         self._phase('save')
         s.set_current_panel(first)
         folder = sp.get('folder_id') or self.conn.my_folder(sp.get('folder') or 'My Reports')
         saved = self._step('save_as', lambda: s.save_as(sp['name'], folder, auto_summary=sp.get('auto_summary', True),
-                                                         overwrite=sp.get('overwrite', False)))
+                                                         overwrite=sp.get('overwrite', False),
+                                                         hover_highlight=sp.get('hover_highlight', False)))
         self.dashboard_id = saved['id']
         report = self.verify() if verify else []
         self.timings.append(('done', time.time()))
@@ -334,7 +338,37 @@ class Builder:
                                       title=it.get('title'),
                                       merge_column_headers=it.get('merge_column_headers', True))
         self._viz_common({k: v for k, v in it.items() if k != 'title'}, r['stitchedKey'])
+        self._grid_extras(it, r['gridKey'])
         return r
+
+    def _grid_extras(self, it, g):
+        """Labels, number formats, sort, metric limit and thresholds on a Grid (Modern): all go to the grid template g.
+        reference/grid-catalog.md "Ranked grid"."""
+        s, N = self.s, self.names
+        attrs = set(_as_list(it.get('rows'))) | set(_as_list(it.get('columns')))
+        for name, label in (it.get('labels') or {}).items():
+            if name in attrs:
+                s.rename(g, N.attribute(name), 12, label)
+            else:
+                s.rename(g, N.metric(name), 4, label)
+        for m, f in (it.get('number_formats') or {}).items():
+            s.number_format([N.metric(m)], f, 7, g)
+        if it.get('sort'):
+            s.sort_by_metric(g, N.metric(it['sort']['metric']), it['sort'].get('ascending', False))
+        if it.get('limit'):
+            lim = it['limit']
+            s.metric_limit(g, N.metric(lim['metric']), lim['metric'], lim.get('op', '<='), lim['value'])
+        for th in it.get('thresholds') or []:
+            on = th['on']
+            if th.get('elements'):
+                s.attribute_thresholds(g, N.attribute(on), on, [{'value': v, 'color': c} for v, c in th['elements'].items()])
+            elif th.get('bands'):
+                s.metric_thresholds(g, N.metric(on), th['bands'], th.get('basis', 'value'))
+            else:
+                w = th['when']
+                s.condition_thresholds(g, N.metric(on), [{
+                    'metricId': N.metric(w['metric']), 'metricName': w['metric'], 'op': w['op'], 'value': w['value'],
+                    'font': th.get('font'), 'fill': th.get('fill'), 'replaceText': th.get('replace_text')}])
 
     def _reference_lines(self, it, key, default_metric):
         counts = {}

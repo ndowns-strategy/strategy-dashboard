@@ -102,6 +102,8 @@ One JSON file per dashboard. Top level:
 | `folder` / `folder_id` | Where to save; default My Reports. |
 | `auto_summary` | Default `true` (house rule). |
 | `number_formats` | `{"<metric>": "<format>"}` or `[{"metrics": [...], "format": "..."}]`, e.g. `"$#,##0.0,,\"M\""` for $126.8M. |
+| `background` | `"#F3F5F8"`: every page's background (Dashboard Formatting Properties › Background). Use it instead of a page-sized rectangle. |
+| `hover_highlight` | `false` (the default) checks "Disable highlight on hover for containers in Presentation mode"; `true` leaves the highlight on. |
 | `derived_metrics` | `[{"name", "formula", "format"}]`: dataset-level metrics created before the pages, usable by name everywhere (zones, KPIs, `{[Name]}` text). Plain-text formulas, e.g. `Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))`, `([A] - [B]) / [B]`. `check` resolves each `[name]` in the formula. |
 | `pages` | `[{"id", "title", "layout": "freeform", "items": [...]}]`. Only free-form layout so far. |
 
@@ -119,7 +121,7 @@ the title bar with that text), `title_bar: false`, `title_format` (below), `bord
 | `kpi_card` | `metric`, optional `trend` (attribute: sparkline and % badge), `break_by`, `props` (setKpiCardProps settings) |
 | `iconic_kpi` | The Iconic KPI (no title bar): `metric`, `trend` (attribute), `icon` (`false`, `true` or a Material Symbols file such as `"payments-fill.svg"`), `tooltip`, `trend_shape` (`area`, `line`, `bar`, `none`), `previous_value_label`, `reference_line` (`{"value", "label", "color", "style"}`), `change` (`"percent"`, `"amount"` or `false`), `fill_opacity`; several metrics in one visual (a KPI strip): `metrics`, `content` (`"name_and_value"`), `card_layout` (`grid`, `stacked`, `horizontal`, `vertical`), `columns`, `card_alignment`, `background` and per-card `cards` (colors default to opacity 100); `labels` (`{"<metric>": "NAME ON THE CARD"}`), `notes` (`{"<metric>": "text with {[Metric]} values"}` or `{"runs": [...], "align"}`: a Rich Text line layered on that card); `props`; see reference/iconic-kpi-catalog.md |
 | `chart` | `vis` (`bar`, `hbar`, `clusteredBar`, `clusteredHbar`, `line`, `area`, `pie`, `ring`, `pctHbar`, `stackedBar`, `scatter`, `combo`, ...), `zones` (`{"xAxis": "Region", "yAxis": "Revenue", ...}`, a name or a list), `series_color`, `colors` (element colors on Color By), `metric_colors`, `legend` (`false`, or `{"position": left/right/top/bottom, "align", "title", "shape": circle/square/roundedRectangle/line}`), `data_labels` (`"hide"` or a list from `text`, `value`, `percent`), `leader_lines` (`auto`/`show`/`hide`, pie and ring), `marker_size` (pie size, default 0.6; see reference/pie-catalog.md), `sort: {"metric", "ascending", "axis"}`, `reference_lines` (`[{"type": "average"|"median"|"maximum"|"minimum"|"first"|"last"|"constant", "value", "label": ["type", "metric", "value"], "metric", "color", "style"}]`), `props` (GraphMatrix props) |
-| `grid` | A **Grid (Modern)**, always: `rows` (attributes), `columns` (attributes, optional), `metrics`, `merge_column_headers` (default true). Needs rows and/or metrics. |
+| `grid` | A **Grid (Modern)**, always: `rows` (attributes), `columns` (attributes, optional), `metrics`, `merge_column_headers` (default true). Needs rows and/or metrics. Ranked tables: `labels` (renames in the grid), `number_formats` (this grid only), `sort`, `limit` (`{"metric", "op", "value"}`, e.g. a rank metric `<=` 15), `thresholds` (`elements` font colors on an attribute, value `bands`, or a `when` condition on another metric with `font`/`fill`/`replace_text`); see reference/grid-catalog.md "Ranked grid". |
 | `line` | `x`, `metrics`, `break_by`, `style` (`curved` default at 0.3, or `straight`), `smoothness`, `color`, `markers`, `data_labels`, `metric_colors`, `reference_lines`, `props` |
 | `donut` | `metric`, `slice`, `color_by`, `target`, `break_by`, `colors`, `props` |
 | `narrative` | `sources` (item ids on the same page), `instruction` (no double quotes) |
@@ -270,12 +272,12 @@ All helpers live on the session that `c.newDashboard()` or `c.open()` returns. T
 | Charts | `insertChart`, `changeType`, `fillZones`, `chartFormat`, `chartProps` / `setChartProps`, `setMetricColor`, `metricColors`, `elementColors`, `setPalette`, `trendLine`, `referenceLine` | [bar](reference/bar-catalog.md), [line](reference/line-catalog.md), [stacked bar](reference/stacked-bar-catalog.md), [bubble](reference/bubble-catalog.md), [correlation](reference/correlation-catalog.md), [deviation](reference/deviation-catalog.md), [ranking](reference/ranking-catalog.md) |
 | Special charts | `insertLine`, `insertStackedBar`, `insertBubble`, `insertDonut`, `insertHeatmap`, `insertSankey`, `insertMapbox` | [donut](reference/donut-catalog.md), [heat map](reference/heatmap-catalog.md), [Sankey](reference/sankey-catalog.md) |
 | KPIs | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties`, `insertKpi` / `toIconicKpi` (Iconic), `iconicKpiLook`, `kpiCardFormats`, `setKpiIcon` | [KPI catalog](reference/kpi-catalog.md), [Iconic KPI catalog](reference/iconic-kpi-catalog.md) |
-| Grids | `insertModernGrid` (the default grid), `addToGrid` (classic grid only), `moveField`, `sortByMetric`, `attributeThresholds`, `metricThresholds`, `buildModernGrid` (row sets), `buildColumnSetGrid` (column sets and microcharts) | [grid catalog](reference/grid-catalog.md) |
+| Grids | `insertModernGrid` (the default grid), `metricLimit`, `conditionThresholds`, `addToGrid` (classic grid only), `moveField`, `sortByMetric`, `attributeThresholds`, `metricThresholds`, `buildModernGrid` (row sets), `buildColumnSetGrid` (column sets and microcharts) | [grid catalog](reference/grid-catalog.md) |
 | Text, images, shapes | `addText`, `addRichText`, `setLink`, `insertImage`, `insertShape` | [text](reference/text-catalog.md), [shapes](reference/shape-catalog.md) |
 | AI | `addNarratives` (an AI summary on the canvas), `enableAutoSummary` (the Auto Summary button) | [Auto Summary](reference/auto-summary.md) |
 | Filters | `addChapterFilter`, `addDateFilter`, `addMetricFilter` (filter panel), `addCanvasSelector` (on the canvas), `addObjectSelector` (swaps attributes or metrics), `keepOnly` (one visualization) | [filter panel](reference/filter-catalog.md), [canvas selector](reference/canvas-selector-catalog.md), [object selector](reference/object-selector-catalog.md) |
 | Data | `createDerivedMetric`, `createDerivedAttribute`, `createTimeAttributes`, `renameDatasetAttribute`, `numberFormat` | [time attributes](reference/time-attributes.md) |
-| Look | `setTitle`, `titleBar`, `setFill`, `cardBorder`, `setWidgetProps`, `rename`, `formDisplay` | |
+| Look | `dashboardFormat` (page background, hover highlight), `setTitle`, `titleBar`, `setFill`, `cardBorder`, `setWidgetProps`, `rename`, `formDisplay` | |
 | Save | `saveAs`, `save` (both turn on Auto Summary first unless you pass `{ autoSummary: false }`) | |
 
 ## Key ideas
@@ -296,6 +298,10 @@ All helpers live on the session that `c.newDashboard()` or `c.open()` returns. T
 These are conventions for dashboards built with this repo:
 
 - Every saved dashboard gets **Auto Summary** (`saveAs` and `save` turn it on).
+- Every saved dashboard has **highlight on hover for containers disabled** in Presentation mode (`saveAs` / `save` set
+  `hideVizBoxShadow`; pass `hoverHighlight: true` / spec `"hover_highlight": true` to keep it).
+- A page background color is the **dashboard background** (`dashboardFormat({ background })`, spec `background`), not a
+  rectangle behind everything.
 - **Line charts** are curved with a smoothness of 0.3 unless the source image shows straight lines.
 - **Time attributes** ("Processed Year", "Paid Month") are created only when the source image uses one the dataset
   lacks, and only those types.
