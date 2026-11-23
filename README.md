@@ -116,6 +116,7 @@ the title bar with that text), `title_bar: false`, `title_format` (below), `bord
 | Type | Fields |
 |---|---|
 | `kpi_card` | `metric`, optional `trend` (attribute: sparkline and % badge), `break_by`, `props` (setKpiCardProps settings) |
+| `iconic_kpi` | The Iconic KPI (no title bar): `metric`, `trend` (attribute), `icon` (`false`, `true` or a Material Symbols file such as `"payments-fill.svg"`), `tooltip`, `trend_shape` (`area`, `line`, `bar`, `none`), `previous_value_label`, `reference_line` (`{"value", "label", "color", "style"}`), `change` (`"percent"`, `"amount"` or `false`), `fill_opacity`, `props`; see reference/iconic-kpi-catalog.md |
 | `chart` | `vis` (`bar`, `hbar`, `clusteredBar`, `clusteredHbar`, `line`, `area`, `pie`, `ring`, `pctHbar`, `stackedBar`, `scatter`, `combo`, ...), `zones` (`{"xAxis": "Region", "yAxis": "Revenue", ...}`, a name or a list), `series_color`, `colors` (element colors on Color By), `metric_colors`, `legend` (`false`, or `{"position": left/right/top/bottom, "align", "title", "shape": circle/square/roundedRectangle/line}`), `data_labels` (`"hide"` or a list from `text`, `value`, `percent`), `leader_lines` (`auto`/`show`/`hide`, pie and ring), `marker_size` (pie size, default 0.6; see reference/pie-catalog.md), `sort: {"metric", "ascending", "axis"}`, `reference_lines` (`[{"type": "average"|"median"|"maximum"|"minimum"|"first"|"last"|"constant", "value", "label": ["type", "metric", "value"], "metric", "color", "style"}]`), `props` (GraphMatrix props) |
 | `grid` | A **Grid (Modern)**, always: `rows` (attributes), `columns` (attributes, optional), `metrics`, `merge_column_headers` (default true). Needs rows and/or metrics. |
 | `line` | `x`, `metrics`, `break_by`, `style` (`curved` default at 0.3, or `straight`), `smoothness`, `color`, `markers`, `data_labels`, `metric_colors`, `reference_lines`, `props` |
@@ -127,7 +128,7 @@ the title bar with that text), `title_bar: false`, `title_format` (below), `bord
 | `shape` | `shape` (`Rectangle`, `Ellipse`, `Line`, `Triangle`, `Polygon`), `fill`, `stroke`, `stroke_width`, `settings`, `opacity`, `dash` |
 
 Names are looked up in the dataset's attributes and metrics separately. When a name is both, write `metric:Name` or
-`attribute:Name`. Each page needs at least one `kpi_card`, `chart` or `line`: the first becomes the page's default
+`attribute:Name`. Each page needs at least one `kpi_card`, `iconic_kpi`, `chart` or `line`: the first becomes the page's default
 visualization in place. (The default visualization is a classic Grid, so a `grid` item can't take its place; it is
 inserted as a new Grid (Modern).)
 
@@ -267,7 +268,7 @@ All helpers live on the session that `c.newDashboard()` or `c.open()` returns. T
 | Layout | `setLayout` (tiled boxes), `setFreeformLayout` (free-form: x / y / width / height in percent, layered back to front) | |
 | Charts | `insertChart`, `changeType`, `fillZones`, `chartFormat`, `chartProps` / `setChartProps`, `setMetricColor`, `metricColors`, `elementColors`, `setPalette`, `trendLine`, `referenceLine` | [bar](reference/bar-catalog.md), [line](reference/line-catalog.md), [stacked bar](reference/stacked-bar-catalog.md), [bubble](reference/bubble-catalog.md), [correlation](reference/correlation-catalog.md), [deviation](reference/deviation-catalog.md), [ranking](reference/ranking-catalog.md) |
 | Special charts | `insertLine`, `insertStackedBar`, `insertBubble`, `insertDonut`, `insertHeatmap`, `insertSankey`, `insertMapbox` | [donut](reference/donut-catalog.md), [heat map](reference/heatmap-catalog.md), [Sankey](reference/sankey-catalog.md) |
-| KPIs | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties`, `insertKpi` (Iconic), `setKpiIcon` | [KPI catalog](reference/kpi-catalog.md) |
+| KPIs | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties`, `insertKpi` / `toIconicKpi` (Iconic), `iconicKpiLook`, `setKpiIcon` | [KPI catalog](reference/kpi-catalog.md), [Iconic KPI catalog](reference/iconic-kpi-catalog.md) |
 | Grids | `insertModernGrid` (the default grid), `addToGrid` (classic grid only), `moveField`, `sortByMetric`, `attributeThresholds`, `metricThresholds`, `buildModernGrid` (row sets), `buildColumnSetGrid` (column sets and microcharts) | [grid catalog](reference/grid-catalog.md) |
 | Text, images, shapes | `addText`, `addRichText`, `setLink`, `insertImage`, `insertShape` | [text](reference/text-catalog.md), [shapes](reference/shape-catalog.md) |
 | AI | `addNarratives` (an AI summary on the canvas), `enableAutoSummary` (the Auto Summary button) | [Auto Summary](reference/auto-summary.md) |

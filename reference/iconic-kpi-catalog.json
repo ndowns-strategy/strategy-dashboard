@@ -1,0 +1,302 @@
+{
+ "source": {
+  "dashboard": "KPI Disscovery",
+  "id": "11C1652C384B435BFAFC5FA3ADB2D273",
+  "project": "1FC5A43B374C963CC773C285DF86E2F6 (Shared Studio)",
+  "page": "K53 Page 1",
+  "dataset": "Costco Logistics",
+  "metric": "Delivery Cost (0A6A36DDE0634D4D9186123E4FD2EB37)",
+  "trend": "Calendar Date (Month) (0DD508459F419429E2D79EAD3C0869E5)",
+  "visualizationType": "image_enhanced_kpi",
+  "style": "ImageEnhancedKPI",
+  "studied": "2026-11-23, read only (REST definition and getServerJSONResults on an instance that was never saved)"
+ },
+ "zones": {
+  "xAxis (3)": "metric",
+  "yAxis (4)": "trend attribute"
+ },
+ "cards": [
+  {
+   "key": "K52",
+   "properties": {
+    "showIcon": true,
+    "metricTooltipEnabled": true,
+    "trendShape": "area",
+    "secondaryMetricName": "",
+    "createdReferenceLines": {},
+    "referenceLineConstantValue": "",
+    "referenceLineLabel": "",
+    "trendIndicatorEnabled": true,
+    "trendIndicatorValueType": "percentValue",
+    "trendFillOpacity": "40",
+    "showMetricName": true
+   },
+   "widgetStrings": null,
+   "metricWidgetStrings": null,
+   "iconFormatConfig": {
+    "searchIcon": "/images/material-symbols/400/rounded/delivery_truck_speed-fill.svg"
+   },
+   "containerBorder": "1pt dashed #db6657"
+  },
+  {
+   "key": "W62",
+   "properties": {
+    "showIcon": true,
+    "metricTooltipEnabled": false,
+    "trendShape": "bar",
+    "secondaryMetricName": "",
+    "createdReferenceLines": {},
+    "referenceLineConstantValue": "",
+    "referenceLineLabel": "",
+    "trendIndicatorEnabled": true,
+    "trendIndicatorValueType": "percentValue",
+    "trendFillOpacity": 40,
+    "showMetricName": null
+   },
+   "widgetStrings": null,
+   "metricWidgetStrings": null,
+   "iconFormatConfig": {
+    "searchIcon": "/images/material-symbols/400/rounded/delivery_truck_speed-fill.svg"
+   },
+   "containerBorder": null
+  },
+  {
+   "key": "W65",
+   "properties": {
+    "showIcon": false,
+    "metricTooltipEnabled": true,
+    "trendShape": "line",
+    "secondaryMetricName": "Previous Month",
+    "createdReferenceLines": {
+     "0A6A36DDE0634D4D9186123E4FD2EB37": {
+      "value": "1000000",
+      "label": "Target",
+      "font": {
+       "fontFamily": "Open Sans",
+       "style": [
+        false,
+        false,
+        false,
+        false
+       ],
+       "size": 9,
+       "color": "#35383A"
+      },
+      "line": {
+       "shape": "1pt dashed",
+       "color": "#35383A"
+      }
+     }
+    },
+    "referenceLineConstantValue": "1000000",
+    "referenceLineLabel": "Target",
+    "trendIndicatorEnabled": false,
+    "trendIndicatorValueType": "percentValue",
+    "trendFillOpacity": 100,
+    "showMetricName": null
+   },
+   "widgetStrings": {
+    "previousValueLabel": "Previous Month"
+   },
+   "metricWidgetStrings": {
+    "referenceLineLabel": "Target"
+   },
+   "iconFormatConfig": {
+    "searchIcon": "/images/material-symbols/400/rounded/delivery_truck_speed-fill.svg"
+   },
+   "containerBorder": null
+  },
+  {
+   "key": "W69",
+   "properties": {
+    "showIcon": false,
+    "metricTooltipEnabled": false,
+    "trendShape": "none",
+    "secondaryMetricName": "Prior Month",
+    "createdReferenceLines": {},
+    "referenceLineConstantValue": "",
+    "referenceLineLabel": "",
+    "trendIndicatorEnabled": true,
+    "trendIndicatorValueType": "numericValue",
+    "trendFillOpacity": 40,
+    "showMetricName": null
+   },
+   "widgetStrings": {
+    "previousValueLabel": "Prior Month"
+   },
+   "metricWidgetStrings": null,
+   "iconFormatConfig": {
+    "searchIcon": "/images/material-symbols/400/rounded/delivery_truck_speed-fill.svg"
+   },
+   "containerBorder": "1pt solid #000"
+  }
+ ],
+ "sharedProperties": {
+  "activeCardIndex": 1,
+  "allFontOptions": {
+   "fontColor": "INDETERMINATE",
+   "fontFamily": "Open Sans",
+   "fontSize": "",
+   "fontSteps": 0,
+   "fontStyle": [
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  "areaFillColor": "AUTO",
+  "areaFillColorWithNoTrend": "AUTO",
+  "areaFillColorWithTrend": "AUTO",
+  "areaFillOpacity": 10,
+  "axisScale": "global",
+  "axisScaleComparison": "global",
+  "backgroundShapeAreaSection": null,
+  "browse": null,
+  "cardAlignment": "left",
+  "cardPadding": 8,
+  "cardPaddingSection": null,
+  "cardStyle": 0,
+  "colorThresholdsSection": {
+   "thresholds": []
+  },
+  "comparisonIndicatorEnabled": true,
+  "comparisonIndicatorEnabledLabel": "",
+  "dataRetrievalPausedMessage": null,
+  "dossierFont": "Open Sans",
+  "editUrl": null,
+  "emptyVizWarningMessage": null,
+  "entireKPIChartSection": null,
+  "fontColor": "#35383A",
+  "fontFamily": "Open Sans",
+  "fontSize": "",
+  "fontSteps": 0,
+  "fontStyle": [
+   false,
+   false,
+   false,
+   false
+  ],
+  "gallery": null,
+  "gridColumnCount": 4,
+  "gridFixCardHeight": null,
+  "gridFixCardHeightEnabled": false,
+  "gridLayoutProperties": null,
+  "hideableSectionDescription": null,
+  "hideableSectionImage": null,
+  "hideableSectionLayout": null,
+  "hideableSectionReferenceLines": null,
+  "hideableSectionTemplate": null,
+  "hideableSectionTrendShape": null,
+  "iconShapeEnabled": true,
+  "iconShapeRadius": 50,
+  "imageName": "",
+  "imageSrc": "",
+  "imgFillColor": "AUTO",
+  "imgFillOpacity": 100,
+  "imgShapeFillColor": "AUTO",
+  "imgShapeFillOpacity": 100,
+  "indicatorFontOptions": {
+   "fontFamily": "Open Sans",
+   "fontSize": "",
+   "fontSteps": 0,
+   "fontStyle": [
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  "labelFontOptions": {
+   "fontColor": "#35383A",
+   "fontFamily": "Open Sans",
+   "fontSize": "",
+   "fontSteps": 0,
+   "fontStyle": [
+    false,
+    false,
+    false,
+    false
+   ],
+   "fontWeight": 500
+  },
+  "layoutType": 0,
+  "primaryValueFontOptions": {
+   "fontColor": "#35383A",
+   "fontFamily": "Open Sans",
+   "fontSize": "",
+   "fontSteps": 0,
+   "fontStyle": [
+    true,
+    false,
+    false,
+    false
+   ]
+  },
+  "referenceLineConstantValueWarning": null,
+  "referenceLinesSection": null,
+  "searchIcon": null,
+  "secondaryMetricNameLabel": null,
+  "secondaryMetricNameLabelComparison": null,
+  "secondaryValueFontOptions": {
+   "fontColor": "#727679",
+   "fontFamily": "Open Sans",
+   "fontSize": "",
+   "fontSteps": 0,
+   "fontStyle": [
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  "secondaryValueLayout": null,
+  "selectedCardAppearance": null,
+  "selectedCardImage": null,
+  "selectedReferenceLine": "",
+  "selectedReferenceLineColor": "#4D4D4D",
+  "selectedReferenceLineFontColor": "#35383A",
+  "selectedReferenceLineFontName": "Open Sans",
+  "selectedReferenceLineFontSize": 9,
+  "selectedReferenceLineFontStyle": [
+   false,
+   false,
+   false,
+   false
+  ],
+  "selectedReferenceLineShape": "1pt dashed",
+  "selectedReferenceLineTextAndForm": "",
+  "shapeSection": null,
+  "shapeType": 0,
+  "stackedAutoPlay": true,
+  "stackedLayoutProperties": null,
+  "supportingMultipleCards": true,
+  "textAndFormDropdownWithReferenceLines": 0,
+  "textAndFormDropdownWithoutReferenceLines": 0,
+  "textContentType": "all",
+  "textContentTypeComparison": "all",
+  "textSizeType": 0,
+  "trendConstantBackgroundColor": "#575A5D",
+  "trendDecreaseBackgroundColor": "#D9232E",
+  "trendDecreaseBackgroundColorLabel": null,
+  "trendFillColor": "AUTO",
+  "trendIncreaseBackgroundColor": "#20A76C",
+  "trendIncreaseBackgroundColorLabel": null,
+  "trendIndicatorEnabledLabel": "",
+  "trendIndicatorLayout": null,
+  "trendIndicatorShape": "arrow",
+  "trendIndicatorShapeLayout": "",
+  "vizFirstTabSection": null,
+  "vizPaletteColors": null,
+  "vizPaletteId": null,
+  "vizSecondTabSection": null
+ },
+ "verified": {
+  "dashboard": "SDC iconic KPI test",
+  "id": "9E579093634297E805095AAFA35AE55B",
+  "project": "607F0D20E84F2EF50271148D7D409484 (Showcase)",
+  "spec": "examples/iconic-kpi-test.json",
+  "date": "2026-11-23",
+  "result": "every option rendered as sent and read back exactly; icons pinned with imageSrc; label via properties alone works (props_only card)"
+ }
+}

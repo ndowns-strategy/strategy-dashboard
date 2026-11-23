@@ -11,7 +11,7 @@ import json
 import re
 import time
 
-from .constants import (AUTO_SUMMARY_INSTRUCTION, chart_look, CUSTOM_VIS_CLASS, DONUT_LABEL, DONUT_ZONE, GRAPH_MATRIX_CLASS,
+from .constants import (AUTO_SUMMARY_INSTRUCTION, chart_look, iconic_kpi_look, CUSTOM_VIS_CLASS, DONUT_LABEL, DONUT_ZONE, GRAPH_MATRIX_CLASS,
                         KPI_CARD_CLASS, METRIC_NAMES, TEXT_HEIGHT_PAD, VIS, ZONE)
 from .transport import StrategyError
 from .util import (bgr, esc_attr, jdump, js_num, js_str, parse_float_prefix, random_key32, rich_text_value,
@@ -453,6 +453,51 @@ class Session:
             _drop_zones(new_key, 7),
             _custom_vis_format(new_key, vis_name),
             {'act': 'changeGridDisplayMode', 'nodeKey': new_key, 'displayMode': 1}], [new_key])
+
+    # ---- Iconic KPI (ImageEnhancedKPI; reference/iconic-kpi-catalog.md). No title bar. ----
+    def insert_kpi(self, new_key, layout, page_key='K53', proto_key='K51'):
+        """Iconic KPI card. Zones: xAxis (3) = metric, yAxis (4) = trend attribute."""
+        return self.edit([
+            {'act': 'copyUnit', 'unitKey': proto_key, 'unitType': 521, 'newKey': new_key, 'toKey': page_key},
+            _layout_action(page_key, layout),
+            _drop_zones(new_key, 7),
+            _custom_vis_format(new_key, 'ImageEnhancedKPI'),
+            _incremental_fetch_off(new_key),
+            {'act': 'changeGridDisplayMode', 'nodeKey': new_key, 'displayMode': 1}], [new_key])
+
+    def to_iconic_kpi(self, viz_key='K52'):
+        """Turn a new draft's default grid (K52) into an Iconic KPI in place: insert_kpi without the copy."""
+        return self.edit([
+            _drop_zones(viz_key, 7),
+            _custom_vis_format(viz_key, 'ImageEnhancedKPI'),
+            _incremental_fetch_off(viz_key),
+            {'act': 'changeGridDisplayMode', 'nodeKey': viz_key, 'displayMode': 1}], [viz_key])
+
+    def set_kpi_icon(self, viz_key, metric_id, file):
+        """Iconic KPI icon: file from /images/material-symbols/400/rounded/, e.g. 'delivery_truck_speed-fill.svg'.
+        Written as imageSrc: the plugin replaces a bare searchIcon with its own recommendation on every render."""
+        src = '/images/material-symbols/400/rounded/' + file
+        return self.edit([{'act': 'updateElementsPropertiesMap', 'nodeKey': viz_key, 'epm': [{
+            'epmk': [{'ob': {'did': '', 'tp': 4}}],
+            'epmv': [{'k': {'chn': [{'emt': 2, 'mt': {'did': metric_id, 'tp': 4, 'ql': 0}}]},
+                      'v': {'vv': '', 'format_config': jdump({'imageSrc': src, 'imageName': src}), 'image_id': '',
+                            'ov': -1}}]}]}], [viz_key])
+
+    def set_kpi_properties(self, viz_key, properties):
+        """Comparison, Multi-Metric and Iconic KPI settings: one `properties` JSON in cvp. Keys left out keep defaults."""
+        return self.set_widget_props(viz_key, CUSTOM_VIS_CLASS, {'ftFgGrpA': '1', 'properties': jdump(properties)}, 'cvp')
+
+    def iconic_kpi_look(self, viz_key, metric_id, look=None, extra=None):
+        """set_kpi_properties with iconic_kpi_look() props; extra (raw properties) wins. previousValueLabel is also written
+        as the template's widget string previousValueLabel. look uses the JS names: icon, tooltip, trend,
+        previousValueLabel, referenceLine, change, fillOpacity."""
+        look = look or {}
+        props = iconic_kpi_look(look.get('icon'), look.get('tooltip'), look.get('trend'), look.get('previousValueLabel'),
+                                look.get('referenceLine'), look.get('change'), look.get('fillOpacity'), metric_id)
+        self.set_kpi_properties(viz_key, {**props, **(extra or {})})
+        if look.get('previousValueLabel') is not None:
+            self.edit([{'act': 'setWidgetString', 'nodeKey': viz_key, 'skey': 'previousValueLabel',
+                        'wdgs': look['previousValueLabel']}], [viz_key])
 
     def insert_donut(self, new_key, layout, dataset_id, metric, slice, page_key='K53', proto_key='K51',  # noqa: A002
                      color_by=None, target=None, break_by=None, colors=None, props=None):

@@ -43,7 +43,8 @@
 //               insertBubble (bubble / scatter: two metric axes, Break By, optional Size By, tooltip metrics),
 //               insertSankey (Sankey Diagram: 2+ level attributes, one flow metric),
 //               insertHeatmap (Heat Map: grouping attributes, Color By + Size By metrics, percentile color bands),
-//               insertKpi (Iconic) / insertCustomVis ('ImageEnhancedKPI', 'AutoNarratives'), setKpiIcon, addNarratives, titleBar
+//               insertKpi / toIconicKpi (Iconic KPI) + iconicKpiLook (icon, tooltip, trend shape, previous value label,
+//               reference line, change indicator) + setKpiIcon; insertCustomVis ('AutoNarratives'), addNarratives, titleBar
 //   Title bar   titleBar (show / hide + text), setTitle, titleFormat (1 or 2 lines, second-line text, each line's font,
 //               alignment of the title lines, wrap text). Every visualization type has a title bar EXCEPT the Iconic KPI
 //               (ImageEnhancedKPI); reference/bar-catalog.md "Title bar".
@@ -190,6 +191,47 @@ function chartLook({ legend, dataLabels, leaderLines, markerSize } = {}) {
   else if (dataLabels) p.DataLabel = DATA_LABEL[dataLabels.reduce((a, k) => a | DATA_LABEL_BIT[k], 0)];
   if (leaderLines) p.pdlll = String(LEADER_LINE[leaderLines]);
   if (markerSize != null) { p.SizeType = 'Manual'; p.SizeValue = String(markerSize); }
+  return p;
+}
+// Iconic KPI (ImageEnhancedKPI) look, from reference/iconic-kpi-catalog.md. Returns cvp `properties` keys:
+//   icon: true|false                   the icon circle on or off (showIcon). The icon file itself is setKpiIcon.
+//   tooltip: true|false                the metric tooltip, a (?) after the metric name (metricTooltipEnabled)
+//   trend: 'area'|'line'|'bar'|'none'  the trend shape under the values (trendShape)
+//   previousValueLabel: text           replaces "Previous <trend attribute>" before the previous value (secondaryMetricName;
+//                                      the session method also writes the template's widget string previousValueLabel)
+//   referenceLine: { value, label = 'Target', color = '#35383A', style = '1pt dashed' }
+//                                      a constant line across the trend (createdReferenceLines[metricId]; needs metricId)
+//   change: 'percent'|'amount'|false   the change indicator badge: percent change, the actual difference, or off
+//                                      (trendIndicatorEnabled + trendIndicatorValueType percentValue | numericValue)
+//   fillOpacity: 0-100                 trend fill opacity (trendFillOpacity; the source uses 40, and 100 on the line)
+const TREND_SHAPES = ['area', 'line', 'bar', 'none'];
+const KPI_CHANGE = { percent: 'percentValue', amount: 'numericValue' };
+function iconicKpiLook({ icon, tooltip, trend, previousValueLabel, referenceLine, change, fillOpacity, metricId } = {}) {
+  const p = {};
+  if (icon != null) p.showIcon = !!icon;
+  if (tooltip != null) p.metricTooltipEnabled = !!tooltip;
+  if (trend != null) {
+    if (!TREND_SHAPES.includes(trend)) throw new Error('trend must be one of ' + TREND_SHAPES.join(', '));
+    p.trendShape = trend;
+  }
+  if (previousValueLabel != null) p.secondaryMetricName = previousValueLabel;
+  if (referenceLine) {
+    if (!metricId) throw new Error('referenceLine needs metricId');
+    const label = referenceLine.label ?? 'Target';
+    const color = referenceLine.color || '#35383A';
+    p.createdReferenceLines = { [metricId]: { value: String(referenceLine.value), label,
+      font: { fontFamily: 'Open Sans', style: [false, false, false, false], size: 9, color },
+      line: { shape: referenceLine.style || '1pt dashed', color } } };
+    p.referenceLineConstantValue = String(referenceLine.value);
+    p.referenceLineLabel = label;
+  }
+  if (change === false) p.trendIndicatorEnabled = false;
+  else if (change != null) {
+    if (!KPI_CHANGE[change]) throw new Error('change must be percent, amount or false');
+    p.trendIndicatorEnabled = true;
+    p.trendIndicatorValueType = KPI_CHANGE[change];
+  }
+  if (fillOpacity != null) p.trendFillOpacity = fillOpacity;
   return p;
 }
 // The editor's default heat map colors, lowest 20% to top 20% of the Color By metric (read from Wawa 08.31 Demo).
@@ -520,11 +562,37 @@ function client(token, projectId) {
           { act: 'changeGridDisplayMode', nodeKey: newKey, displayMode: 1 },
         ], [newKey]);
       },
-      // KPI icon: file from /images/material-symbols/400/rounded/, e.g. 'payments-fill.svg'.
+      // Iconic KPI icon: file from /images/material-symbols/400/rounded/, e.g. 'delivery_truck_speed-fill.svg'.
+      // Written as imageSrc (a picked icon). searchIcon alone is not enough: on every render the plugin replaces
+      // searchIcon with its own recommendation for the metric name (POST /searches/recommendation/icons) unless the entry
+      // has an imageSrc or image_id. Without setKpiIcon the card shows that recommended icon.
       setKpiIcon(vizKey, metricId, file) {
+        const src = '/images/material-symbols/400/rounded/' + file;
         return s.edit([{ act: 'updateElementsPropertiesMap', nodeKey: vizKey, epm: [{ epmk: [{ ob: { did: '', tp: 4 } }],
           epmv: [{ k: { chn: [{ emt: 2, mt: { did: metricId, tp: 4, ql: 0 } }] },
-            v: { vv: '', format_config: JSON.stringify({ searchIcon: '/images/material-symbols/400/rounded/' + file }), ov: -1 } }] }] }], [vizKey]);
+            v: { vv: '', format_config: JSON.stringify({ imageSrc: src, imageName: src }), image_id: '', ov: -1 } }] }] }], [vizKey]);
+      },
+      // Turn a new draft's default grid (K52) into an Iconic KPI in place: insertKpi without the copy.
+      toIconicKpi(vizKey = 'K52') {
+        return s.edit([
+          { act: 'updateTemplate', keyContext: vizKey, actions: [{ act: 'createDefaultDropZones', nodeKey: vizKey, treeType: 1, datasetType: 3, widgetType: 7 }] },
+          { act: 'format', unitKey: vizKey, unitType: 521, formatType: 1, format: {
+            Visualization: { VisualizationsEnabled: -1, ViewMode: 51, SelectedVisualization: 'ImageEnhancedKPI', VisualizationList: 'ImageEnhancedKPI',
+              IPhoneVisualization: '', IPadVisualization: '', APhoneVisualization: '', ATabletVisualization: '', ReturnBinaryResult: false },
+            FormattingWidget: { ClassName: CUSTOM_VIS_CLASS, Enable: 1,
+              WidgetProps: '<props><widgetProps><fmt><cvp><ftFgGrpA value="1"></ftFgGrpA></cvp></fmt></widgetProps></props>' },
+            FormattingView: { ShowTitleBar: 0, ShowWidgetTitleBar: 0 } } },
+          { act: 'format', unitKey: vizKey, unitType: 521, formatType: 1, format: { FormattingIncrementalFetch: { EnableIFOnGrid: 0 } } },
+          { act: 'changeGridDisplayMode', nodeKey: vizKey, displayMode: 1 },
+        ], [vizKey]);
+      },
+      // Iconic KPI look (iconicKpiLook() above) written as cvp properties; extra (raw properties) wins. previousValueLabel
+      // is also written as the template's widget string previousValueLabel, where the source dashboard stores it.
+      async iconicKpiLook(vizKey, metricId, look = {}, extra = {}) {
+        await s.setKpiProperties(vizKey, { ...iconicKpiLook({ ...look, metricId }), ...extra });
+        if (look.previousValueLabel != null) {
+          await s.edit([{ act: 'setWidgetString', nodeKey: vizKey, skey: 'previousValueLabel', wdgs: look.previousValueLabel }], [vizKey]);
+        }
       },
       setTitle(vizKey, title) {
         return s.edit([{ act: 'format', unitKey: vizKey, unitType: 521, formatType: 1, format: { FormattingView: { Title: title } } }], [vizKey]);

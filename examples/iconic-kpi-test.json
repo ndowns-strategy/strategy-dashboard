@@ -1,0 +1,39 @@
+{
+  "name": "SDC iconic KPI test",
+  "project_id": "607F0D20E84F2EF50271148D7D409484",
+  "dataset": {"id": "C7F3DE7BEC434DD7AD86FD33A78E9263", "name": "Retail Orders Sales Performance Model (global)"},
+  "overwrite": true,
+  "pages": [
+    {
+      "id": "kpis", "title": "Iconic KPIs", "layout": "freeform",
+      "items": [
+        {"id": "v1", "type": "iconic_kpi", "title": "v1 icon, tooltip, area, percent",
+         "metric": "Order Total Amount", "trend": "Order Date",
+         "icon": "delivery_truck_speed-fill.svg", "tooltip": true, "trend_shape": "area", "change": "percent",
+         "fill_opacity": 40, "box": [0, 0, 33.3, 50]},
+        {"id": "v2", "type": "iconic_kpi", "title": "v2 icon, bar, percent",
+         "metric": "Order Total Amount", "trend": "Order Date",
+         "icon": "delivery_truck_speed-fill.svg", "tooltip": false, "trend_shape": "bar", "change": "percent",
+         "fill_opacity": 40, "box": [33.3, 0, 33.3, 50]},
+        {"id": "v3", "type": "iconic_kpi", "title": "v3 no icon, tooltip, line, target, no change",
+         "metric": "Order Total Amount", "trend": "Order Date",
+         "icon": false, "tooltip": true, "trend_shape": "line", "change": false, "fill_opacity": 100,
+         "previous_value_label": "Previous Day", "reference_line": {"value": 500, "label": "Target"},
+         "box": [66.6, 0, 33.4, 50]},
+        {"id": "v4", "type": "iconic_kpi", "title": "v4 no icon, none, amount, border",
+         "metric": "Order Total Amount", "trend": "Order Date",
+         "icon": false, "tooltip": false, "trend_shape": "none", "change": "amount",
+         "previous_value_label": "Prior Day", "border": {"color": "#000000", "radius": 0},
+         "box": [0, 50, 33.3, 50]},
+        {"id": "props_only", "type": "iconic_kpi", "title": "label through props only",
+         "metric": "Order Total Amount", "trend": "Order Date",
+         "icon": false, "trend_shape": "area", "props": {"secondaryMetricName": "Props Only Label"},
+         "box": [33.3, 50, 33.3, 50]},
+        {"id": "icon2", "type": "iconic_kpi", "title": "another icon, amount",
+         "metric": "Order Quantity", "trend": "Order Date",
+         "icon": "payments-fill.svg", "trend_shape": "line", "change": "amount",
+         "box": [66.6, 50, 33.4, 50]}
+      ]
+    }
+  ]
+}

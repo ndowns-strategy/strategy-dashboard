@@ -37,6 +37,7 @@ When you rebuild a dashboard from an image:
 | File | Covers | Helpers |
 |---|---|---|
 | [kpi-catalog.md](kpi-catalog.md) | The three native KPI families (KPI card, Comparison KPI, Multi-Metric KPI) and their seven variants: plain, trend with % badge and sparkline, break by, comparison | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties` |
+| [iconic-kpi-catalog.md](iconic-kpi-catalog.md) | The Iconic KPI: icon on/off and pinned icons, metric tooltip, trend shape (area, line, bar, none), previous value label, reference line, change indicator (percent or amount) | `insertKpi`, `toIconicKpi`, `iconicKpiLook`, `setKpiIcon` |
 | [grid-catalog.md](grid-catalog.md) | The three grid kinds (Grid (Modern) is the default), Modern Grids with column sets and microchart columns | `insertModernGrid`, `buildColumnSetGrid`, `buildModernGrid` |
 
 ### Text, shapes and AI
@@ -65,6 +66,7 @@ and formats for every example.
 |---|---|
 | [bar-catalog.json](bar-catalog.json) | [bar-catalog.md](bar-catalog.md) |
 | [kpi-catalog.json](kpi-catalog.json) | [kpi-catalog.md](kpi-catalog.md) |
+| [iconic-kpi-catalog.json](iconic-kpi-catalog.json) | [iconic-kpi-catalog.md](iconic-kpi-catalog.md) |
 | [grid-catalog.json](grid-catalog.json) | [grid-catalog.md](grid-catalog.md) |
 | [filter-catalog.json](filter-catalog.json) | [filter-catalog.md](filter-catalog.md) |
 | [correlation-catalog.json](correlation-catalog.json) | [correlation-catalog.md](correlation-catalog.md) |

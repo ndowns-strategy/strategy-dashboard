@@ -7,11 +7,11 @@ See examples/lincoln.json and the README for every field.
 check_structure() needs no server. check_data() resolves every attribute and metric name against the dataset's own
 lists, attributes and metrics looked up separately (a dataset can have both with the same name).
 """
-from .constants import LEADER_LINE, LEGEND_SHAPES, LEGEND_SLOT, VIS, ZONE
+from .constants import KPI_CHANGE, LEADER_LINE, LEGEND_SHAPES, LEGEND_SLOT, TREND_SHAPES, VIS, ZONE
 
-VIZ_TYPES = {'kpi_card', 'chart', 'line', 'donut', 'narrative', 'grid'}   # grid = Grid (Modern), always
+VIZ_TYPES = {'kpi_card', 'iconic_kpi', 'chart', 'line', 'donut', 'narrative', 'grid'}   # grid = Grid (Modern), always
 FIELD_TYPES = {'text', 'rich_text', 'image', 'shape'}
-REUSABLE = {'kpi_card', 'chart', 'line'}       # can become a page's default visualization in place
+REUSABLE = {'kpi_card', 'iconic_kpi', 'chart', 'line'}   # can become a page's default visualization in place
 METRIC_ONLY_ZONES = {'angle', 'sizeBy'}
 ATTRIBUTE_DEFAULT_ZONES = {'sliceBy', 'colorBy', 'breakBy', 'rows'}
 SHAPES = {'Line', 'Rectangle', 'Ellipse', 'Triangle', 'Polygon'}
@@ -21,7 +21,7 @@ REF_LABELS = {'type', 'metric', 'value'}
 
 
 def check_title_format(w, tf):
-    """title_format works on every visualization type except the Iconic KPI (not a spec type)."""
+    """title_format works on every visualization type except the Iconic KPI (iconic_kpi, which has no title bar)."""
     p = []
     if not isinstance(tf, dict):
         return [f'{w}: title_format must be an object']
@@ -52,6 +52,40 @@ def check_reference_lines(w, lines):
         lab = rl.get('label', ['type', 'value'])
         if not isinstance(lab, int) and not set(lab) <= REF_LABELS:
             p.append(f'{ww}: label items must be from {sorted(REF_LABELS)}')
+    return p
+
+
+ICONIC_FIELDS = {'icon', 'tooltip', 'trend_shape', 'previous_value_label', 'reference_line', 'change', 'fill_opacity'}
+
+
+def check_iconic_kpi(w, it):
+    """Iconic KPI fields (reference/iconic-kpi-catalog.md)."""
+    p = []
+    if not it.get('metric'):
+        p.append(f'{w}: "metric" is required')
+    if it.get('trend') in TREND_SHAPES:
+        p.append(f'{w}: "trend" is the trend attribute; the shape {it["trend"]!r} goes in "trend_shape"')
+    if it.get('title_format') is not None:
+        p.append(f'{w}: the Iconic KPI has no title bar, so title_format does not apply')
+    icon = it.get('icon')
+    if icon is not None and icon is not False and icon is not True and not (isinstance(icon, str) and icon.endswith('.svg')):
+        p.append(f'{w}: icon must be false, true or a material-symbols file such as "delivery_truck_speed-fill.svg"')
+    if it.get('tooltip') is not None and not isinstance(it['tooltip'], bool):
+        p.append(f'{w}: tooltip must be true or false')
+    if it.get('trend_shape') is not None and it['trend_shape'] not in TREND_SHAPES:
+        p.append(f'{w}: trend_shape must be one of {", ".join(TREND_SHAPES)}')
+    if it.get('previous_value_label') is not None and not isinstance(it['previous_value_label'], str):
+        p.append(f'{w}: previous_value_label must be text')
+    rl = it.get('reference_line')
+    if rl is not None:
+        if not isinstance(rl, dict) or not isinstance(rl.get('value'), (int, float)) or isinstance(rl.get('value'), bool):
+            p.append(f'{w}: reference_line must be {{"value": <number>, "label", "color", "style"}}')
+    ch = it.get('change')
+    if ch is not None and ch is not False and ch not in KPI_CHANGE:
+        p.append(f'{w}: change must be "percent", "amount" or false')
+    fo = it.get('fill_opacity')
+    if fo is not None and (not isinstance(fo, (int, float)) or isinstance(fo, bool) or not 0 <= fo <= 100):
+        p.append(f'{w}: fill_opacity must be a number from 0 to 100')
     return p
 
 
@@ -135,7 +169,7 @@ def check_structure(spec):
             p.append(f'{where}: only layout "freeform" is supported so far')
         its = pg.get('items') or []
         if not any(it.get('type') in REUSABLE for it in its):
-            p.append(f'{where}: needs at least one kpi_card, chart or line item (the page\'s default visualization, a '
+            p.append(f'{where}: needs at least one kpi_card, iconic_kpi, chart or line item (the page\'s default visualization, a '
                      f'classic Grid, becomes the first one; grid items are always new Modern Grids)')
         for it in its:
             iid, typ = it.get('id'), it.get('type')
@@ -163,7 +197,9 @@ def check_structure(spec):
                         p.append(f'{w}: unknown zone {z!r} (zones: {sorted(ZONE)})')
                 if not it.get('zones'):
                     p.append(f'{w}: "zones" is required')
-            if typ in VIZ_TYPES and it.get('title_format') is not None:
+            if typ == 'iconic_kpi':
+                p += check_iconic_kpi(w, it)
+            elif typ in VIZ_TYPES and it.get('title_format') is not None:
                 p += check_title_format(w, it['title_format'])
             p += check_chart_look(w, it)
             if it.get('reference_lines'):
@@ -273,7 +309,7 @@ def check_data(spec, names):
 
     for _pg, it in items(spec):
         w, typ = f'item {it.get("id")!r}', it.get('type')
-        if typ == 'kpi_card':
+        if typ in ('kpi_card', 'iconic_kpi'):
             need(w, it['metric'], 'metric')
             for k in ('trend', 'break_by'):
                 if it.get(k):

@@ -6666,5 +6666,365 @@
    "gridKey": "W91",
    "stitchedKey": "000102030405060708090A0B0C0D0E0F"
   }
+ },
+ "insert_kpi_iconic": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W70",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "K53",
+       "unitType": 9,
+       "formatType": 1,
+       "format": {
+        "FormattingSize": {
+         "LayoutXML": {
+          "t": "b",
+          "o": "h",
+          "children": [
+           {
+            "t": "c",
+            "k": "W70",
+            "l": 100
+           }
+          ]
+         }
+        }
+       },
+       "isJson": true
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W70",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "W70",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "ImageEnhancedKPI",
+         "VisualizationList": "ImageEnhancedKPI",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "W70",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "to_iconic_kpi": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "K52",
+       "actions": [
+        {
+         "act": "createDefaultDropZones",
+         "nodeKey": "K52",
+         "treeType": 1,
+         "datasetType": 3,
+         "widgetType": 7
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": -1,
+         "ViewMode": 51,
+         "SelectedVisualization": "ImageEnhancedKPI",
+         "VisualizationList": "ImageEnhancedKPI",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": "",
+         "ReturnBinaryResult": false
+        },
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA></cvp></fmt></widgetProps></props>"
+        },
+        "FormattingView": {
+         "ShowTitleBar": 0,
+         "ShowWidgetTitleBar": 0
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "K52",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": 0
+        }
+       }
+      },
+      {
+       "act": "changeGridDisplayMode",
+       "nodeKey": "K52",
+       "displayMode": 1
+      }
+     ],
+     "nodes": [
+      "K52"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_kpi_icon": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateElementsPropertiesMap",
+       "nodeKey": "W70",
+       "epm": [
+        {
+         "epmk": [
+          {
+           "ob": {
+            "did": "",
+            "tp": 4
+           }
+          }
+         ],
+         "epmv": [
+          {
+           "k": {
+            "chn": [
+             {
+              "emt": 2,
+              "mt": {
+               "did": "M1",
+               "tp": 4,
+               "ql": 0
+              }
+             }
+            ]
+           },
+           "v": {
+            "vv": "",
+            "format_config": "{\"imageSrc\":\"/images/material-symbols/400/rounded/delivery_truck_speed-fill.svg\",\"imageName\":\"/images/material-symbols/400/rounded/delivery_truck_speed-fill.svg\"}",
+            "image_id": "",
+            "ov": -1
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "set_kpi_properties": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;layoutType&quot;:0,&quot;secondaryMetricName&quot;:&quot;Target&quot;,&quot;showMetricName&quot;:true}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "iconic_kpi_look_full": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W70",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;showIcon&quot;:false,&quot;metricTooltipEnabled&quot;:true,&quot;trendShape&quot;:&quot;line&quot;,&quot;secondaryMetricName&quot;:&quot;Previous Month&quot;,&quot;createdReferenceLines&quot;:{&quot;M1&quot;:{&quot;value&quot;:&quot;1000000&quot;,&quot;label&quot;:&quot;Target&quot;,&quot;font&quot;:{&quot;fontFamily&quot;:&quot;Open Sans&quot;,&quot;style&quot;:[false,false,false,false],&quot;size&quot;:9,&quot;color&quot;:&quot;#35383A&quot;},&quot;line&quot;:{&quot;shape&quot;:&quot;1pt dashed&quot;,&quot;color&quot;:&quot;#35383A&quot;}}},&quot;referenceLineConstantValue&quot;:&quot;1000000&quot;,&quot;referenceLineLabel&quot;:&quot;Target&quot;,&quot;trendIndicatorEnabled&quot;:false,&quot;trendFillOpacity&quot;:100}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setWidgetString",
+       "nodeKey": "W70",
+       "skey": "previousValueLabel",
+       "wdgs": "Previous Month"
+      }
+     ],
+     "nodes": [
+      "W70"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": null
+ },
+ "iconic_kpi_look_extra": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W71",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;showIcon&quot;:true,&quot;trendShape&quot;:&quot;bar&quot;,&quot;trendIndicatorEnabled&quot;:true,&quot;trendIndicatorValueType&quot;:&quot;numericValue&quot;,&quot;cardAlignment&quot;:&quot;left&quot;}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W71"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
+ },
+ "iconic_kpi_look_bad_trend": {
+  "calls": [],
+  "result": {
+   "error": "trend must be one of area, line, bar, none"
+  }
+ },
+ "iconic_kpi_look_ref_line_color": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "W72",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingWidget": {
+         "ClassName": "com.microstrategy.web.vf.viewer.CustomVisApplicationViewer",
+         "Enable": 1,
+         "WidgetProps": "<props><widgetProps><fmt><cvp><ftFgGrpA value=\"1\"></ftFgGrpA><properties value=\"{&quot;createdReferenceLines&quot;:{&quot;M1&quot;:{&quot;value&quot;:&quot;2.5&quot;,&quot;label&quot;:&quot;&quot;,&quot;font&quot;:{&quot;fontFamily&quot;:&quot;Open Sans&quot;,&quot;style&quot;:[false,false,false,false],&quot;size&quot;:9,&quot;color&quot;:&quot;#c1292f&quot;},&quot;line&quot;:{&quot;shape&quot;:&quot;1pt solid&quot;,&quot;color&quot;:&quot;#c1292f&quot;}}},&quot;referenceLineConstantValue&quot;:&quot;2.5&quot;,&quot;referenceLineLabel&quot;:&quot;&quot;,&quot;trendIndicatorEnabled&quot;:true,&quot;trendIndicatorValueType&quot;:&quot;percentValue&quot;}\"></properties></cvp></fmt></widgetProps></props>"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W72"
+     ],
+     "rwb": "BS0"
+    }
+   }
+  ],
+  "result": null
  }
 }

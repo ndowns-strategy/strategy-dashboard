@@ -227,6 +227,25 @@ class Builder:
             s.fill_zones(key, ds, f)
             if it.get('props'):
                 s.set_kpi_card_props(key, it['props'])
+        elif typ == 'iconic_kpi':   # reference/iconic-kpi-catalog.md; no title bar
+            if layout is None:
+                s.to_iconic_kpi(key)
+            else:
+                s.insert_kpi(key, layout, pk)
+            mid = N.metric(it['metric'])
+            f = [{'zoneId': ZONE['xAxis'], 'unitId': mid, 'unitType': 4}]
+            if it.get('trend'):
+                f.append({'zoneId': ZONE['yAxis'], 'unitId': N.attribute(it['trend']), 'unitType': 12})
+            s.fill_zones(key, ds, f)
+            icon = it.get('icon')
+            look = {'icon': None if icon is None else bool(icon), 'tooltip': it.get('tooltip'),
+                    'trend': it.get('trend_shape'), 'previousValueLabel': it.get('previous_value_label'),
+                    'referenceLine': it.get('reference_line'), 'change': it.get('change'),
+                    'fillOpacity': it.get('fill_opacity')}
+            if any(v is not None for v in look.values()) or it.get('props'):
+                s.iconic_kpi_look(key, mid, look, it.get('props'))
+            if isinstance(icon, str):
+                s.set_kpi_icon(key, mid, icon)
         elif typ == 'chart':
             vis = VIS[it['vis']]
             if layout is None:
@@ -307,12 +326,15 @@ class Builder:
 
     def _viz_common(self, it, key):
         s = self.s
-        if it.get('title'):
+        if it.get('type') == 'iconic_kpi':   # no title bar: the title only names it in the editor
+            if it.get('title'):
+                s.set_title(key, it['title'])
+        elif it.get('title'):
             s.title_bar(key, True, it['title'])
         elif it.get('title_bar') is False:
             s.title_bar(key, False)
         tf = it.get('title_format')
-        if tf:   # every visualization type has a title bar except the Iconic KPI (not a spec type)
+        if tf:   # every visualization type has a title bar except the Iconic KPI (rejected by the spec check)
             s.title_format(key, lines=tf.get('lines'), subtitle=tf.get('subtitle'), align=tf.get('align'),
                            subtitle_align=tf.get('subtitle_align'), wrap=tf.get('wrap'),
                            subtitle_wrap=tf.get('subtitle_wrap'),

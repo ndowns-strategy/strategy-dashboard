@@ -1068,5 +1068,116 @@
    ],
    "pageKey": "W300"
   }
+ },
+ {
+  "name": "insert_kpi_iconic",
+  "js": "insertKpi",
+  "py": "insert_kpi",
+  "opts": {
+   "newKey": "W70",
+   "layout": {
+    "t": "b",
+    "o": "h",
+    "children": [
+     {
+      "t": "c",
+      "k": "W70",
+      "l": 100
+     }
+    ]
+   }
+  }
+ },
+ {
+  "name": "to_iconic_kpi",
+  "js": "toIconicKpi",
+  "args": [
+   "K52"
+  ]
+ },
+ {
+  "name": "set_kpi_icon",
+  "js": "setKpiIcon",
+  "args": [
+   "W70",
+   "M1",
+   "delivery_truck_speed-fill.svg"
+  ]
+ },
+ {
+  "name": "set_kpi_properties",
+  "js": "setKpiProperties",
+  "args": [
+   "W70",
+   {
+    "layoutType": 0,
+    "secondaryMetricName": "Target",
+    "showMetricName": true
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_full",
+  "js": "iconicKpiLook",
+  "args": [
+   "W70",
+   "M1",
+   {
+    "icon": false,
+    "tooltip": true,
+    "trend": "line",
+    "previousValueLabel": "Previous Month",
+    "referenceLine": {
+     "value": 1000000,
+     "label": "Target"
+    },
+    "change": false,
+    "fillOpacity": 100
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_extra",
+  "js": "iconicKpiLook",
+  "args": [
+   "W71",
+   "M1",
+   {
+    "icon": true,
+    "trend": "bar",
+    "change": "amount"
+   },
+   {
+    "cardAlignment": "left"
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_bad_trend",
+  "js": "iconicKpiLook",
+  "args": [
+   "W71",
+   "M1",
+   {
+    "trend": "pie"
+   }
+  ]
+ },
+ {
+  "name": "iconic_kpi_look_ref_line_color",
+  "js": "iconicKpiLook",
+  "args": [
+   "W72",
+   "M1",
+   {
+    "referenceLine": {
+     "value": 2.5,
+     "label": "",
+     "color": "#c1292f",
+     "style": "1pt solid"
+    },
+    "change": "percent"
+   }
+  ]
  }
 ]

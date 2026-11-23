@@ -16,7 +16,7 @@ Strategy has three native KPI visualizations. They differ in visualization style
 
 Bold numbers are the `zoneId`s for `fillZones` (also `KPI_ZONE`, `CMP_ZONE`, `MM_ZONE` in the client).
 
-A fourth card type used elsewhere in this work, **Iconic KPI** (`ImageEnhancedKPI`), is a custom visualization with an icon. It also uses the `cvp` blob.
+A fourth card type, the **Iconic KPI** (`ImageEnhancedKPI`), is a custom visualization with an icon. It also uses the `cvp` blob; see [iconic-kpi-catalog.md](iconic-kpi-catalog.md).
 
 ## The seven variants
 

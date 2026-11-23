@@ -95,3 +95,48 @@ def chart_look(legend=None, data_labels=None, leader_lines=None, marker_size=Non
         p['SizeType'] = 'Manual'
         p['SizeValue'] = js_num(marker_size)
     return p
+
+
+# Iconic KPI (ImageEnhancedKPI) look (reference/iconic-kpi-catalog.md). Mirrors iconicKpiLook() in the JS client.
+TREND_SHAPES = ('area', 'line', 'bar', 'none')                         # trendShape
+KPI_CHANGE = {'percent': 'percentValue', 'amount': 'numericValue'}    # trendIndicatorValueType
+
+
+def iconic_kpi_look(icon=None, tooltip=None, trend=None, previous_value_label=None, reference_line=None, change=None,
+                    fill_opacity=None, metric_id=None):
+    """cvp properties for an Iconic KPI from friendly names (same output as iconicKpiLook() in the JS client).
+    change: 'percent' | 'amount' | False. reference_line: {value, label='Target', color='#35383A', style='1pt dashed'}."""
+    p = {}
+    if icon is not None:
+        p['showIcon'] = bool(icon)
+    if tooltip is not None:
+        p['metricTooltipEnabled'] = bool(tooltip)
+    if trend is not None:
+        if trend not in TREND_SHAPES:
+            raise ValueError('trend must be one of ' + ', '.join(TREND_SHAPES))
+        p['trendShape'] = trend
+    if previous_value_label is not None:
+        p['secondaryMetricName'] = previous_value_label
+    if reference_line:
+        if not metric_id:
+            raise ValueError('referenceLine needs metricId')
+        from .util import js_num
+        v = js_num(reference_line['value'])
+        label = reference_line['label'] if reference_line.get('label') is not None else 'Target'
+        color = reference_line.get('color') or '#35383A'
+        p['createdReferenceLines'] = {metric_id: {
+            'value': v, 'label': label,
+            'font': {'fontFamily': 'Open Sans', 'style': [False, False, False, False], 'size': 9, 'color': color},
+            'line': {'shape': reference_line.get('style') or '1pt dashed', 'color': color}}}
+        p['referenceLineConstantValue'] = v
+        p['referenceLineLabel'] = label
+    if change is False:
+        p['trendIndicatorEnabled'] = False
+    elif change is not None:
+        if change not in KPI_CHANGE:
+            raise ValueError('change must be percent, amount or false')
+        p['trendIndicatorEnabled'] = True
+        p['trendIndicatorValueType'] = KPI_CHANGE[change]
+    if fill_opacity is not None:
+        p['trendFillOpacity'] = fill_opacity
+    return p
