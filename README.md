@@ -101,7 +101,7 @@ One JSON file per dashboard. Top level:
 | `project_id` | Optional; overrides `SDC_PROJECT_ID` for this spec. |
 | `folder` / `folder_id` | Where to save; default My Reports. |
 | `auto_summary` | Default `true` (house rule). |
-| `number_formats` | `{"<metric>": "<format>"}` or `[{"metrics": [...], "format": "..."}]`, e.g. `"$#,##0.0,,\"M\""` for $126.8M. |
+| `number_formats` | `{"<metric>": "<format>"}` or `[{"metrics": [...], "format": "..."}]`, e.g. `"$#,##0.0,,\"M\""` for $126.8M in grids, KPIs and text. Charts scale `,,` a second time ($0.1M), so give a chart a derived metric `/ 1000000` with `$#,##0.0"M"` (reference/bar-catalog.md, Gotchas). |
 | `background` | `"#F3F5F8"`: every page's background (Dashboard Formatting Properties › Background). Use it instead of a page-sized rectangle. |
 | `hover_highlight` | `false` (the default) checks "Disable highlight on hover for containers in Presentation mode"; `true` leaves the highlight on. |
 | `derived_metrics` | `[{"name", "formula", "format"}]`: dataset-level metrics created before the pages, usable by name everywhere (zones, KPIs, `{[Name]}` text). Plain-text formulas, e.g. `Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))`, `([A] - [B]) / [B]`. `check` resolves each `[name]` in the formula. |
@@ -297,6 +297,9 @@ All helpers live on the session that `c.newDashboard()` or `c.open()` returns. T
 
 These are conventions for dashboards built with this repo:
 
+- **A markdown file alone is not a source.** It loses chart types, sort order, values and layout. Rebuilding a
+  dashboard needs a **screenshot**, alone or with the markdown, or the HTML behind the page. With only markdown, Claude
+  stops and asks for a screenshot (see [CLAUDE.md](CLAUDE.md)).
 - Every saved dashboard gets **Auto Summary** (`saveAs` and `save` turn it on).
 - Every saved dashboard has **highlight on hover for containers disabled** in Presentation mode (`saveAs` / `save` set
   `hideVizBoxShadow`; pass `hoverHighlight: true` / spec `"hover_highlight": true` to keep it).

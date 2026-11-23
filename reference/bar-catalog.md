@@ -209,3 +209,13 @@ does it: 8 charts in 9 seconds, all checks OK, viewed in Library.
 - `fms` inside `mod_c` is HTML-escaped JSON (`&quot;`). Unescape it before parsing.
 - The instance only returns data for the current page. To read page 2's charts, an unsaved instance was switched there with
   `setCurrentPanel` first.
+- **Charts scale `,,"M"` formats again.** With `$#,##0.0,,"M"` on a metric, a grid or KPI shows $293.1M, but the chart's
+  data labels and axis show **$0.3M**. For a chart, use a derived metric divided by 1,000,000 with the format
+  `$#,##0.0"M"`, e.g. `([Rolling 12 Month Total Annuity Opportunity Amount]) / 1000000`. Found 2026-11-23 on
+  IMT Advisor Sales and Opportunity Performance (v2) ([examples/imt-advisor-sales-v2.json](../examples/imt-advisor-sales-v2.json)).
+- **Short legend names come from derived metric names.** A chart can't rename a metric in the spec, so a derived metric
+  named "Year to date" (`[Year To Date Total Sales Amount]`) gives the legend that name. The same derived metric can also
+  filter: `Sum(If([Producer Category]@ID = "Active Producer", [Year To Date Total Sales Amount], 0))` gives active
+  producers only, checked against the unfiltered total.
+- **Metrics can't be the categories.** The spec has no "Metric Names" on an axis, so "sales by product line" where each
+  product is its own metric is built as a KPI strip (one card per metric), not a bar chart.
