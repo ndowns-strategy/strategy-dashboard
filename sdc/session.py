@@ -5,7 +5,7 @@ sends the same actions in the same edit calls; tests/test_parity.py checks that 
 the JS file and reference/*.md explain each helper; only Python-specific notes are repeated here.
 
 Pass 1 (2026-11-22) ports the core, pages and the helpers the Lincoln dashboard used. The rest of the JS helpers
-(Modern Grids, filters, selectors, heat map, Sankey, bubble, stacked bar, time attributes) are still JS-only.
+(Modern Grids with row/column sets, filters, selectors, heat map, Sankey, bubble, stacked bar, time attributes) are still JS-only.
 """
 import json
 import re
@@ -192,7 +192,55 @@ class Session:
                  'unitId': f['unitId'], 'unitType': f['unitType'], 'unitPos': f.get('unitPos') or 0} for f in fields]},
             {'act': 'editNode', 'nodeKey': viz_key, 'datasetId': dataset_id}], [viz_key, self.node])
 
+    def insert_modern_grid(self, new_key, dataset_id, rows=(), columns=(), metrics=(), page_key='K53', proto_key='K51',
+                           title=None, merge_column_headers=True):
+        """Grid (Modern): THE default grid (see insertModernGrid in the JS client). A grid is Modern only inside a stitched
+        container with SectionDisplayMode 2. Returns {'gridKey', 'stitchedKey'}; put stitchedKey in the page layout."""
+        g, st = new_key, self.key32()
+        off = {'VisualizationsEnabled': 0, 'ViewMode': 0, 'SelectedVisualization': '', 'VisualizationList': '',
+               'IPhoneVisualization': '', 'IPadVisualization': '', 'APhoneVisualization': '', 'ATabletVisualization': ''}
+        fmt = lambda k, f: {'act': 'format', 'unitKey': k, 'unitType': 521, 'formatType': 1, 'format': f}  # noqa: E731
+        self.edit([
+            {'act': 'copyUnit', 'unitKey': proto_key, 'unitType': 521, 'newKey': g, 'toKey': page_key},
+            fmt(g, {'Visualization': off, 'FormattingWidget': {'ClassName': '', 'Enable': 0,
+                                                                'WidgetProps': '<props><widgetProps /></props>'}}),
+            fmt(g, {'FormattingIncrementalFetch': {'EnableIFOnGrid': -1}}),
+            {'act': 'updateTemplate', 'keyContext': g, 'actions': [{'act': 'formatGridZone', 'nodeKey': g, 'props': {
+                'FormattingAlignment': {'TextWrap': 0}}, 'units': [], 'axis': [{'axis': 1, 'regions': ['g']}]}]},
+            {'act': 'setProperty', 'nodeKey': g, 'prs': 'Visualization', 'pri': 13, 'v': '{&quot;shwdgdz&quot;:true}'},
+            {'act': 'changeGridToStitched', 'nodeKey': g, 'newKey': st},
+            {'act': 'updateTemplate', 'keyContext': g, 'actions': [{'act': 'formatGridZone', 'nodeKey': g, 'props': {
+                'FormattingAlignment': {'Vertical': 3}}, 'units': [],
+                'axis': [{'axis': 1, 'regions': ['h']}, {'axis': 2, 'regions': ['h', 'g']}]}]},
+            fmt(st, {'FormattingView': {'SectionDisplayMode': 2}}),
+            {'act': 'saveViewFilter', 'nodeKey': g, 'expr': '<exp><nd et="14" fn="19"></nd></exp>'},
+            fmt(g, {'FormattingIncrementalFetch': {'EnableIFOnGrid': -1, 'MaxRows': 1000}}),
+        ], [g])
+
+        def add(a):
+            self.edit([{'act': 'updateTemplate', 'keyContext': g, 'actions': [{'act': 'addUnit', 'dsId': dataset_id, **a}]}],
+                      [st])
+        for i, r in enumerate(rows):
+            add({'unitId': r, 'unitType': 12, 'unitPos': i + 1, 'isFirst': i == 0, 'axis': 1})
+        pos = 1
+        for a in columns:
+            add({'unitId': a, 'unitType': 12, 'unitPos': pos, 'isFirst': pos == 1, 'axis': 2})
+            pos += 1
+        for m in metrics:
+            add({'unitId': m, 'unitType': 4, 'unitPos': pos, 'isFirst': pos == 1, 'axis': 2})
+            pos += 1
+        self.edit([{'act': 'setProperty', 'nodeKey': st, 'prs': 'Visualization', 'pri': 13,
+                    'v': '{&quot;shwdgdz&quot;:false,&quot;shwdgrdz&quot;:true}'},
+                   {'act': 'setGridPropsRMs', 'nodeKey': st, 'rfMaps': []}], [st])
+        if merge_column_headers and columns:
+            self.edit([{'act': 'updateTemplate', 'keyContext': g, 'actions': [
+                {'act': 'advancedProperties', 'props': {'Template Formatting': {'MergeColumnCells': '-1'}}}]}], [st])
+        if title:
+            self.edit([fmt(st, {'FormattingView': {'Title': title}})], [st])
+        return {'gridKey': g, 'stitchedKey': st}
+
     def add_to_grid(self, viz_key, dataset_id, unit_id, unit_type, axis, unit_pos=0):
+        """CLASSIC Grid only (e.g. the blank draft's K52). Use insert_modern_grid unless the user asks for the classic Grid."""
         return self.edit([
             {'act': 'updateTemplate', 'keyContext': viz_key, 'actions': [
                 {'act': 'addUnit', 'unitId': unit_id, 'unitType': unit_type, 'unitPos': unit_pos, 'dsId': dataset_id,

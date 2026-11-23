@@ -9,7 +9,7 @@ There are two ways to run it:
 - **The Python builder** ([`sdc/`](sdc/), recommended). Claude turns the image into one JSON spec; one command checks it and
   builds the whole dashboard over REST, with no browser. See [Python builder](#python-builder).
 - **The JavaScript client** ([`strategy-dashboard-client.js`](strategy-dashboard-client.js)), run inside a signed-in
-  Library page. It has every helper, including the ones not yet ported to Python (Modern Grids, filters, selectors, heat
+  Library page. It has every helper, including the ones not yet ported to Python (Modern Grids with row or column sets, filters, selectors, heat
   map, Sankey, bubble, stacked bar, time attributes). It is also how new visualization types get studied.
 
 [`strategy-dashboard-client.js`](strategy-dashboard-client.js) holds the client. Every helper in it was captured by
@@ -117,6 +117,7 @@ the title bar with that text), `title_bar: false`, `title_format` (below), `bord
 |---|---|
 | `kpi_card` | `metric`, optional `trend` (attribute: sparkline and % badge), `break_by`, `props` (setKpiCardProps settings) |
 | `chart` | `vis` (`bar`, `hbar`, `clusteredBar`, `clusteredHbar`, `line`, `area`, `pie`, `ring`, `pctHbar`, `stackedBar`, `scatter`, `combo`, ...), `zones` (`{"xAxis": "Region", "yAxis": "Revenue", ...}`, a name or a list), `series_color`, `colors` (element colors on Color By), `metric_colors`, `legend` (`false`, or `{"position": left/right/top/bottom, "align", "title", "shape": circle/square/roundedRectangle/line}`), `data_labels` (`"hide"` or a list from `text`, `value`, `percent`), `leader_lines` (`auto`/`show`/`hide`, pie and ring), `marker_size` (pie size, default 0.6; see reference/pie-catalog.md), `sort: {"metric", "ascending", "axis"}`, `reference_lines` (`[{"type": "average"|"median"|"maximum"|"minimum"|"first"|"last"|"constant", "value", "label": ["type", "metric", "value"], "metric", "color", "style"}]`), `props` (GraphMatrix props) |
+| `grid` | A **Grid (Modern)**, always: `rows` (attributes), `columns` (attributes, optional), `metrics`, `merge_column_headers` (default true). Needs rows and/or metrics. |
 | `line` | `x`, `metrics`, `break_by`, `style` (`curved` default at 0.3, or `straight`), `smoothness`, `color`, `markers`, `data_labels`, `metric_colors`, `reference_lines`, `props` |
 | `donut` | `metric`, `slice`, `color_by`, `target`, `break_by`, `colors`, `props` |
 | `narrative` | `sources` (item ids on the same page), `instruction` (no double quotes) |
@@ -127,7 +128,8 @@ the title bar with that text), `title_bar: false`, `title_format` (below), `bord
 
 Names are looked up in the dataset's attributes and metrics separately. When a name is both, write `metric:Name` or
 `attribute:Name`. Each page needs at least one `kpi_card`, `chart` or `line`: the first becomes the page's default
-visualization in place.
+visualization in place. (The default visualization is a classic Grid, so a `grid` item can't take its place; it is
+inserted as a new Grid (Modern).)
 
 `check` catches before anything is built: unknown names (with "did you mean"), ambiguous names, unknown types and zones,
 boxes off the page, quotes in narrative instructions, links on rich text, links to missing pages, and narrative sources
@@ -266,7 +268,7 @@ All helpers live on the session that `c.newDashboard()` or `c.open()` returns. T
 | Charts | `insertChart`, `changeType`, `fillZones`, `chartFormat`, `chartProps` / `setChartProps`, `setMetricColor`, `metricColors`, `elementColors`, `setPalette`, `trendLine`, `referenceLine` | [bar](reference/bar-catalog.md), [line](reference/line-catalog.md), [stacked bar](reference/stacked-bar-catalog.md), [bubble](reference/bubble-catalog.md), [correlation](reference/correlation-catalog.md), [deviation](reference/deviation-catalog.md), [ranking](reference/ranking-catalog.md) |
 | Special charts | `insertLine`, `insertStackedBar`, `insertBubble`, `insertDonut`, `insertHeatmap`, `insertSankey`, `insertMapbox` | [donut](reference/donut-catalog.md), [heat map](reference/heatmap-catalog.md), [Sankey](reference/sankey-catalog.md) |
 | KPIs | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties`, `insertKpi` (Iconic), `setKpiIcon` | [KPI catalog](reference/kpi-catalog.md) |
-| Grids | `addToGrid`, `moveField`, `sortByMetric`, `attributeThresholds`, `metricThresholds`, `buildModernGrid` (row sets), `buildColumnSetGrid` (column sets and microcharts) | [grid catalog](reference/grid-catalog.md) |
+| Grids | `insertModernGrid` (the default grid), `addToGrid` (classic grid only), `moveField`, `sortByMetric`, `attributeThresholds`, `metricThresholds`, `buildModernGrid` (row sets), `buildColumnSetGrid` (column sets and microcharts) | [grid catalog](reference/grid-catalog.md) |
 | Text, images, shapes | `addText`, `addRichText`, `setLink`, `insertImage`, `insertShape` | [text](reference/text-catalog.md), [shapes](reference/shape-catalog.md) |
 | AI | `addNarratives` (an AI summary on the canvas), `enableAutoSummary` (the Auto Summary button) | [Auto Summary](reference/auto-summary.md) |
 | Filters | `addChapterFilter`, `addDateFilter`, `addMetricFilter` (filter panel), `addCanvasSelector` (on the canvas), `addObjectSelector` (swaps attributes or metrics), `keepOnly` (one visualization) | [filter panel](reference/filter-catalog.md), [canvas selector](reference/canvas-selector-catalog.md), [object selector](reference/object-selector-catalog.md) |
@@ -296,6 +298,10 @@ These are conventions for dashboards built with this repo:
 - **Time attributes** ("Processed Year", "Paid Month") are created only when the source image uses one the dataset
   lacks, and only those types.
 - An object on a background of the same color gets **no fill** (`setFill(..., { container: 'none' })`).
+- **Grids are always Grid (Modern)** unless the user asks for a classic Grid or a Compound Grid. Use
+  `insertModernGrid` / spec type `grid`, or `buildModernGrid` / `buildColumnSetGrid` for row and column sets. The blank
+  dashboard's default visualization (K52) is a classic Grid: turn it into a chart rather than filling it with
+  `addToGrid`. See [grid-catalog.md](reference/grid-catalog.md#three-kinds-of-grid).
 - **Linked labels** (a "‹ Back to Home" or a card title that opens a page) are plain Text boxes, not Rich Text.
 
 ## Troubleshooting

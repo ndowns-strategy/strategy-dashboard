@@ -1,0 +1,19 @@
+{
+  "name": "SDC modern grid test",
+  "project_id": "607F0D20E84F2EF50271148D7D409484",
+  "dataset": {"id": "C7F3DE7BEC434DD7AD86FD33A78E9263", "name": "Retail Orders Sales Performance Model (global)"},
+  "overwrite": true,
+  "pages": [
+    {
+      "id": "grids", "title": "Modern grids", "layout": "freeform",
+      "items": [
+        {"id": "bar", "type": "chart", "vis": "bar", "title": "Order total by region",
+         "zones": {"xAxis": "Region", "yAxis": "Order Total Amount"}, "box": [0, 0, 50, 50]},
+        {"id": "simple", "type": "grid", "title": "Grid (Modern): rows and metrics",
+         "rows": ["Region"], "metrics": ["Order Total Amount", "Order Quantity"], "box": [50, 0, 50, 50]},
+        {"id": "pivot", "type": "grid", "title": "Grid (Modern): attribute on columns",
+         "rows": ["Region"], "columns": ["Product Category"], "metrics": ["Order Total Amount"], "box": [0, 50, 100, 50]}
+      ]
+    }
+  ]
+}

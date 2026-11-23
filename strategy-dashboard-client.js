@@ -31,8 +31,10 @@
 //               setFreeformLayout (free-form page: x/y/width/height in percent, overlap, layer order; adds 2% to every text box's height)
 //   Charts      insertChart, changeType, fillZones, setWidgetProps, chartProps/setChartProps, setMetricColor, setPalette
 //               chartLook (legend position / title / key shape, data labels, pie leader lines, marker size; reference/pie-catalog.md)
-//   Grids       addToGrid, moveField, sortByMetric, attributeThresholds, buildModernGrid (Modern Grid with row sets),
+//   Grids       DEFAULT: insertModernGrid (Grid (Modern): rows, columns, metrics). buildModernGrid (Modern Grid with row sets),
 //               buildColumnSetGrid (Modern Grid with column sets + sparkline / bar microchart columns)
+//               moveField, sortByMetric, attributeThresholds. addToGrid fills a CLASSIC Grid (the blank draft's K52): only
+//               when the user asks for the classic Grid. Never build a Compound Grid unless asked (reference/grid-catalog.md).
 //   Image       insertImage (picture from a URL)
 //   KPI/custom  insertKpiCard / toKpiCard (draft's K52 in place) + setKpiCardProps, insertComparisonKpi / insertMultiMetricKpi + setKpiProperties,
 //               insertDonut (Donut Chart: center total, legend with values, rounded slice ends, slice gaps),
@@ -93,6 +95,9 @@
 //   - Auto Summary (enableAutoSummary) failed with a 500 when the page had an on-canvas selector on an attribute unrelated to
 //     the page's metrics (Month Name on the campus sessions dataset). Pick selector attributes that relate to the metrics.
 //   - A text box's background: format unitType 106 { FormattingPatterns: { FillColor: Number(bgr(hex)), FillStyle: 0 } }.
+//   - Grids: there are three kinds (Grid, Compound Grid, Grid (Modern)). ALWAYS build Grid (Modern) with insertModernGrid
+//     (or buildModernGrid / buildColumnSetGrid for row or column sets) unless the user asks for another kind. The blank
+//     draft's default visualization K52 is a classic Grid: turn it into a chart/KPI or replace it, never fill it as a grid.
 //   - Title bar settings (titleFormat: lines, second line, fonts, alignment, wrap) work on every visualization except the
 //     Iconic KPI (ImageEnhancedKPI), which has no title bar. Title alignment is not a chart prop: it is format type 2 (title
 //     line) / 3 (second line) FormattingAlignment.Horizontal, 0 left, 1 right, 2 center (not 1/2/3).
@@ -429,7 +434,8 @@ function client(token, projectId) {
         if (m) bs = m[1];
         return t;
       },
-      // Grid: axis 1 = rows, 2 = columns. unitPos is 1-based; to fix order afterwards use moveField().
+      // CLASSIC Grid only (e.g. the blank draft's K52): use insertModernGrid for grids unless the user asks for the classic Grid.
+      // axis 1 = rows, 2 = columns. unitPos is 1-based; to fix order afterwards use moveField().
       addToGrid(vizKey, datasetId, unitId, unitType, axis, unitPos = 0) {
         return s.edit([
           { act: 'updateTemplate', keyContext: vizKey, actions: [
@@ -1457,6 +1463,41 @@ function client(token, projectId) {
         if (title) await s.edit([{ act: 'format', unitKey: S, unitType: 521, formatType: 1, format: { FormattingView: { Title: title } } }], [S]);
         return { gridKey: G, stitchedKey: S, setKeys: keys };
       },
+      // ---- Grid (Modern): THE default grid. Use it for every grid unless the user asks for a classic Grid or Compound Grid. ----
+      // Library's own test (mstrmojo isModernGrid): a grid is Modern only when it sits in a stitched container whose
+      // SectionDisplayMode is 2 (MICRO_CHART); 1 is a Compound Grid; no container is the classic Grid (the blank draft's
+      // K52 and addToGrid). Same start the editor sends for Insert > Grid (Modern), then one set: rows on axis 1, column
+      // attributes then metrics on axis 2. rows / columns / metrics are object ids. Put stitchedKey (not gridKey) in the
+      // page layout. Returns { gridKey, stitchedKey }.
+      async insertModernGrid({ newKey, datasetId, rows = [], columns = [], metrics = [], pageKey = 'K53', protoKey = 'K51', title,
+        mergeColumnHeaders = true }) {
+        const G = newKey, S = newKey32();
+        const off = { VisualizationsEnabled: 0, ViewMode: 0, SelectedVisualization: '', VisualizationList: '', IPhoneVisualization: '',
+          IPadVisualization: '', APhoneVisualization: '', ATabletVisualization: '' };
+        await s.edit([
+          { act: 'copyUnit', unitKey: protoKey, unitType: 521, newKey: G, toKey: pageKey },
+          { act: 'format', unitKey: G, unitType: 521, formatType: 1, format: { Visualization: off, FormattingWidget: { ClassName: '', Enable: 0, WidgetProps: '<props><widgetProps /></props>' } } },
+          { act: 'format', unitKey: G, unitType: 521, formatType: 1, format: { FormattingIncrementalFetch: { EnableIFOnGrid: -1 } } },
+          { act: 'updateTemplate', keyContext: G, actions: [{ act: 'formatGridZone', nodeKey: G, props: { FormattingAlignment: { TextWrap: 0 } }, units: [], axis: [{ axis: 1, regions: ['g'] }] }] },
+          { act: 'setProperty', nodeKey: G, prs: 'Visualization', pri: 13, v: '{&quot;shwdgdz&quot;:true}' },
+          { act: 'changeGridToStitched', nodeKey: G, newKey: S },
+          { act: 'updateTemplate', keyContext: G, actions: [{ act: 'formatGridZone', nodeKey: G, props: { FormattingAlignment: { Vertical: 3 } }, units: [], axis: [{ axis: 1, regions: ['h'] }, { axis: 2, regions: ['h', 'g'] }] }] },
+          { act: 'format', unitKey: S, unitType: 521, formatType: 1, format: { FormattingView: { SectionDisplayMode: 2 } } },
+          { act: 'saveViewFilter', nodeKey: G, expr: '<exp><nd et="14" fn="19"></nd></exp>' },
+          { act: 'format', unitKey: G, unitType: 521, formatType: 1, format: { FormattingIncrementalFetch: { EnableIFOnGrid: -1, MaxRows: 1000 } } },
+        ], [G]);
+        const add = (a) => s.edit([{ act: 'updateTemplate', keyContext: G, actions: [{ act: 'addUnit', dsId: datasetId, ...a }] }], [S]);
+        for (let i = 0; i < rows.length; i++) await add({ unitId: rows[i], unitType: 12, unitPos: i + 1, isFirst: i === 0, axis: 1 });
+        let pos = 1;
+        for (const a of columns) { await add({ unitId: a, unitType: 12, unitPos: pos, isFirst: pos === 1, axis: 2 }); pos++; }
+        for (const m of metrics) { await add({ unitId: m, unitType: 4, unitPos: pos, isFirst: pos === 1, axis: 2 }); pos++; }
+        await s.edit([{ act: 'setProperty', nodeKey: S, prs: 'Visualization', pri: 13, v: '{&quot;shwdgdz&quot;:false,&quot;shwdgrdz&quot;:true}' },
+          { act: 'setGridPropsRMs', nodeKey: S, rfMaps: [] }], [S]);
+        if (mergeColumnHeaders && columns.length) await s.edit([{ act: 'updateTemplate', keyContext: G,
+          actions: [{ act: 'advancedProperties', props: { 'Template Formatting': { MergeColumnCells: '-1' } } }] }], [S]);
+        if (title) await s.edit([{ act: 'format', unitKey: S, unitType: 521, formatType: 1, format: { FormattingView: { Title: title } } }], [S]);
+        return { gridKey: G, stitchedKey: S };
+      },
       // Full definition of the instance as the editor sees it (units, page layouts) — parsed server JSON.
       async serverJson() {
         return JSON.parse(await task({ taskId: 'getServerJSONResults', messageID: mid, styleName: 'ServerJsonRWDStyle',
@@ -1548,26 +1589,25 @@ function client(token, projectId) {
   };
 }
 
-// Example matching "Claude Scratch Dashboard - Code Build 2": grid + bar + pie on top row, line chart below.
+// Example: Modern Grid + bar + pie on the top row, line chart below.
 async function buildExample(dashboardId, projectId) {
   const c = client(window.__tok, projectId);
   const ds = (await c.definition(dashboardId)).datasets[0];
   const id = (n) => ds.availableObjects.find((o) => o.name === n).id;
-  const s = await c.open(dashboardId); // a dashboard with an empty grid K52 on page K53
-  await s.addToGrid('K52', ds.id, id('Region'), UNIT.attribute, 1);
-  await s.addToGrid('K52', ds.id, id('Claim Count'), UNIT.metric, 2);
-  const row = (keys) => ({ t: 'b', o: 'h', l: 50, children: keys.map((k) => ({ t: 'c', k, l: Math.floor(100 / keys.length) })) });
-  await s.insertChart({ newKey: 'W62', vis: VIS.bar, layout: { t: 'b', o: 'v', children: [row(['K52', 'W62'])] } });
-  await s.fillZones('W62', ds.id, [
+  const s = await c.open(dashboardId); // page K53 with the template's classic grid K52: reused as the bar chart
+  await s.changeType('K52', VIS.bar, 521);
+  await s.fillZones('K52', ds.id, [
     { zoneId: ZONE.xAxis, unitId: id('Claim Status'), unitType: UNIT.attribute },
     { zoneId: ZONE.yAxis, unitId: id('Claim Count'), unitType: UNIT.metric }]);
-  await s.insertChart({ newKey: 'W63', vis: VIS.pie, layout: { t: 'b', o: 'v', children: [row(['K52', 'W62', 'W63'])] } });
+  const { stitchedKey: G } = await s.insertModernGrid({ newKey: 'W62', datasetId: ds.id, rows: [id('Region')], metrics: [id('Claim Count')] });
+  const row = (keys) => ({ t: 'b', o: 'h', l: 50, children: keys.map((k) => ({ t: 'c', k, l: Math.floor(100 / keys.length) })) });
+  await s.insertChart({ newKey: 'W63', vis: VIS.pie, layout: { t: 'b', o: 'v', children: [row([G, 'K52', 'W63'])] } });
   await s.fillZones('W63', ds.id, [
     { zoneId: ZONE.colorBy, unitId: id('Region'), unitType: UNIT.attribute },
     { zoneId: ZONE.sliceBy, unitId: id('Region'), unitType: UNIT.attribute },
     { zoneId: ZONE.angle, unitId: id('Claim Count'), unitType: UNIT.metric }]);
   await s.insertChart({ newKey: 'W64', vis: VIS.line,
-    layout: { t: 'b', o: 'v', children: [row(['K52', 'W62', 'W63']), { t: 'c', k: 'W64', l: 50 }] } });
+    layout: { t: 'b', o: 'v', children: [row([G, 'K52', 'W63']), { t: 'c', k: 'W64', l: 50 }] } });
   await s.fillZones('W64', ds.id, [
     { zoneId: ZONE.xAxis, unitId: id('Claim Date (Month)'), unitType: UNIT.attribute },
     { zoneId: ZONE.yAxis, unitId: id('Claim Count'), unitType: UNIT.metric }]);

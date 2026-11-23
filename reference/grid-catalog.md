@@ -1,5 +1,32 @@
 # Grid catalog
 
+## Three kinds of grid
+
+Library has three grid visualizations. **This repo builds Grid (Modern) by default and never the other two unless the
+user asks for them.**
+
+| Kind | How it is stored | How to tell (Library's `isModernGrid`) |
+|---|---|---|
+| **Grid (Modern)** | a grid template inside a stitched container whose `sdm` (SectionDisplayMode) is **2** (`MICRO_CHART`) | `stitchSectionKey` set and `sdm 2` |
+| Compound Grid | the same stitched container with `sdm` **1** (`COMPOUND_GRID`) | `stitchSectionKey` set and `sdm 1` |
+| Grid (classic) | a bare grid template (`t 521`), no container. The blank dashboard's K52 is one, and `addToGrid` fills it | no `stitchSectionKey` |
+
+The editor makes a Grid (Modern) by copying a grid, calling `changeGridToStitched` on it, and setting
+`SectionDisplayMode: MICRO_CHART` on the container. `insertModernGrid` (JS) / `insert_modern_grid` (Python) do that in
+one batch, then add the rows, column attributes and metrics, and return `{gridKey, stitchedKey}`.
+
+- Put **`stitchedKey`** in the page layout and read data by it: `GET .../visualizations/<stitchedKey>` returns the values
+  under `metricValues.columnSets[]`. REST refuses the inner `gridKey` with ERR006 ("the key of a column set in a compound
+  grid visualization"); REST calls every stitched grid compound, whatever its `sdm`.
+- Formatting, sorts and thresholds still go to `gridKey`, the template.
+- Python spec: `{"type": "grid", "rows": [...], "columns": [...], "metrics": [...]}`.
+
+Verified 2026-11-23 as **SDC modern grid test** (`C6BCF4522B466B783F4375894F4A05C9`, Showcase) from
+[examples/grid-test.json](../examples/grid-test.json): both grids saved with `stitchSectionKey` and `sdm 2`, render with
+the Modern Grid look, and read back 5 rows each (the second with Product Category across the columns).
+
+## Row and column sets
+
 Studied from the demo dashboard **Tec Visual Vocabulary › Grids** (demo.microstrategy.com, read as a guest, no edits). Exact values are in [grid-catalog.json](grid-catalog.json).
 
 Both grids on the page are **Modern Grids with column sets** (definition type `microcharts`). It's the same structure as the row-set grid in the P&L build, turned sideways:

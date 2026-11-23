@@ -37,7 +37,7 @@ When you rebuild a dashboard from an image:
 | File | Covers | Helpers |
 |---|---|---|
 | [kpi-catalog.md](kpi-catalog.md) | The three native KPI families (KPI card, Comparison KPI, Multi-Metric KPI) and their seven variants: plain, trend with % badge and sparkline, break by, comparison | `insertKpiCard`, `toKpiCard`, `setKpiCardProps`, `insertComparisonKpi`, `insertMultiMetricKpi`, `setKpiProperties` |
-| [grid-catalog.md](grid-catalog.md) | Modern Grids with column sets and microchart columns (sparklines, bars) | `buildColumnSetGrid`, `buildModernGrid` |
+| [grid-catalog.md](grid-catalog.md) | The three grid kinds (Grid (Modern) is the default), Modern Grids with column sets and microchart columns | `insertModernGrid`, `buildColumnSetGrid`, `buildModernGrid` |
 
 ### Text, shapes and AI
 

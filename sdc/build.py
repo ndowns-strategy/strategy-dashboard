@@ -179,6 +179,12 @@ class Builder:
                 viz_keys.append(key)
                 layout = self._flat(viz_keys)
                 self._step(f'item {it["id"]}', lambda: self._viz(it, key, pk, layout))
+            elif typ == 'grid':   # always a Grid (Modern): a stitched container, never the classic or compound grid
+                g = self._alloc()
+                r = self._step(f'item {it["id"]}', lambda: self._grid(it, g, pk))
+                key = r['stitchedKey']
+                self.keys[it['id']] = {'key': key, 'grid': g, 'page': pk, 'type': typ}
+                viz_keys.append(key)
             else:
                 key, node = self._alloc(), self._alloc()
                 self.keys[it['id']] = {'key': key, 'node': node, 'page': pk, 'type': typ}
@@ -279,6 +285,16 @@ class Builder:
                            colors=it.get('colors'), props=it.get('props'))
         self._viz_common(it, key)
 
+    def _grid(self, it, g, pk):
+        N = self.names
+        r = self.s.insert_modern_grid(g, self.ds_id, rows=[N.attribute(a) for a in _as_list(it.get('rows'))],
+                                      columns=[N.attribute(a) for a in _as_list(it.get('columns'))],
+                                      metrics=[N.metric(m) for m in _as_list(it.get('metrics'))], page_key=pk,
+                                      title=it.get('title'),
+                                      merge_column_headers=it.get('merge_column_headers', True))
+        self._viz_common({k: v for k, v in it.items() if k != 'title'}, r['stitchedKey'])
+        return r
+
     def _reference_lines(self, it, key, default_metric):
         counts = {}
         for rl in it.get('reference_lines') or []:
@@ -357,7 +373,12 @@ class Builder:
                 v = self.conn.api('GET', f'/v2/dossiers/{d}/instances/{s2.mid}/chapters/{chapter}/visualizations/{key}'
                                          '?limit=20')
                 data = (v or {}).get('data') or {}
-                mv = (data.get('metricValues') or {}).get('formatted')
+                mvs = data.get('metricValues') or {}
+                # A Grid (Modern) is read by its stitched container key (REST refuses the inner grid key with
+                # ERR006) and returns its values per column set.
+                mv = mvs.get('formatted')
+                if mv is None and mvs.get('columnSets'):
+                    mv = (mvs['columnSets'][0] or {}).get('formatted')
                 first = ', '.join(str(x) for x in mv[0][:4]) + (' …' if len(mv[0]) > 4 else '') if mv else ''
                 detail = (f'{len(mv)} row(s), first: {first}' if mv else 'no metric values') if mv is not None \
                     else ('ok' if v else 'empty')

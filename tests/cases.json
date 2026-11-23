@@ -1033,5 +1033,40 @@
     }
    }
   ]
+ },
+ {
+  "name": "insert_modern_grid",
+  "js": "insertModernGrid",
+  "opts": {
+   "newKey": "W90",
+   "datasetId": "DS",
+   "rows": [
+    "A1",
+    "A2"
+   ],
+   "columns": [
+    "A3"
+   ],
+   "metrics": [
+    "M1",
+    "M2"
+   ],
+   "title": "Sales grid"
+  }
+ },
+ {
+  "name": "insert_modern_grid_plain",
+  "js": "insertModernGrid",
+  "opts": {
+   "newKey": "W91",
+   "datasetId": "DS",
+   "rows": [
+    "A1"
+   ],
+   "metrics": [
+    "M1"
+   ],
+   "pageKey": "W300"
+  }
  }
 ]

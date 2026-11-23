@@ -6094,5 +6094,577 @@
   "result": {
    "error": "legend align for bottom must be one of left, center, right"
   }
+ },
+ "insert_modern_grid": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W90",
+       "toKey": "K53"
+      },
+      {
+       "act": "format",
+       "unitKey": "W90",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": 0,
+         "ViewMode": 0,
+         "SelectedVisualization": "",
+         "VisualizationList": "",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": ""
+        },
+        "FormattingWidget": {
+         "ClassName": "",
+         "Enable": 0,
+         "WidgetProps": "<props><widgetProps /></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W90",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": -1
+        }
+       }
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "formatGridZone",
+         "nodeKey": "W90",
+         "props": {
+          "FormattingAlignment": {
+           "TextWrap": 0
+          }
+         },
+         "units": [],
+         "axis": [
+          {
+           "axis": 1,
+           "regions": [
+            "g"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W90",
+       "prs": "Visualization",
+       "pri": 13,
+       "v": "{&quot;shwdgdz&quot;:true}"
+      },
+      {
+       "act": "changeGridToStitched",
+       "nodeKey": "W90",
+       "newKey": "000102030405060708090A0B0C0D0E0F"
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "formatGridZone",
+         "nodeKey": "W90",
+         "props": {
+          "FormattingAlignment": {
+           "Vertical": 3
+          }
+         },
+         "units": [],
+         "axis": [
+          {
+           "axis": 1,
+           "regions": [
+            "h"
+           ]
+          },
+          {
+           "axis": 2,
+           "regions": [
+            "h",
+            "g"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "000102030405060708090A0B0C0D0E0F",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "SectionDisplayMode": 2
+        }
+       }
+      },
+      {
+       "act": "saveViewFilter",
+       "nodeKey": "W90",
+       "expr": "<exp><nd et=\"14\" fn=\"19\"></nd></exp>"
+      },
+      {
+       "act": "format",
+       "unitKey": "W90",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": -1,
+         "MaxRows": 1000
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W90"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 1,
+         "isFirst": true,
+         "axis": 1
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "A2",
+         "unitType": 12,
+         "unitPos": 2,
+         "isFirst": false,
+         "axis": 1
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "A3",
+         "unitType": 12,
+         "unitPos": 1,
+         "isFirst": true,
+         "axis": 2
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 2,
+         "isFirst": false,
+         "axis": 2
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "M2",
+         "unitType": 4,
+         "unitPos": 3,
+         "isFirst": false,
+         "axis": 2
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setProperty",
+       "nodeKey": "000102030405060708090A0B0C0D0E0F",
+       "prs": "Visualization",
+       "pri": 13,
+       "v": "{&quot;shwdgdz&quot;:false,&quot;shwdgrdz&quot;:true}"
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "000102030405060708090A0B0C0D0E0F",
+       "rfMaps": []
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W90",
+       "actions": [
+        {
+         "act": "advancedProperties",
+         "props": {
+          "Template Formatting": {
+           "MergeColumnCells": "-1"
+          }
+         }
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "format",
+       "unitKey": "000102030405060708090A0B0C0D0E0F",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "Title": "Sales grid"
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": {
+   "gridKey": "W90",
+   "stitchedKey": "000102030405060708090A0B0C0D0E0F"
+  }
+ },
+ "insert_modern_grid_plain": {
+  "calls": [
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "copyUnit",
+       "unitKey": "K51",
+       "unitType": 521,
+       "newKey": "W91",
+       "toKey": "W300"
+      },
+      {
+       "act": "format",
+       "unitKey": "W91",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "Visualization": {
+         "VisualizationsEnabled": 0,
+         "ViewMode": 0,
+         "SelectedVisualization": "",
+         "VisualizationList": "",
+         "IPhoneVisualization": "",
+         "IPadVisualization": "",
+         "APhoneVisualization": "",
+         "ATabletVisualization": ""
+        },
+        "FormattingWidget": {
+         "ClassName": "",
+         "Enable": 0,
+         "WidgetProps": "<props><widgetProps /></props>"
+        }
+       }
+      },
+      {
+       "act": "format",
+       "unitKey": "W91",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": -1
+        }
+       }
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W91",
+       "actions": [
+        {
+         "act": "formatGridZone",
+         "nodeKey": "W91",
+         "props": {
+          "FormattingAlignment": {
+           "TextWrap": 0
+          }
+         },
+         "units": [],
+         "axis": [
+          {
+           "axis": 1,
+           "regions": [
+            "g"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "act": "setProperty",
+       "nodeKey": "W91",
+       "prs": "Visualization",
+       "pri": 13,
+       "v": "{&quot;shwdgdz&quot;:true}"
+      },
+      {
+       "act": "changeGridToStitched",
+       "nodeKey": "W91",
+       "newKey": "000102030405060708090A0B0C0D0E0F"
+      },
+      {
+       "act": "updateTemplate",
+       "keyContext": "W91",
+       "actions": [
+        {
+         "act": "formatGridZone",
+         "nodeKey": "W91",
+         "props": {
+          "FormattingAlignment": {
+           "Vertical": 3
+          }
+         },
+         "units": [],
+         "axis": [
+          {
+           "axis": 1,
+           "regions": [
+            "h"
+           ]
+          },
+          {
+           "axis": 2,
+           "regions": [
+            "h",
+            "g"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "act": "format",
+       "unitKey": "000102030405060708090A0B0C0D0E0F",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingView": {
+         "SectionDisplayMode": 2
+        }
+       }
+      },
+      {
+       "act": "saveViewFilter",
+       "nodeKey": "W91",
+       "expr": "<exp><nd et=\"14\" fn=\"19\"></nd></exp>"
+      },
+      {
+       "act": "format",
+       "unitKey": "W91",
+       "unitType": 521,
+       "formatType": 1,
+       "format": {
+        "FormattingIncrementalFetch": {
+         "EnableIFOnGrid": -1,
+         "MaxRows": 1000
+        }
+       }
+      }
+     ],
+     "nodes": [
+      "W91"
+     ],
+     "rwb": "BS0"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W91",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "A1",
+         "unitType": 12,
+         "unitPos": 1,
+         "isFirst": true,
+         "axis": 1
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "updateTemplate",
+       "keyContext": "W91",
+       "actions": [
+        {
+         "act": "addUnit",
+         "dsId": "DS",
+         "unitId": "M1",
+         "unitType": 4,
+         "unitPos": 1,
+         "isFirst": true,
+         "axis": 2
+        }
+       ]
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   },
+   {
+    "edit": {
+     "actions": [
+      {
+       "act": "setProperty",
+       "nodeKey": "000102030405060708090A0B0C0D0E0F",
+       "prs": "Visualization",
+       "pri": 13,
+       "v": "{&quot;shwdgdz&quot;:false,&quot;shwdgrdz&quot;:true}"
+      },
+      {
+       "act": "setGridPropsRMs",
+       "nodeKey": "000102030405060708090A0B0C0D0E0F",
+       "rfMaps": []
+      }
+     ],
+     "nodes": [
+      "000102030405060708090A0B0C0D0E0F"
+     ],
+     "rwb": "BS1"
+    }
+   }
+  ],
+  "result": {
+   "gridKey": "W91",
+   "stitchedKey": "000102030405060708090A0B0C0D0E0F"
+  }
  }
 }

@@ -9,7 +9,7 @@ lists, attributes and metrics looked up separately (a dataset can have both with
 """
 from .constants import LEADER_LINE, LEGEND_SHAPES, LEGEND_SLOT, VIS, ZONE
 
-VIZ_TYPES = {'kpi_card', 'chart', 'line', 'donut', 'narrative'}
+VIZ_TYPES = {'kpi_card', 'chart', 'line', 'donut', 'narrative', 'grid'}   # grid = Grid (Modern), always
 FIELD_TYPES = {'text', 'rich_text', 'image', 'shape'}
 REUSABLE = {'kpi_card', 'chart', 'line'}       # can become a page's default visualization in place
 METRIC_ONLY_ZONES = {'angle', 'sizeBy'}
@@ -135,8 +135,8 @@ def check_structure(spec):
             p.append(f'{where}: only layout "freeform" is supported so far')
         its = pg.get('items') or []
         if not any(it.get('type') in REUSABLE for it in its):
-            p.append(f'{where}: needs at least one kpi_card, chart or line item (the page\'s default visualization '
-                     f'becomes the first one)')
+            p.append(f'{where}: needs at least one kpi_card, chart or line item (the page\'s default visualization, a '
+                     f'classic Grid, becomes the first one; grid items are always new Modern Grids)')
         for it in its:
             iid, typ = it.get('id'), it.get('type')
             w = f'{where} item {iid!r}'
@@ -170,6 +170,11 @@ def check_structure(spec):
                 if typ not in ('chart', 'line'):
                     p.append(f'{w}: reference_lines only work on chart and line items')
                 p += check_reference_lines(w, it['reference_lines'])
+            if typ == 'grid':
+                if not (it.get('rows') or it.get('metrics')):
+                    p.append(f'{w}: a grid needs "rows" and/or "metrics"')
+                if it.get('kind', 'modern') != 'modern':
+                    p.append(f'{w}: only the Grid (Modern) is built; classic and compound grids are not used')
             if typ == 'kpi_card' and not it.get('metric'):
                 p.append(f'{w}: "metric" is required')
             if typ == 'line' and not (it.get('x') and (it.get('metrics') or it.get('metric'))):
@@ -281,6 +286,10 @@ def check_data(spec, names):
                 need(f'{w} sort', it['sort']['metric'], 'metric')
             for m in (it.get('metric_colors') or {}):
                 need(f'{w} metric_colors', m, 'metric')
+        if typ == 'grid':
+            for k, kind in (('rows', 'attribute'), ('columns', 'attribute'), ('metrics', 'metric')):
+                for v in _as_list(it.get(k)):
+                    need(f'{w} {k}', v, kind)
         if typ in ('chart', 'line'):
             for rl in it.get('reference_lines') or []:
                 if rl.get('metric'):
