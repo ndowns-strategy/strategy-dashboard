@@ -42,7 +42,7 @@ It is a Grid (Modern) (stitched container `FFC49199…`, `sdm 2`).
 | Short column names ("YTD sales", "Level") | **Renamed in the grid** (`renameUnit`): the dataset names stay as they are |
 | A pill or badge around a value ("Platinum", "Gold") | Not possible: values can't get a pill-shaped border. Use **font color thresholds** per element instead (Platinum `#333399`, Gold `#FFCC00`) |
 | Change in red or green | Value-band thresholds on the metric, font only: red `ceil 0`, green `flr 0` |
-| "new" instead of a change | A **condition threshold that replaces the text**: when Prior YTD = 0, show "new" (`rtp 3`, `rtxt "new"`, font `#339966`). Added before the bands so it wins |
+| "new" instead of a change | A **condition threshold that replaces the text**: when Prior YTD = 0, show "new" (`rtp 3`, `rtxt "new"`, font `#339966`). Added **after** the bands: each threshold action is stored ahead of the existing ones, so the last one added is checked first |
 | Change % | Derived `([YTD] / [Prior YTD]) - 1` (the same as `([YTD] - [Prior]) / [Prior]`) |
 | $686K next to $7.2M in one column | Not possible: Strategy ignores Excel-style conditions such as `[>=1000000]` in number formats. Use one unit per column (`$#,##0.0,,"M"` gives $0.7M) |
 
@@ -76,15 +76,24 @@ A metric qualification, as `mstrmojo.fe.FilterUtils.getExprXml` writes it (fn: `
  "limit": {"metric": "Advisor Rank", "op": "<=", "value": 15},
  "thresholds": [
    {"on": "Producer Level", "elements": {"Platinum": "#333399", "Gold": "#FFCC00"}},
+   {"on": "YTD Sales Change", "bands": [{"font": "#FF0000", "ceil": 0}, {"font": "#008000", "flr": 0}]},
    {"on": "YTD Sales Change", "when": {"metric": "Prior Year To Date Total Sales Amount", "op": "=", "value": 0},
-    "replace_text": "new", "font": "#339966"},
-   {"on": "YTD Sales Change", "bands": [{"font": "#FF0000", "ceil": 0}, {"font": "#008000", "flr": 0}]}]}
+    "replace_text": "new", "font": "#339966"}]}
 ```
 
-Define the rank and change metrics in the spec's top-level `derived_metrics`. Thresholds are applied in the order given,
-and the first one that matches wins. The full example is [examples/imt-advisor-kpis.json](../examples/imt-advisor-kpis.json).
-It was built as "SDC IMT grid test" and checked in Library: the same 15 advisors in the same order, Level colors,
-red/green Change and "new" for the advisor with no prior sales.
+Define the rank and change metrics in the spec's top-level `derived_metrics`.
+
+**Threshold order: list the special case last.** Each `threshold` action is stored *ahead of* the thresholds the
+metric already has, and the first stored threshold that matches wins. So the **last** threshold in the spec is checked
+first. Put a replace-text rule ("new", "–") after the red/green bands, or the bands match first and the cell shows
+-100.0%. Found 2026-11-23 on **IMT Advisor Sales and Opportunity Performance (v3)** (`FB6013E644477FE5553B939D98220266`,
+Shared Studio, [examples/imt-advisor-sales-v3.json](../examples/imt-advisor-sales-v3.json)):
+- With "new" listed before the bands, the instance stored the bands first (`tid` 1, 2) and "new" third, and Library
+  showed -100.0%.
+- With "new" listed last, it was stored first, and Library showed "new" for Raj Kapoor and "–" for Prospect.
+
+The earlier example, [examples/imt-advisor-kpis.json](../examples/imt-advisor-kpis.json) ("SDC IMT grid test"), was
+recorded as showing "new" with the special case first. The v3 build didn't reproduce that.
 
 ## Row and column sets
 

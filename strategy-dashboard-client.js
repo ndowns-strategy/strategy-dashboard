@@ -807,8 +807,9 @@ function client(token, projectId) {
       },
       // Thresholds on a metric's cells decided by a condition, often on ANOTHER metric (Thresholds > Advanced). rules:
       // [{ metricId, metricName, op, value, font, fill, replaceText }]. replaceText shows that text instead of the value
-      // (rtp 3), e.g. "new" in a Change column when Prior YTD = 0. Each call adds to the metric's existing thresholds;
-      // the first matching threshold wins, so add the special cases before metricThresholds bands.
+      // (rtp 3), e.g. "new" in a Change column when Prior YTD = 0. Each call stores its thresholds AHEAD of the metric's
+      // existing ones and the first stored match wins, so call this for special cases AFTER metricThresholds bands
+      // (verified 2026-11-23 on IMT Advisor Sales and Opportunity Performance (v3), see reference/grid-catalog.md).
       conditionThresholds(vizKey, targetMetricId, rules) {
         const thresholds = rules.map(({ metricId, metricName, op, value, font, fill, replaceText }) => ({
           expr: metricQualExpr(metricId, metricName, op, value),

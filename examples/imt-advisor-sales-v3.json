@@ -1,0 +1,1303 @@
+{
+ "name": "IMT Advisor Sales and Opportunity Performance (v3)",
+ "project_id": "1FC5A43B374C963CC773C285DF86E2F6",
+ "dataset": {
+  "id": "C4AF3C5600794076AFA4BBE8EC09F4AC",
+  "name": "IMT Advisor Sales and Opportunity Performance Model"
+ },
+ "overwrite": true,
+ "auto_summary": true,
+ "hover_highlight": false,
+ "background": "#F4F6FA",
+ "derived_metrics": [
+  {
+   "name": "YTD Sales Change",
+   "formula": "([Year To Date Total Sales Amount] / [Prior Year To Date Total Sales Amount]) - 1",
+   "format": "+0.0%;-0.0%"
+  },
+  {
+   "name": "Active Producers",
+   "formula": "Sum(If([Producer Category]@ID = \"Active Producer\", 1, 0))",
+   "format": "#,##0"
+  },
+  {
+   "name": "Lapsed or Prospect Advisors",
+   "formula": "Sum(If([Producer Category]@ID <> \"Active Producer\", 1, 0))",
+   "format": "#,##0"
+  },
+  {
+   "name": "Average Ticket",
+   "formula": "[Year To Date Total Sales Amount] / [Year To Date New Ticket Count]",
+   "format": "$#,##0.0,\"K\""
+  },
+  {
+   "name": "Year to date",
+   "formula": "Sum(If([Producer Category]@ID = \"Active Producer\", [Year To Date Total Sales Amount], 0)) / 1000000",
+   "format": "$#,##0.0\"M\""
+  },
+  {
+   "name": "Prior year to date",
+   "formula": "Sum(If([Producer Category]@ID = \"Active Producer\", [Prior Year To Date Total Sales Amount], 0)) / 1000000",
+   "format": "$#,##0.0\"M\""
+  },
+  {
+   "name": "Level Change",
+   "formula": "([Year to date] / [Prior year to date]) - 1",
+   "format": "+0.0%;-0.0%"
+  },
+  {
+   "name": "FIA Change",
+   "formula": "([Year To Date Fixed Indexed Annuity Sales Amount] / [Prior Year To Date FIA Sales Amount]) - 1",
+   "format": "+0.0%;-0.0%"
+  },
+  {
+   "name": "LIA Change",
+   "formula": "([Year To Date Lifetime Income Annuity Sales Amount] / [Prior Year To Date Lifetime Income Annuity Sales Amount]) - 1",
+   "format": "+0.0%;-0.0%"
+  },
+  {
+   "name": "VA Change",
+   "formula": "([Year To Date Variable Annuity Sales Amount] / [Prior Year To Date Variable Annuity Sales Amount]) - 1",
+   "format": "+0.0%;-0.0%"
+  },
+  {
+   "name": "FA Change",
+   "formula": "([Year To Date Fixed Annuity Sales Amount] / [Prior Year To Date Fixed Annuity Sales Amount]) - 1",
+   "format": "+0.0%;-0.0%"
+  },
+  {
+   "name": "Share of Opportunity",
+   "formula": "[Rolling 12 Month Total Annuity Opportunity Amount] / Sum([Rolling 12 Month Total Annuity Opportunity Amount]){}",
+   "format": "0%"
+  },
+  {
+   "name": "Opportunity per Advisor",
+   "formula": "[Rolling 12 Month Total Annuity Opportunity Amount] / [Advisor Count]",
+   "format": "$#,##0.0,,\"M\""
+  },
+  {
+   "name": "Sales per Activity",
+   "formula": "[Year To Date Total Sales Amount] / [Year To Date External Activity Count]",
+   "format": "$#,##0,\"K\""
+  },
+  {
+   "name": "Advisor Rank",
+   "formula": "Rank<ASC=False>([Year To Date Total Sales Amount])",
+   "format": "#,##0"
+  },
+  {
+   "name": "Has Prior Sales",
+   "formula": "If(NullToZero([Prior Year To Date Total Sales Amount]) > 0, 1, 0)",
+   "format": "0"
+  }
+ ],
+ "number_formats": [
+  {
+   "metrics": [
+    "Year To Date Total Sales Amount",
+    "Prior Year To Date Total Sales Amount",
+    "Rolling 12 Month Total Sales Amount",
+    "Prior Fiscal Year Total Sales Amount",
+    "Rolling 12 Month Total Annuity Opportunity Amount",
+    "Year To Date Fixed Indexed Annuity Sales Amount",
+    "Prior Year To Date FIA Sales Amount",
+    "Year To Date Lifetime Income Annuity Sales Amount",
+    "Prior Year To Date Lifetime Income Annuity Sales Amount",
+    "Year To Date Variable Annuity Sales Amount",
+    "Prior Year To Date Variable Annuity Sales Amount",
+    "Year To Date Fixed Annuity Sales Amount",
+    "Prior Year To Date Fixed Annuity Sales Amount",
+    "Year To Date Investment Annuity Sales Amount",
+    "Year To Date Managed Growth Sales Amount",
+    "Year To Date Retirement Plan Services Sales Amount",
+    "Year To Date Life Insurance Sales Amount",
+    "Year To Date Temporary Disability Insurance Sales Amount",
+    "Rolling 12 Month Variable Annuity Opportunity Amount",
+    "Rolling 12 Month Indexed Variable Annuity Opportunity Amount",
+    "Fixed Indexed Annuity Rolling 12 Month Opportunity Amount",
+    "Fixed Annuity Rolling 12 Month Opportunity Amount",
+    "IOVA Rolling 12 Month Opportunity Amount",
+    "C Share Opportunity Amount"
+   ],
+   "format": "$#,##0.0,,\"M\""
+  },
+  {
+   "metrics": [
+    "Year To Date External Spend Amount"
+   ],
+   "format": "$#,##0,\"K\""
+  },
+  {
+   "metrics": [
+    "Advisor Count",
+    "Open Opportunities Number",
+    "Year To Date New Ticket Count",
+    "Year To Date External Activity Count",
+    "Year To Date Internal Activity Count"
+   ],
+   "format": "#,##0"
+  }
+ ],
+ "pages": [
+  {
+   "id": "overview",
+   "title": "Overview",
+   "layout": "freeform",
+   "items": [
+    {
+     "id": "h1",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "IMT Advisor Sales and Opportunity Performance",
+       "bold": true,
+       "size": 20,
+       "color": "#14213D",
+       "font": "opensans"
+      }
+     ],
+     "box": [
+      2,
+      1.5,
+      60,
+      5
+     ]
+    },
+    {
+     "id": "h1sub",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "{[Advisor Count]} advisors · 6 external wholesalers · year to date vs prior year to date",
+       "size": 10,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      2,
+      6.5,
+      60,
+      3
+     ]
+    },
+    {
+     "id": "h1src",
+     "type": "rich_text",
+     "align": "right",
+     "runs": [
+      {
+       "text": "Source: Shared Studio / IMT Advisor Sales and Opportunity Performance Model",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      58,
+      6.5,
+      40,
+      3
+     ]
+    },
+    {
+     "id": "kpis",
+     "type": "iconic_kpi",
+     "title": "Summary tiles",
+     "metrics": [
+      "Year To Date Total Sales Amount",
+      "Rolling 12 Month Total Sales Amount",
+      "Rolling 12 Month Total Annuity Opportunity Amount",
+      "Active Producers",
+      "Year To Date New Ticket Count",
+      "Year To Date External Activity Count"
+     ],
+     "labels": {
+      "Year To Date Total Sales Amount": "YEAR TO DATE SALES",
+      "Rolling 12 Month Total Sales Amount": "ROLLING 12 MONTH SALES",
+      "Rolling 12 Month Total Annuity Opportunity Amount": "12 MONTH OPPORTUNITY",
+      "Active Producers": "ACTIVE PRODUCERS",
+      "Year To Date New Ticket Count": "NEW TICKETS, YEAR TO DATE",
+      "Year To Date External Activity Count": "EXTERNAL ACTIVITIES"
+     },
+     "icon": false,
+     "tooltip": false,
+     "card_layout": "grid",
+     "columns": 6,
+     "background": {
+      "color": "#FFFFFF"
+     },
+     "notes": {
+      "Year To Date Total Sales Amount": {
+       "runs": [
+        {
+         "text": "{[YTD Sales Change]}",
+         "color": "#217A55",
+         "bold": true
+        },
+        {
+         "text": " vs {[Prior Year To Date Total Sales Amount]} prior year to date",
+         "color": "#5B6780"
+        }
+       ]
+      },
+      "Rolling 12 Month Total Sales Amount": {
+       "text": "Prior fiscal year {[Prior Fiscal Year Total Sales Amount]}",
+       "color": "#5B6780"
+      },
+      "Rolling 12 Month Total Annuity Opportunity Amount": {
+       "text": "{[Open Opportunities Number]} open opportunities",
+       "color": "#5B6780"
+      },
+      "Active Producers": {
+       "text": "of {[Advisor Count]} advisors ({[Lapsed or Prospect Advisors]} lapsed or prospect)",
+       "color": "#5B6780"
+      },
+      "Year To Date New Ticket Count": {
+       "text": "Avg ticket {[Average Ticket]}",
+       "color": "#5B6780"
+      },
+      "Year To Date External Activity Count": {
+       "text": "{[Year To Date Internal Activity Count]} internal · {[Year To Date External Spend Amount]} spend",
+       "color": "#5B6780"
+      }
+     },
+     "box": [
+      2,
+      11,
+      96,
+      17
+     ]
+    },
+    {
+     "id": "i1bg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      2,
+      30,
+      18.4,
+      12
+     ]
+    },
+    {
+     "id": "i1bar",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#1D4E89",
+     "box": [
+      2,
+      30,
+      0.35,
+      12
+     ]
+    },
+    {
+     "id": "i1",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Growth is narrow",
+       "bold": true,
+       "size": 10,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "Total sales are up {[YTD Sales Change]}. Platinum is up 30% and Gold 21%, while Silver is down 9% and Bronze 46%.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      2.9,
+      30.7,
+      17,
+      10
+     ]
+    },
+    {
+     "id": "i2bg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      21.4,
+      30,
+      18.4,
+      12
+     ]
+    },
+    {
+     "id": "i2bar",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#B7791F",
+     "box": [
+      21.4,
+      30,
+      0.35,
+      12
+     ]
+    },
+    {
+     "id": "i2",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Concentration",
+       "bold": true,
+       "size": 10,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "38 Platinum and Gold advisors write $84.6M, or 67% of year to date sales.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      22.3,
+      30.7,
+      17,
+      10
+     ]
+    },
+    {
+     "id": "i3bg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      40.8,
+      30,
+      18.4,
+      12
+     ]
+    },
+    {
+     "id": "i3bar",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#C0392B",
+     "box": [
+      40.8,
+      30,
+      0.35,
+      12
+     ]
+    },
+    {
+     "id": "i3",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Idle pipeline",
+       "bold": true,
+       "size": 10,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "The {[Lapsed or Prospect Advisors]} prospect and lapsed advisors have $0 year to date sales but carry $235.9M of opportunity, 45% of the total.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      41.7,
+      30.7,
+      17,
+      10
+     ]
+    },
+    {
+     "id": "i4bg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      60.2,
+      30,
+      18.4,
+      12
+     ]
+    },
+    {
+     "id": "i4bar",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#217A55",
+     "box": [
+      60.2,
+      30,
+      0.35,
+      12
+     ]
+    },
+    {
+     "id": "i4",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Product mix shift",
+       "bold": true,
+       "size": 10,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "Variable annuity is up {[VA Change]} and fixed indexed up {[FIA Change]}. Fixed annuity is {[FA Change]}.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      61.1,
+      30.7,
+      17,
+      10
+     ]
+    },
+    {
+     "id": "i5bg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      79.6,
+      30,
+      18.4,
+      12
+     ]
+    },
+    {
+     "id": "i5bar",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#C0392B",
+     "box": [
+      79.6,
+      30,
+      0.35,
+      12
+     ]
+    },
+    {
+     "id": "i5",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Top-advisor watch",
+       "bold": true,
+       "size": 10,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "Sofia Ortiz is down 33% and Omar Park down 16% against last year, and both are among the top three producers.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      80.5,
+      30.7,
+      17,
+      10
+     ]
+    },
+    {
+     "id": "levels",
+     "type": "chart",
+     "vis": "clusteredHbar",
+     "title": "Sales by producer level",
+     "title_format": {
+      "lines": 2,
+      "subtitle": "Year to date vs prior year to date, active producers only.",
+      "font": {
+       "name": "Open Sans",
+       "size": 11,
+       "bold": true,
+       "color": "#14213D"
+      },
+      "subtitle_font": {
+       "name": "Open Sans",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     },
+     "zones": {
+      "xAxis": [
+       "Year to date",
+       "Prior year to date"
+      ],
+      "yAxis": "Producer Level"
+     },
+     "metric_colors": {
+      "Year to date": "#1D4E89",
+      "Prior year to date": "#B9C5D9"
+     },
+     "sort": {
+      "metric": "Year to date",
+      "ascending": false
+     },
+     "legend": {
+      "position": "top",
+      "shape": "square",
+      "title": false
+     },
+     "data_labels": [
+      "value"
+     ],
+     "border": {
+      "color": "#DDE3EE",
+      "radius": 10
+     },
+     "fill": {
+      "container": "#FFFFFF",
+      "title": "#FFFFFF"
+     },
+     "box": [
+      2,
+      44,
+      34,
+      54
+     ]
+    },
+    {
+     "id": "levelchg",
+     "type": "grid",
+     "title": "Change",
+     "title_format": {
+      "lines": 2,
+      "subtitle": "vs prior year to date",
+      "font": {
+       "name": "Open Sans",
+       "size": 11,
+       "bold": true,
+       "color": "#14213D"
+      },
+      "subtitle_font": {
+       "name": "Open Sans",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     },
+     "rows": [
+      "Producer Level"
+     ],
+     "metrics": [
+      "Year to date",
+      "Level Change"
+     ],
+     "labels": {
+      "Producer Level": "Level",
+      "Year to date": "YTD",
+      "Level Change": "Change"
+     },
+     "sort": {
+      "metric": "Year to date",
+      "ascending": false
+     },
+     "limit": {
+      "metric": "Prior year to date",
+      "op": ">",
+      "value": 0
+     },
+     "thresholds": [
+      {
+       "on": "Level Change",
+       "bands": [
+        {
+         "font": "#C0392B",
+         "ceil": 0
+        },
+        {
+         "font": "#217A55",
+         "flr": 0
+        }
+       ]
+      }
+     ],
+     "border": {
+      "color": "#DDE3EE",
+      "radius": 10
+     },
+     "fill": {
+      "container": "#FFFFFF",
+      "title": "#FFFFFF"
+     },
+     "box": [
+      36.5,
+      44,
+      12.5,
+      54
+     ]
+    },
+    {
+     "id": "prodbg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      51,
+      44,
+      47,
+      54
+     ]
+    },
+    {
+     "id": "prodtitle",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Sales by product line",
+       "bold": true,
+       "size": 11,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "Year to date sales, with change and prior year to date. Product lines that have a prior-year figure in the model.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      52,
+      45,
+      45,
+      6
+     ]
+    },
+    {
+     "id": "products",
+     "type": "iconic_kpi",
+     "title": "Sales by product line",
+     "metrics": [
+      "Year To Date Fixed Indexed Annuity Sales Amount",
+      "Year To Date Lifetime Income Annuity Sales Amount",
+      "Year To Date Variable Annuity Sales Amount",
+      "Year To Date Fixed Annuity Sales Amount"
+     ],
+     "labels": {
+      "Year To Date Fixed Indexed Annuity Sales Amount": "Fixed indexed annuity",
+      "Year To Date Lifetime Income Annuity Sales Amount": "Lifetime income annuity",
+      "Year To Date Variable Annuity Sales Amount": "Variable annuity",
+      "Year To Date Fixed Annuity Sales Amount": "Fixed annuity"
+     },
+     "icon": false,
+     "tooltip": false,
+     "card_layout": "grid",
+     "columns": 2,
+     "background": {
+      "color": "#F4F6FA"
+     },
+     "notes": {
+      "Year To Date Fixed Indexed Annuity Sales Amount": {
+       "runs": [
+        {
+         "text": "{[FIA Change]}",
+         "bold": true,
+         "color": "#14213D"
+        },
+        {
+         "text": " vs {[Prior Year To Date FIA Sales Amount]} prior year to date",
+         "color": "#5B6780"
+        }
+       ]
+      },
+      "Year To Date Lifetime Income Annuity Sales Amount": {
+       "runs": [
+        {
+         "text": "{[LIA Change]}",
+         "bold": true,
+         "color": "#14213D"
+        },
+        {
+         "text": " vs {[Prior Year To Date Lifetime Income Annuity Sales Amount]} prior year to date",
+         "color": "#5B6780"
+        }
+       ]
+      },
+      "Year To Date Variable Annuity Sales Amount": {
+       "runs": [
+        {
+         "text": "{[VA Change]}",
+         "bold": true,
+         "color": "#14213D"
+        },
+        {
+         "text": " vs {[Prior Year To Date Variable Annuity Sales Amount]} prior year to date",
+         "color": "#5B6780"
+        }
+       ]
+      },
+      "Year To Date Fixed Annuity Sales Amount": {
+       "runs": [
+        {
+         "text": "{[FA Change]}",
+         "bold": true,
+         "color": "#14213D"
+        },
+        {
+         "text": " vs {[Prior Year To Date Fixed Annuity Sales Amount]} prior year to date",
+         "color": "#5B6780"
+        }
+       ]
+      }
+     },
+     "box": [
+      52,
+      53,
+      45,
+      44
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pipeline",
+   "title": "Pipeline",
+   "layout": "freeform",
+   "items": [
+    {
+     "id": "h2",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Where the pipeline sits",
+       "bold": true,
+       "size": 18,
+       "color": "#14213D"
+      }
+     ],
+     "box": [
+      2,
+      1.5,
+      60,
+      4.5
+     ]
+    },
+    {
+     "id": "h2sub",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Rolling 12 month total annuity opportunity against year to date sales",
+       "size": 10,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      2,
+      6,
+      60,
+      3
+     ]
+    },
+    {
+     "id": "segments",
+     "type": "grid",
+     "title": "Opportunity and sales by advisor segment",
+     "title_format": {
+      "lines": 2,
+      "subtitle": "Rolling 12 month total annuity opportunity against year to date sales, by advisor segment.",
+      "font": {
+       "name": "Open Sans",
+       "size": 11,
+       "bold": true,
+       "color": "#14213D"
+      },
+      "subtitle_font": {
+       "name": "Open Sans",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     },
+     "rows": [
+      "Producer Category",
+      "Producer Level"
+     ],
+     "metrics": [
+      "Advisor Count",
+      "Year To Date Total Sales Amount",
+      "Prior Year To Date Total Sales Amount",
+      "YTD Sales Change",
+      "Rolling 12 Month Total Annuity Opportunity Amount",
+      "Share of Opportunity",
+      "Opportunity per Advisor",
+      "Open Opportunities Number"
+     ],
+     "labels": {
+      "Producer Level": "Level",
+      "Producer Category": "Segment",
+      "Advisor Count": "Advisors",
+      "Year To Date Total Sales Amount": "YTD sales",
+      "Prior Year To Date Total Sales Amount": "Prior YTD",
+      "YTD Sales Change": "Change",
+      "Rolling 12 Month Total Annuity Opportunity Amount": "12M opportunity",
+      "Share of Opportunity": "Share of opp.",
+      "Opportunity per Advisor": "Opp. per advisor",
+      "Open Opportunities Number": "Open opps"
+     },
+     "sort": {
+      "metric": "Year To Date Total Sales Amount",
+      "ascending": false
+     },
+     "thresholds": [
+      {
+       "on": "YTD Sales Change",
+       "bands": [
+        {
+         "font": "#C0392B",
+         "ceil": 0
+        },
+        {
+         "font": "#217A55",
+         "flr": 0
+        }
+       ]
+      },
+      {
+       "on": "YTD Sales Change",
+       "when": {
+        "metric": "Has Prior Sales",
+        "op": "=",
+        "value": 0
+       },
+       "replace_text": "–",
+       "font": "#5B6780"
+      }
+     ],
+     "border": {
+      "color": "#DDE3EE",
+      "radius": 10
+     },
+     "fill": {
+      "container": "#FFFFFF",
+      "title": "#FFFFFF"
+     },
+     "box": [
+      2,
+      10,
+      96,
+      36
+     ]
+    },
+    {
+     "id": "oppbg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      2,
+      48,
+      47,
+      50
+     ]
+    },
+    {
+     "id": "opptitle",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Rolling 12 month opportunity by product",
+       "bold": true,
+       "size": 11,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "Opportunity categories overlap, so these do not add to the {[Rolling 12 Month Total Annuity Opportunity Amount]} total.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      3,
+      49,
+      45,
+      6
+     ]
+    },
+    {
+     "id": "opp",
+     "type": "iconic_kpi",
+     "title": "Rolling 12 month opportunity by product",
+     "metrics": [
+      "Rolling 12 Month Variable Annuity Opportunity Amount",
+      "Rolling 12 Month Indexed Variable Annuity Opportunity Amount",
+      "Fixed Indexed Annuity Rolling 12 Month Opportunity Amount",
+      "Fixed Annuity Rolling 12 Month Opportunity Amount",
+      "IOVA Rolling 12 Month Opportunity Amount",
+      "C Share Opportunity Amount"
+     ],
+     "labels": {
+      "Rolling 12 Month Variable Annuity Opportunity Amount": "Variable annuity",
+      "Rolling 12 Month Indexed Variable Annuity Opportunity Amount": "Indexed variable annuity",
+      "Fixed Indexed Annuity Rolling 12 Month Opportunity Amount": "Fixed indexed annuity",
+      "Fixed Annuity Rolling 12 Month Opportunity Amount": "Fixed annuity",
+      "IOVA Rolling 12 Month Opportunity Amount": "IOVA",
+      "C Share Opportunity Amount": "C share"
+     },
+     "content": "name_and_value",
+     "icon": false,
+     "tooltip": false,
+     "card_layout": "grid",
+     "columns": 3,
+     "card_alignment": "middle",
+     "background": {
+      "color": "#EFEAF7"
+     },
+     "box": [
+      3,
+      57,
+      45,
+      40
+     ]
+    },
+    {
+     "id": "othbg",
+     "type": "shape",
+     "shape": "Rectangle",
+     "fill": "#FFFFFF",
+     "stroke": "#DDE3EE",
+     "box": [
+      51,
+      48,
+      47,
+      50
+     ]
+    },
+    {
+     "id": "othtitle",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Other year to date product sales",
+       "bold": true,
+       "size": 11,
+       "color": "#14213D"
+      },
+      {
+       "text": "\n"
+      },
+      {
+       "text": "No prior-year comparison in the model. Product lines overlap, so these do not add to total sales.",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      52,
+      49,
+      45,
+      6
+     ]
+    },
+    {
+     "id": "others",
+     "type": "iconic_kpi",
+     "title": "Other year to date product sales",
+     "metrics": [
+      "Year To Date Investment Annuity Sales Amount",
+      "Year To Date Managed Growth Sales Amount",
+      "Year To Date Retirement Plan Services Sales Amount",
+      "Year To Date Life Insurance Sales Amount",
+      "Year To Date Temporary Disability Insurance Sales Amount"
+     ],
+     "labels": {
+      "Year To Date Investment Annuity Sales Amount": "Investment annuity (IA)",
+      "Year To Date Managed Growth Sales Amount": "Managed growth",
+      "Year To Date Retirement Plan Services Sales Amount": "Retirement plan services",
+      "Year To Date Life Insurance Sales Amount": "Life insurance",
+      "Year To Date Temporary Disability Insurance Sales Amount": "Temporary disability"
+     },
+     "content": "name_and_value",
+     "icon": false,
+     "tooltip": false,
+     "card_layout": "grid",
+     "columns": 3,
+     "card_alignment": "middle",
+     "background": {
+      "color": "#E8EEF6"
+     },
+     "box": [
+      52,
+      57,
+      45,
+      40
+     ]
+    }
+   ]
+  },
+  {
+   "id": "people",
+   "title": "Wholesalers and advisors",
+   "layout": "freeform",
+   "items": [
+    {
+     "id": "h3",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Wholesalers and advisors",
+       "bold": true,
+       "size": 18,
+       "color": "#14213D"
+      }
+     ],
+     "box": [
+      2,
+      1.5,
+      40,
+      4.5
+     ]
+    },
+    {
+     "id": "h3sub",
+     "type": "rich_text",
+     "runs": [
+      {
+       "text": "Year to date vs prior year to date. Advisors with $0 prior-year sales show \"new\".",
+       "size": 10,
+       "color": "#5B6780"
+      }
+     ],
+     "box": [
+      2,
+      6,
+      40,
+      3
+     ]
+    },
+    {
+     "id": "whtot",
+     "type": "iconic_kpi",
+     "title": "Wholesaler book totals",
+     "metrics": [
+      "Advisor Count",
+      "Year To Date External Activity Count",
+      "Sales per Activity"
+     ],
+     "labels": {
+      "Advisor Count": "ADVISORS COVERED",
+      "Year To Date External Activity Count": "EXTERNAL ACTIVITIES",
+      "Sales per Activity": "SALES PER ACTIVITY"
+     },
+     "content": "name_and_value",
+     "icon": false,
+     "tooltip": false,
+     "card_layout": "grid",
+     "columns": 3,
+     "card_alignment": "middle",
+     "background": {
+      "color": "#FFFFFF"
+     },
+     "box": [
+      44,
+      1.5,
+      54,
+      8.5
+     ]
+    },
+    {
+     "id": "wholesalers",
+     "type": "grid",
+     "title": "External wholesalers",
+     "title_format": {
+      "lines": 2,
+      "subtitle": "Sales, change versus prior year to date, opportunity and activity in each wholesaler's book.",
+      "font": {
+       "name": "Open Sans",
+       "size": 11,
+       "bold": true,
+       "color": "#14213D"
+      },
+      "subtitle_font": {
+       "name": "Open Sans",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     },
+     "rows": [
+      "External Wholesaler Name"
+     ],
+     "metrics": [
+      "Advisor Count",
+      "Year To Date Total Sales Amount",
+      "Prior Year To Date Total Sales Amount",
+      "YTD Sales Change",
+      "Rolling 12 Month Total Annuity Opportunity Amount",
+      "Year To Date External Activity Count",
+      "Sales per Activity"
+     ],
+     "labels": {
+      "External Wholesaler Name": "Wholesaler",
+      "Advisor Count": "Advisors",
+      "Year To Date Total Sales Amount": "YTD sales",
+      "Prior Year To Date Total Sales Amount": "Prior YTD",
+      "YTD Sales Change": "Change",
+      "Rolling 12 Month Total Annuity Opportunity Amount": "12M opportunity",
+      "Year To Date External Activity Count": "External activities",
+      "Sales per Activity": "Sales per activity"
+     },
+     "sort": {
+      "metric": "Year To Date Total Sales Amount",
+      "ascending": false
+     },
+     "thresholds": [
+      {
+       "on": "YTD Sales Change",
+       "bands": [
+        {
+         "font": "#C0392B",
+         "ceil": 0
+        },
+        {
+         "font": "#217A55",
+         "flr": 0
+        }
+       ]
+      }
+     ],
+     "border": {
+      "color": "#DDE3EE",
+      "radius": 10
+     },
+     "fill": {
+      "container": "#FFFFFF",
+      "title": "#FFFFFF"
+     },
+     "box": [
+      2,
+      11.5,
+      96,
+      32
+     ]
+    },
+    {
+     "id": "top15",
+     "type": "grid",
+     "title": "Top 15 advisors by year to date sales",
+     "title_format": {
+      "lines": 2,
+      "subtitle": "Ranked on year to date total sales amount.",
+      "font": {
+       "name": "Open Sans",
+       "size": 11,
+       "bold": true,
+       "color": "#14213D"
+      },
+      "subtitle_font": {
+       "name": "Open Sans",
+       "size": 9,
+       "color": "#5B6780"
+      }
+     },
+     "rows": [
+      "Advisor",
+      "Firm Name",
+      "Producer Level"
+     ],
+     "metrics": [
+      "Advisor Rank",
+      "Year To Date Total Sales Amount",
+      "Prior Year To Date Total Sales Amount",
+      "YTD Sales Change",
+      "Rolling 12 Month Total Annuity Opportunity Amount",
+      "Open Opportunities Number"
+     ],
+     "labels": {
+      "Firm Name": "Firm",
+      "Producer Level": "Level",
+      "Advisor Rank": "#",
+      "Year To Date Total Sales Amount": "YTD sales",
+      "Prior Year To Date Total Sales Amount": "Prior YTD",
+      "YTD Sales Change": "Change",
+      "Rolling 12 Month Total Annuity Opportunity Amount": "12M opportunity",
+      "Open Opportunities Number": "Open opps"
+     },
+     "sort": {
+      "metric": "Year To Date Total Sales Amount",
+      "ascending": false
+     },
+     "limit": {
+      "metric": "Advisor Rank",
+      "op": "<=",
+      "value": 15
+     },
+     "thresholds": [
+      {
+       "on": "Producer Level",
+       "elements": {
+        "Platinum": "#1D4E89",
+        "Gold": "#B7791F"
+       }
+      },
+      {
+       "on": "YTD Sales Change",
+       "bands": [
+        {
+         "font": "#C0392B",
+         "ceil": 0
+        },
+        {
+         "font": "#217A55",
+         "flr": 0
+        }
+       ]
+      },
+      {
+       "on": "YTD Sales Change",
+       "when": {
+        "metric": "Has Prior Sales",
+        "op": "=",
+        "value": 0
+       },
+       "replace_text": "new",
+       "font": "#217A55"
+      }
+     ],
+     "border": {
+      "color": "#DDE3EE",
+      "radius": 10
+     },
+     "fill": {
+      "container": "#FFFFFF",
+      "title": "#FFFFFF"
+     },
+     "box": [
+      2,
+      45.5,
+      96,
+      53
+     ]
+    }
+   ]
+  }
+ ]
+}
