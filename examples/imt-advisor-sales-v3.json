@@ -41,11 +41,6 @@
    "format": "$#,##0.0\"M\""
   },
   {
-   "name": "Level Change",
-   "formula": "([Year to date] / [Prior year to date]) - 1",
-   "format": "+0.0%;-0.0%"
-  },
-  {
    "name": "FIA Change",
    "formula": "([Year To Date Fixed Indexed Annuity Sales Amount] / [Prior Year To Date FIA Sales Amount]) - 1",
    "format": "+0.0%;-0.0%"
@@ -576,77 +571,7 @@
      "box": [
       2,
       44,
-      34,
-      54
-     ]
-    },
-    {
-     "id": "levelchg",
-     "type": "grid",
-     "title": "Change",
-     "title_format": {
-      "lines": 2,
-      "subtitle": "vs prior year to date",
-      "font": {
-       "name": "Open Sans",
-       "size": 11,
-       "bold": true,
-       "color": "#14213D"
-      },
-      "subtitle_font": {
-       "name": "Open Sans",
-       "size": 9,
-       "color": "#5B6780"
-      }
-     },
-     "rows": [
-      "Producer Level"
-     ],
-     "metrics": [
-      "Year to date",
-      "Level Change"
-     ],
-     "labels": {
-      "Producer Level": "Level",
-      "Year to date": "YTD",
-      "Level Change": "Change"
-     },
-     "sort": {
-      "metric": "Year to date",
-      "ascending": false
-     },
-     "limit": {
-      "metric": "Prior year to date",
-      "op": ">",
-      "value": 0
-     },
-     "thresholds": [
-      {
-       "on": "Level Change",
-       "bands": [
-        {
-         "font": "#C0392B",
-         "ceil": 0
-        },
-        {
-         "font": "#217A55",
-         "flr": 0
-        }
-       ]
-      }
-     ],
-     "border": {
-      "color": "#DDE3EE",
-      "radius": 10
-     },
-     "fill": {
-      "container": "#FFFFFF",
-      "title": "#FFFFFF"
-     },
-     "box": [
-      36.5,
-      44,
-      12.5,
+      47,
       54
      ]
     },

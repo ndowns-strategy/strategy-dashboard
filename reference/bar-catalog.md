@@ -35,6 +35,37 @@ every source chart are in [bar-catalog.json](bar-catalog.json).
 | A dashed horizontal line across the plot with a label at its right end ("Average", "Median 62", "Maximum Advisor Count 143") | Reference line: an entry in the metric's `mdls.mod_c` with `tp` 1–7 |
 | A straight or curved fitted line through the bar tops | Trend line: `tp 256` (best fit) or `257` (linear) |
 | Title centered or right-aligned, a smaller second line under it, or a title that wraps | Title bar format on the visualization container (not a chart prop); any visualization except the Iconic KPI |
+| A value under each category label ("Platinum / $43.6M"), or a column of numbers right of the bars ("+30.0%") | **Not supported: drop them.** Build the bar chart only. See [Annotations around a chart](#annotations-around-a-chart-the-chart-cant-show) |
+
+## Annotations around a chart the chart can't show
+
+Generated dashboards often wrap a bar chart in extra numbers that sit outside the plot:
+- a value under each category label (`Platinum` with `$43.6M` beneath it)
+- a change column at the right end of each row (`+30.0%` in green, `-9.1%` in red)
+- a rank, a count or a share printed beside each bar
+
+A Strategy bar chart has no place for these. Data labels sit on the bars themselves, the category axis shows only the
+attribute's name, and the plot has no extra column.
+
+**Decision rule:**
+1. **The bars are the visualization.** If the bars can be built (orientation, metrics, sort, colors, legend), build the
+   chart.
+2. **The surrounding numbers are annotations.** If the chart can't draw them, leave them out.
+3. **Don't add another visualization to carry them.** No companion grid, KPI strip or text column beside the chart. It
+   isn't in the source, it can't line up with the bars row for row, and it repeats values the chart already shows.
+4. **Say what was dropped.** List the unsupported annotations in the build summary, so the user can decide whether they
+   want a separate object for them.
+
+Keep only what the chart itself supports: data labels with the bar values (`"data_labels": ["value"]`), the sort, the
+legend and the title bar. A change figure the source shows only as an annotation belongs in a grid only when the
+source itself has a separate table.
+
+**Example (2026-11-23).** The source was "Sales by producer level": horizontal clustered bars (Year to date vs Prior
+year to date) for Platinum, Gold, Silver and Bronze. It had `$43.6M` under each label and a red or green change column on
+the right. The first build of **IMT Advisor Sales and Opportunity Performance (v3)** added a separate "Change" grid
+(Level, YTD, Change) beside the chart. That was wrong. The right build is the `clusteredHbar` alone, sorted by Year to
+date descending, with value data labels, and the summary noting that the per-row YTD values and change column were
+dropped.
 
 ## Orientation and clustering
 

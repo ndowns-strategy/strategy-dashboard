@@ -13,6 +13,10 @@ When you rebuild a dashboard from an image:
    slice ends, bubbles of different sizes) to a visualization type and its settings.
 2. **Build it.** The "Client" or "Building them from code" section gives the helper call and its options.
 3. **Avoid the traps.** The gotchas at the end of each catalog list what broke while it was being built.
+4. **Drop what the visualization can't show.** Decide what the core visualization is (the bars, the line, the
+   table) and build that. Numbers drawn around it that it has no setting for are annotations: leave them out, don't
+   add another object to hold them, and list them in the build summary. See
+   [bar-catalog.md](bar-catalog.md#annotations-around-a-chart-the-chart-cant-show).
 
 ## Catalogs
 

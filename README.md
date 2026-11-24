@@ -300,6 +300,10 @@ These are conventions for dashboards built with this repo:
 - **A markdown file alone is not a source.** It loses chart types, sort order, values and layout. Rebuilding a
   dashboard needs a **screenshot**, alone or with the markdown, or the HTML behind the page. With only markdown, Claude
   stops and asks for a screenshot (see [CLAUDE.md](CLAUDE.md)).
+- **Build the visualization, drop the annotations it can't show.** When a source chart has extra numbers around it
+  that the Strategy chart can't draw (a value under each label, a change column beside the bars), build the chart
+  alone. Don't add a grid or other object to carry those numbers. List what was dropped in the build summary. See
+  [bar-catalog.md](reference/bar-catalog.md#annotations-around-a-chart-the-chart-cant-show).
 - Every saved dashboard gets **Auto Summary** (`saveAs` and `save` turn it on).
 - Every saved dashboard has **highlight on hover for containers disabled** in Presentation mode (`saveAs` / `save` set
   `hideVizBoxShadow`; pass `hoverHighlight: true` / spec `"hover_highlight": true` to keep it).
